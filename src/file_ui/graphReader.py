@@ -1,7 +1,7 @@
 import os
 from graph import Graph
 
-DIR = "tests/testdata"
+DIR = "src/tests/testdata"
 
 class GraphReader:
 
