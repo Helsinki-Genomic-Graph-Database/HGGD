@@ -1,6 +1,7 @@
 # Helsinki Genomic Graph Database
 
 ![GitHub Actions](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/workflows/CI/badge.svg)
+![codecov](https://codecov.io/gh/Helsinki-Genomic-Graph-Database/HGGD/branch/main/graph/badge.svg?token=Ft06460tNh)
 
 Helsinki Genomic Graph Database is a database for the University of Helsinki researchers to add graph datasets of genomic sequences. The graphs and the script files will be available for download on a web page along with some metadata of the datasets and graphs.
 
