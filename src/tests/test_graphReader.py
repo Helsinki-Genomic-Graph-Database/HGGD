@@ -5,7 +5,7 @@ from file_ui.graphReader import GraphReader
 class TestGraphReader(unittest.TestCase):
 
     def setUp(self):
-        self.graphreader  = GraphReader()
+        self.graphreader = GraphReader()
         self.graphreader.run()
 
     def test_get_graph_list_should_return_list(self):
@@ -13,9 +13,9 @@ class TestGraphReader(unittest.TestCase):
         self.assertEqual(len(res), 4)
 
     def test_graph_object_should_have_number_of_nodes(self):
-        list = self.graphreader.get_graph_list()
+        graph_list = self.graphreader.get_graph_list()
         res = None
-        for graph in list:
+        for graph in graph_list:
             if graph.name == "gt1.kmer15.(1466000.1468000).V26.E35.cyc240":
                 res = graph.nodes
 

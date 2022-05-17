@@ -1,18 +1,25 @@
+"""Reads graph files from a directory"""
 import os
 from graph import Graph
 
 DIR = "src/tests/testdata"
 
 class GraphReader:
-
+    """reads graph files and makes graph objects and puts them to a list
+    """
     def __init__(self):
         self.files = []
         self.graph_list = []
 
     def get_graph_list(self):
+        """
+        returns list of graph objects
+        """
         return self.graph_list
 
     def run(self):
+        """scans the directory and creates the graph list
+        """
         self.files = os.listdir(DIR)
         for filename in self.files:
             name = filename[:-6]
