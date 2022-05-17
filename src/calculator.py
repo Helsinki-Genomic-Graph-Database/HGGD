@@ -4,7 +4,7 @@ class Calculator:
         pass
 
     def get_no_nodes_and_edges(self, dataset):
-        """This functions calculates the number of nodes and edges in
+        """This function calculates the number of nodes and edges in
         all the graphs of one dataset.
 
         Args:

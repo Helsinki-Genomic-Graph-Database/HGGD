@@ -19,7 +19,7 @@ class Graph:
         Returns:
             string: name
         """
-        return self.names
+        return self.name
 
     def get_nodes(self):
         """This function returns the number of nodes in the graph.
