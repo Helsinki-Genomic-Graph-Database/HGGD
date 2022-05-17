@@ -1,3 +1,5 @@
+![GitHub Actions](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/workflows/CI/badge.svg)
+
 # Helsinki Genomic Graph Database
 
 Helsinki Genomic Graph Database is a database for the University of Helsinki researchers to add graph datasets of genomic sequences. The graphs and the script files will be available for download on a web page along with some metadata of the datasets and graphs.
@@ -28,4 +30,10 @@ Everything documented in English.
 
 Everything is pushed to main branch. Only working code!
 
-Workflow: Pull from main -> Code -> Test on own computer -> Fix issues -> Pull from main -> Test again on own computer -> Fix issues -> Push to main.
+### Workflow
+
+* Choose task from Sprint backlog, tag your name and mark working status.
+
+* Pull from main -> Code and write tests -> Test on own computer -> Fix issues -> Pull from main -> Test again on own computer -> Fix issues -> Push to main.
+
+* When done, mark status as done and write down hours in backlog.
