@@ -17,7 +17,7 @@ class TestGraphReader(unittest.TestCase):
         res = None
         for graph in list:
             if graph.name == "gt1.kmer15.(1466000.1468000).V26.E35.cyc240":
-                res = graph.number_of_nodes
+                res = graph.nodes
 
         self.assertEqual(res, 58)
 
@@ -26,6 +26,6 @@ class TestGraphReader(unittest.TestCase):
         res = None
         for graph in list:
             if graph.name == "gt1.kmer15.(1466000.1468000).V26.E35.cyc240":
-                res = graph.number_of_edges
+                res = graph.edges
 
         self.assertEqual(res, 35)
