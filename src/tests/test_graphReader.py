@@ -1,5 +1,5 @@
 import unittest
-from graphReader import GraphReader
+from file_ui.graphReader import GraphReader
 
 
 class TestGraphReader(unittest.TestCase):
