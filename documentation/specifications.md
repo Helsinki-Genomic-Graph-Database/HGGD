@@ -1,4 +1,4 @@
-# Initial specifications for projects
+# Initial specifications for project
 
 ## Users
 
@@ -14,10 +14,12 @@ Default fields to fill for uploading new graphs:
 * List of raw source (URL)
 * Script file for generation
 
-File formats:
+File formats supported:
 
 * .graph
 * DIMACS
+
+Other input and output formats to be added later.
 
 Search by filtering tables.
 
