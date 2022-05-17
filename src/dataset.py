@@ -9,7 +9,7 @@ class Dataset:
         self.graphs = graphs
 
     def get_graphs(self):
-        """Thids function returns a list of graphs.
+        """This function returns a list of graphs.
 
         Returns:
             list: list of graph objects
