@@ -2,7 +2,7 @@
 
 {% if graph %}
 
-    {% block title %} {{ graph.get_names() }} {% endblock %}
+    {% block title %} {{ name }} {% endblock %}
 
     {% block body %}
         <table>
@@ -11,16 +11,13 @@
             </tr>
             <tr>
                 <td> Nodes</td>
-                <td> {{ graph.get_nodes() }} </td>
+                <td> {{ nodes }} </td>
             </tr>
             <tr>
                 <td> Edges </td>
-                <td> {{ graph.get_edges() }}</td>
+                <td> {{ edges }}</td>
             </tr>
-
-            {% endif %}
-            {% endwith %}
-                
+            
         </table>
     {% endblock %}
 {% endif %}

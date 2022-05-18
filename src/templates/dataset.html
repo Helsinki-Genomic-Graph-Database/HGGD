@@ -1,13 +1,15 @@
 {% extends "layout.html" %}
 
 {% if dataset %}
-    {% block title %} {{ dataset.get_names() }} {% endblock %}
+    {% block title %} Test dataset {% endblock %}
 
     {% block body %}
 
     <p> Graphs in total {{ total_graphs }} </p>
+    <p> Nodes in graph total {{ total_nodes }} </p>
+    <p> Edges in graph total {{ total_edges }} </p>
     <p> Nodes in graph average {{ average_nodes }} </p>
-    <p> Edges in graph average {{ average_enges }} </p>
+    <p> Edges in graph average {{ average_edges }} </p>
 
     <h3> Graphs </h3>
 
@@ -16,12 +18,11 @@
                 <th> Graph Name </th>
             </tr>
 
-            {% for graph in dataset%}
+            {% for name in namelist%}
             <tr>
-                <td> <a href="/<str:graph.name>" target="_blank"> {{ graph.get_names() }} </a> </td>
+                <td> <a href="/{{ name }}" target="_blank"> {{ name }} </a> </td>
             </tr>
             {% endfor %}
-         
         </table>
     {% endblock %}
 {% endif %}

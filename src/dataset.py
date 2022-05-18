@@ -15,3 +15,16 @@ class Dataset:
             list: list of graph objects
         """
         return self.graphs
+
+    def find_graph(self, name):
+        """ This function returns a specific graph
+
+        Args:
+            name (string): name of graph
+
+        Returns:
+            graph-object
+        """
+        for graph in self.get_graphs():
+            if graph.get_names() == name:
+                return graph

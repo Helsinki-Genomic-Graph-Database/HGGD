@@ -31,3 +31,5 @@ class Calculator:
         avg_nodes = round(number_nodes / graphs_total)
         avg_edges = round(number_edges / graphs_total)
         return graphs_total, avg_nodes, avg_edges
+
+calculator_service = Calculator()
