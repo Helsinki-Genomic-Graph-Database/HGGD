@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% if graph %}
+
+    {% block title %} {{ graph.get_names() }} {% endblock %}
+
+    {% block body %}
+        <table>
+            <tr>
+                <th colspan="2"> Statistics </th>
+            </tr>
+            <tr>
+                <td> Nodes</td>
+                <td> {{ graph.get_nodes() }} </td>
+            </tr>
+            <tr>
+                <td> Edges </td>
+                <td> {{ graph.get_edges() }}</td>
+            </tr>
+
+            {% endif %}
+            {% endwith %}
+                
+        </table>
+    {% endblock %}
+{% endif %}

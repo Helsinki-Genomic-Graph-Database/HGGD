@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% if dataset %}
+    {% block title %} {{ dataset.get_names() }} {% endblock %}
+
+    {% block body %}
+
+    <p> Graphs in total {{ total_graphs }} </p>
+    <p> Nodes in graph average {{ average_nodes }} </p>
+    <p> Edges in graph average {{ average_enges }} </p>
+
+    <h3> Graphs </h3>
+
+        <table>
+            <tr>
+                <th> Graph Name </th>
+            </tr>
+
+            {% for graph in dataset%}
+            <tr>
+                <td> <a href="/<str:graph.name>" target="_blank"> {{ graph.get_names() }} </a> </td>
+            </tr>
+            {% endfor %}
+         
+        </table>
+    {% endblock %}
+{% endif %}
