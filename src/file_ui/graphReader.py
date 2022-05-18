@@ -23,9 +23,7 @@ class GraphReader:
         self.files = os.listdir(DIR)
         for filename in self.files:
             name = filename[:-6]
-            nodes_and_edges = self._read_file(filename)
-            nodes = nodes_and_edges[0]
-            edges = nodes_and_edges[1]
+            nodes, edges = self._read_file(filename)
             self.graph_list.append(Graph(name, nodes, edges))
 
     def _read_file(self, filename):
