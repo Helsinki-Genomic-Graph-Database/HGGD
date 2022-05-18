@@ -39,4 +39,4 @@ Everything is pushed to main branch. Only working code!
 
 * When done, mark status as done and write down hours in backlog.
 
-* When adding dependencies wit poetry add, immidiately update requirements.txt by command poetry export -f requirements.txt > requirements.txt
+* When adding dependencies with poetry add, immidiately update requirements.txt by command poetry export -f requirements.txt > requirements.txt
