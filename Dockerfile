@@ -1,31 +1,25 @@
-# FROM ubuntu:20.04
 
-# WORKDIR /mydir
+FROM python:3.8 as builder
+
+WORKDIR /mydir
+
+RUN pip install poetry
+
+COPY pyproject.toml poetry.lock ./
+
+RUN poetry export -f requirements.txt > requirements.txt
 
 
-# RUN apt-get update && apt-get install -y curl python3
+FROM python:3.8
 
-# RUN pip3 install poetry
+WORKDIR /mydir
 
-# COPY pyproject.toml poetry.lock /mydir/
+ENV PYTHONUNBUFFERED=1
 
-# COPY . .
+COPY --from=builder /mydir/requirements.txt .
 
-# RUN poetry install
+RUN pip install -r requirements.txt
 
-# ENTRYPOINT ["python3"]
+COPY . .
 
-# CMD ["src/index.py"]
-
-FROM python:3.7
-RUN mkdir /app 
-COPY . /app
-COPY pyproject.toml /app 
-WORKDIR /app
-ENV PYTHONPATH=${PYTHONPATH}:${PWD} 
-RUN pip3 install poetry
-RUN poetry config virtualenvs.create false
-RUN poetry install --no-dev
-ENTRYPOINT ["python3"]
-
-CMD ["src/index.py"]
+CMD ["python3", "src/index.py"]
