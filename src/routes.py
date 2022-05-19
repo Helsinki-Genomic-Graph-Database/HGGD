@@ -12,7 +12,6 @@ dataset1 = Dataset(graph_list)
 @app.route("/", methods=["GET"])
 def render_index():
     """ Renders the index page
-
     Returns:
         html page
     """
@@ -22,10 +21,8 @@ def render_index():
 @app.route("/datasets/<dataset>", methods=["GET"])
 def render_dataset(dataset):
     """ Render the pages for dataset
-
     Args:
         dataset (string): dataset name
-
     Returns:
         html page
     """
@@ -42,10 +39,8 @@ def render_dataset(dataset):
 @app.route("/graphs/<name>", methods=["GET"])
 def render_graph(name):
     """ Renders the pages for graphs
-
     Args:
         name (string): name for graph
-
     Returns:
         html page
     """
