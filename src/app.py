@@ -15,7 +15,7 @@ graphreader_service.run()
 graph_list = graphreader_service.get_graph_list()
 dataset1 = Dataset(graph_list)
 
-@app.route("/", methods=["GET"])
+@app.route("/index", methods=["GET"])
 def render_index():
     """ Renders the index page
     Returns:
@@ -58,4 +58,4 @@ def render_graph(name):
 
 if __name__ == "__main__":
     port = int(environ.get('PORT', 5000))
-    app.run()
+    app.run(debug=True, host='0.0.0.0', port=port)
