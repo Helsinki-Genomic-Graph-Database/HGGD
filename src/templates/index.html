@@ -8,6 +8,12 @@ Genomic Graph Database
 
     <h1> Genomic Graph Dataset collection</h1>
 
-        <a href="/dataset"> Dataset</a>
+    {% if dataset_names %}
+        {% for dataset in dataset_names %}
+        <div>
+            <a href="/datasets/{{ dataset }}">  {{ dataset }}</a>
+        </div>
+        {% endfor %}
+    {% endif %}
 
 {% endblock %}

@@ -7,17 +7,19 @@
     {% block body %}
         <table>
             <tr>
-                <th colspan="2"> Statistics </th>
+                <th colspan="2"> Statistics for {{ name }} </th>
             </tr>
             <tr>
-                <td> Nodes</td>
+                <td> Nodes: </td>
                 <td> {{ nodes }} </td>
             </tr>
             <tr>
-                <td> Edges </td>
+                <td> Edges: </td>
                 <td> {{ edges }}</td>
             </tr>
-            
+
         </table>
+    <br>
+    <a href="/">Back to main page</a>
     {% endblock %}
 {% endif %}

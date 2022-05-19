@@ -44,3 +44,5 @@ class GraphReader:
         line = line.strip()
         split_line = line.split(" ")
         return len(split_line) - 2
+
+graphreader_service = GraphReader()

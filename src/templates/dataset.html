@@ -1,28 +1,48 @@
 {% extends "layout.html" %}
 
 {% if dataset %}
-    {% block title %} Test dataset {% endblock %}
+    {% block title %} Dataset 1 {% endblock %}
 
     {% block body %}
 
-    <p> Graphs in total {{ total_graphs }} </p>
-    <p> Nodes in graph total {{ total_nodes }} </p>
-    <p> Edges in graph total {{ total_edges }} </p>
-    <p> Nodes in graph average {{ average_nodes }} </p>
-    <p> Edges in graph average {{ average_edges }} </p>
-
-    <h3> Graphs </h3>
+    <h2> {{ dataset }} </h2>
+    <table>
+        <tr> 
+            <th colspan="2">Statistics for {{ dataset }} </th>
+        </tr> 
+        <tr> 
+            <td>Total number of graphs in dataset: </td>
+            <td>{{ total_graphs }} </td>
+        </tr>
+        <tr>
+            <td>  Total nodes in dataset: </td>
+            <td> {{ total_nodes }} </td>
+        </tr>
+        <tr>        
+            <td> Total edges in dataset: </td>
+            <td> {{ total_edges }} </td>
+        </tr>
+        <tr>            
+            <td> Nodes per graph average: </td>
+            <td> {{ average_nodes }} </td>
+        </tr>
+        <tr>    
+            <td> Edges per graph average: </td>
+            <td> {{ average_edges }} </td>
+        </tr>
+        <br><br>
 
         <table>
-            <tr>
-                <th> Graph Name </th>
-            </tr>
-
+            <tr> 
+                <th colspan="2">Graphs in dataset </th>
+            </tr> 
             {% for name in namelist%}
             <tr>
-                <td> <a href="/{{ name }}" target="_blank"> {{ name }} </a> </td>
+                <td> <a href="/graphs/{{ name }}">  {{ name }} </a> </td>
             </tr>
             {% endfor %}
         </table>
+    <br>
+    <a href="/">Back to main page</a>
     {% endblock %}
 {% endif %}
