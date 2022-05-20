@@ -24,7 +24,7 @@ def render_index():
     dataset_names = ["Dataset1"] # placeholder list for all datasets
     return render_template("index.html", dataset_names=dataset_names)
 
-@app.route("/hggd/datasets/<dataset>", methods=["GET"])
+@app.route("/datasets/<dataset>", methods=["GET"])
 def render_dataset(dataset):
     """ Render the pages for dataset
     Args:
@@ -42,7 +42,7 @@ def render_dataset(dataset):
         average_edges=avg_edges, graphs=graphs, total_edges=total_edges, \
         total_nodes=total_nodes, namelist=namelist, dataset= dataset)
 
-@app.route("/hggd/graphs/<name>", methods=["GET"])
+@app.route("/graphs/<name>", methods=["GET"])
 def render_graph(name):
     """ Renders the pages for graphs
     Args:
