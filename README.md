@@ -7,6 +7,8 @@ Helsinki Genomic Graph Database is a database for the University of Helsinki res
 
 ## Project progress
 
+Project is testable on [staging server](https://ohtup-staging.cs.helsinki.fi/hggd/index)
+
 [Product Backlog](https://docs.google.com/spreadsheets/d/1jQ1yPn0-mzYhNJW9QTR2Ywo7aS68i67zV4ff8tXcJfQ/edit#gid=1289730588)
 
 [Sprint Backlog](https://docs.google.com/spreadsheets/d/1jQ1yPn0-mzYhNJW9QTR2Ywo7aS68i67zV4ff8tXcJfQ/edit#gid=0)
