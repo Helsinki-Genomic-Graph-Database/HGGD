@@ -15,6 +15,9 @@ graphreader_service.run()
 graph_list = graphreader_service.get_graph_list()
 dataset1 = Dataset(graph_list)
 
+def get_app():
+    return app
+
 @app.route("/index", methods=["GET"])
 def render_index():
     """ Renders the index page
