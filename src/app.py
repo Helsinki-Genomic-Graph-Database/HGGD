@@ -15,7 +15,7 @@ graphreader_service.run()
 graph_list = graphreader_service.get_graph_list()
 dataset1 = Dataset(graph_list)
 
-@app.route("hggd/index", methods=["GET"])
+@app.route("/index", methods=["GET"])
 def render_index():
     """ Renders the index page
     Returns:
