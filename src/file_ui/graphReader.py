@@ -35,7 +35,9 @@ class GraphReader:
             file.readline()
             file.readline()
             file.readline()
+            
             nodes = self._get_number_of_nodes(file.readline())
+            print(file.readline())
             edges = int(file.readline())
 
         return (nodes, edges)
