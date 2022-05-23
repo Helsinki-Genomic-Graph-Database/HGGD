@@ -24,4 +24,6 @@ COPY . .
 
 EXPOSE 5000
 
+RUN chmod +x ./gunicorn.sh
+
 CMD ["./gunicorn.sh"]

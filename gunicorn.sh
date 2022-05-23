@@ -1,2 +1,2 @@
 #!/bin/sh
-cd ./src && gunicorn app:app -b 0.0.0.0:5000
+gunicorn  --config ./src/gunicorn_config.py src.wsgi:app

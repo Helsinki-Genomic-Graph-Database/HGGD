@@ -1,0 +1,3 @@
+BIND = "0.0.0.0:5000"
+WORKERS = 2
+THREADS = 2

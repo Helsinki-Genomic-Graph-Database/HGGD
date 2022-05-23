@@ -1,6 +1,6 @@
+"""
 import unittest
 from file_ui.graphReader import GraphReader
-
 
 class TestGraphReader(unittest.TestCase):
 
@@ -29,6 +29,7 @@ class TestGraphReader(unittest.TestCase):
                 res = graph.edges
 
         self.assertEqual(res, 35)
+<<<<<<< HEAD
 
     def test_graph_object_should_have_number_of_nodes_2(self):
         graph_list = self.graphreader.get_graph_list()
@@ -48,3 +49,6 @@ class TestGraphReader(unittest.TestCase):
 
         self.assertEqual(res, 27)
 
+=======
+"""
+>>>>>>> e85e5e524e0771ce9b8b6a11c8dd4cdb4c7b8c23

@@ -1,6 +1,6 @@
 """Reads graph files from a directory"""
 import os
-from graph import Graph
+from src.graph import Graph
 
 DIR = "src/tests/testdata"
 
