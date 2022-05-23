@@ -2,7 +2,7 @@
 import os
 from graph import Graph
 
-DIR = "tests/testdata"
+DIR = "src/tests/testdata"
 
 class GraphReader:
     """reads graph files and makes graph objects and puts them to a list
@@ -32,19 +32,24 @@ class GraphReader:
         edges = None
 
         with open(os.path.join(DIR, filename), "r") as file:
-            file.readline()
-            file.readline()
-            file.readline()
-            
-            nodes = self._get_number_of_nodes(file.readline())
-            print(file.readline())
-            edges = int(file.readline())
+            line = file.readline()
+            while line[0] == "#":
+                line = file.readline()
+            data = file.readlines()
+            edges = len(data)
+            nodes = self._get_number_of_nodes(data)
 
         return (nodes, edges)
 
-    def _get_number_of_nodes(self, line):
-        line = line.strip()
-        split_line = line.split(" ")
-        return len(split_line) - 2
+    def _get_number_of_nodes(self, data):
+        
+        nodes = set()
+
+        for edge in data:
+            edge = edge.split(" ")
+            nodes.add(edge[0])
+            nodes.add(edge[1])
+        
+        return len(nodes)
 
 graphreader_service = GraphReader()
