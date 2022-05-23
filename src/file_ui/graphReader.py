@@ -1,8 +1,8 @@
 """Reads graph files from a directory"""
 import os
-from graph import Graph
+from src.graph import Graph
 
-DIR = "tests/testdata"
+DIR = "src/tests/testdata"
 
 class GraphReader:
     """reads graph files and makes graph objects and puts them to a list

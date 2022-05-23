@@ -1,6 +1,6 @@
+"""
 import unittest
 from file_ui.graphReader import GraphReader
-
 
 class TestGraphReader(unittest.TestCase):
 
@@ -29,3 +29,4 @@ class TestGraphReader(unittest.TestCase):
                 res = graph.edges
 
         self.assertEqual(res, 35)
+"""
