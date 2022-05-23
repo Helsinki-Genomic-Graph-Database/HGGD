@@ -24,4 +24,4 @@ COPY . .
 
 EXPOSE 5000
 
-CMD ["python3", "src/app.py"]
+CMD ["./gunicorn.sh"]
