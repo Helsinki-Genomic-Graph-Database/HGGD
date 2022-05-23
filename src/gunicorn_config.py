@@ -1,3 +1,3 @@
-bind = "0.0.0.0:5000"
-workers = 2
-threads = 2
+BIND = "0.0.0.0:5000"
+WORKERS = 2
+THREADS = 2
