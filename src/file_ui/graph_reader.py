@@ -2,14 +2,15 @@
 import os
 from src.graph import Graph
 
-DIR = "src/tests/testdata"
+
 
 class GraphReader:
     """reads graph files and makes graph objects and puts them to a list
     """
-    def __init__(self):
+    def __init__(self, dir):
         self.files = []
         self.graph_list = []
+        self.dir = dir
 
     def get_graph_list(self):
         """
@@ -20,7 +21,7 @@ class GraphReader:
     def run(self):
         """scans the directory and creates the graph list
         """
-        self.files = os.listdir(DIR)
+        self.files = os.listdir(self.dir)
         for filename in self.files:
             name = filename[:-6]
             nodes, edges = self._read_file(filename)
@@ -31,7 +32,7 @@ class GraphReader:
         nodes = None
         edges = None
 
-        with open(os.path.join(DIR, filename), "r") as file:
+        with open(os.path.join(self.dir, filename), "r") as file:
             line = file.readline()
             while line[0] == "#":
                 line = file.readline()
@@ -51,5 +52,3 @@ class GraphReader:
             nodes.add(edge[1])
 
         return len(nodes)
-
-graphreader_service = GraphReader()

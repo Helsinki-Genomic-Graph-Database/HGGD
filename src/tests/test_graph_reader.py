@@ -6,8 +6,8 @@ from src.graph import Graph
 class TestGraphReader(unittest.TestCase):
 
     def setUp(self):
-        graph = Graph()
-        self.graphreader = GraphReader()
+        DIR = "src/tests/testdata"
+        self.graphreader = GraphReader(DIR)
         self.graphreader.run()
 
     def test_get_graph_list_should_return_list(self):

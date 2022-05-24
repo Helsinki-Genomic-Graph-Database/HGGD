@@ -1,7 +1,7 @@
 from os import getenv, environ
 from flask import render_template, Flask
 from src.calculator import calculator_service
-from src.file_ui.graph_reader import graphreader_service
+from src.file_ui.graph_reader import GraphReader
 from src.dataset import Dataset
 
 
@@ -11,6 +11,8 @@ app.secret_key = getenv("SECRET_KEY")
 
 
 # Reads the datasets
+DIR = "src/tests/testdata"
+graphreader_service = GraphReader(DIR)
 graphreader_service.run()
 graph_list = graphreader_service.get_graph_list()
 dataset1 = Dataset(graph_list)
