@@ -42,14 +42,14 @@ class GraphReader:
         return (nodes, edges)
 
     def _get_number_of_nodes(self, data):
-        
+
         nodes = set()
 
         for edge in data:
             edge = edge.split(" ")
             nodes.add(edge[0])
             nodes.add(edge[1])
-        
+
         return len(nodes)
 
 graphreader_service = GraphReader()

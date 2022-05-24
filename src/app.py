@@ -1,7 +1,7 @@
 from os import getenv, environ
 from flask import render_template, Flask
 from src.calculator import calculator_service
-from src.file_ui.graphReader import graphreader_service
+from src.file_ui.graph_reader import graphreader_service
 from src.dataset import Dataset
 
 

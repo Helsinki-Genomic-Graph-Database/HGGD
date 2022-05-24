@@ -1,7 +1,7 @@
 class Graph:
     """This class creates a graph object that has the name
     of the graph, the number of nodes and the number of edges."""
-    def __init__(self, name, nodes, edges):
+    def __init__(self, name = "", nodes = 0, edges = 0):
         """This function initializes the graph object.
 
         Args:

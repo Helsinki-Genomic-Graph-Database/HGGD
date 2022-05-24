@@ -1,7 +1,7 @@
 import unittest
-from calculator import Calculator
-from dataset import Dataset
-from graph import Graph
+from src.calculator import Calculator
+from src.dataset import Dataset
+from src.graph import Graph
 
 class TestCalculator(unittest.TestCase):
     def setUp(self):
