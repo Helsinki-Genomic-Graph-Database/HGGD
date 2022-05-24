@@ -11,7 +11,7 @@ app.secret_key = getenv("SECRET_KEY")
 
 
 # Reads the datasets
-DIR = "src/tests/testdata"
+DIR = "data"
 graphreader_service = GraphReader(DIR)
 graphreader_service.run()
 graph_list = graphreader_service.get_graph_list()
