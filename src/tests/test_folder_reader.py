@@ -38,3 +38,12 @@ class TestFolderReaderReadsMany_folders(unittest.TestCase):
     def test_should_return_list_of_three_infos(self):
         res = self.folder_reader.get_folder_info()
         self.assertEqual(len(res), 3)
+
+class TestFolderReaderWithNoData(unittest.TestCase):
+
+    def setUp(self):
+        self.folder_reader = FolderReader(["src/tests/testdata_with_no_data"])
+
+    def test_should_detect_there_are_no_graph_files_in_folder(self):
+        res = self.folder_reader.get_folder_info()[0][1]
+        self.assertEqual(res, False)
