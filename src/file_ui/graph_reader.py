@@ -1,5 +1,6 @@
 """Reads graph files from a directory"""
 import os
+from unittest import skip
 from src.graph import Graph
 
 
@@ -23,14 +24,16 @@ class GraphReader:
         """
         self.files = os.listdir(self.dir)
         for filename in self.files:
+            if not self.check_file_extension(filename, "graph"):
+                continue
             name = filename[:-6]
             nodes, edges = self._read_file(filename)
             self.graph_list.append(Graph(name, nodes, edges))
 
-    def _read_file(self, filename):
+    def check_file_extension(self, filename, extension):
+        return filename.strip().split(".")[-1] == extension
 
-        nodes = None
-        edges = None
+    def _read_file(self, filename):
 
         with open(os.path.join(self.dir, filename), "r") as file:
             line = file.readline()

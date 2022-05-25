@@ -1,7 +1,7 @@
 
 import unittest
 from src.file_ui.graph_reader import GraphReader
-from src.graph import Graph
+
 
 class TestGraphReader(unittest.TestCase):
 
@@ -49,4 +49,15 @@ class TestGraphReader(unittest.TestCase):
                 res = graph.edges
 
         self.assertEqual(res, 27)
+
+class TestGraphReaderEmptyDescription(unittest.TestCase):
+
+    def setUp(self):
+        DIR = "src/tests/testdata_with_empty_description"
+        self.graphreader = GraphReader(DIR)
+        self.graphreader.run()
+
+    def test_get_graph_list_should_return_list_of_only_graph_files(self):
+        res = self.graphreader.get_graph_list()
+        self.assertEqual(len(res), 5)
 
