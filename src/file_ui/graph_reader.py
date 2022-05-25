@@ -1,6 +1,5 @@
 """Reads graph files from a directory"""
 import os
-from unittest import skip
 from src.graph import Graph
 
 
