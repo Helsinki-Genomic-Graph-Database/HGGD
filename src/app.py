@@ -1,14 +1,14 @@
-from os import getenv, environ
-from flask import render_template, Flask
+from os import getenv, environ, path
+from flask import render_template, Flask, send_from_directory
 from src.calculator import calculator_service
 from src.file_ui.graph_reader import GraphReader
 from src.dataset import Dataset
-
+from src.zip_creator import zipcreator_service
 
 
 app = Flask(__name__)
 app.secret_key = getenv("SECRET_KEY")
-
+app.config['DATA_FOLDER']='data'
 
 # Reads the datasets
 DIR = "data"
@@ -41,11 +41,13 @@ def render_dataset(dataset):
     total_nodes, total_edges = calculator_service.get_no_nodes_and_edges(dataset1)
     graphs = dataset1.get_graphs()
     namelist = []
+    directory = get_datapath()
+    zipfile = zipcreator_service.create_zip(dataset, directory)
     for graph in graphs:
         namelist.append(graph.get_names())
     return render_template("dataset.html", total_graphs=graphs_total, average_nodes=avg_nodes, \
-        average_edges=avg_edges, graphs=graphs, total_edges=total_edges, \
-        total_nodes=total_nodes, namelist=namelist, dataset= dataset)
+        average_edges=avg_edges, total_edges=total_edges, total_nodes=total_nodes, \
+        namelist=namelist, dataset= dataset, zipfile=zipfile)
 
 @app.route("/graphs/<name>", methods=["GET"])
 def render_graph(name):
@@ -60,6 +62,28 @@ def render_graph(name):
     nodes = graph.get_nodes()
     edges = graph.get_edges()
     return render_template("graph.html",name=name, nodes=nodes, edges=edges)
+
+@app.route('/data/zip/<path:filename>', methods=['GET'])
+def download(filename):
+    """ Downloads a zipfile of the dataset
+
+    Args:
+        filename (string): name of the zipfile
+
+    Returns:
+        zipfile
+    """
+    directory = path.join(get_datapath(), 'zip')
+    return send_from_directory(directory=directory, path='', filename=filename)
+
+def get_datapath():
+    """ Returns the path of the datafolder of the datasets
+
+    Returns:
+        string: datafolder path
+    """
+    goal_directory = path.join(app.root_path, '..', app.config['DATA_FOLDER'])
+    return path.normpath(goal_directory)
 
 if __name__ == "__main__":
     port = int(environ.get('PORT', 5000))
