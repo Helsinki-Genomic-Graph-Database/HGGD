@@ -1,6 +1,7 @@
 """Reads graph files from a directory"""
 import os
 from src.graph import Graph
+from src.file_ui.file_utils import check_file_extension
 
 
 
@@ -23,14 +24,11 @@ class GraphReader:
         """
         self.files = os.listdir(self.dir)
         for filename in self.files:
-            if not self.check_file_extension(filename, "graph"):
+            if not check_file_extension(filename, "graph"):
                 continue
             name = filename[:-6]
             nodes, edges = self._read_file(filename)
             self.graph_list.append(Graph(name, nodes, edges))
-
-    def check_file_extension(self, filename, extension):
-        return filename.strip().split(".")[-1] == extension
 
     def _read_file(self, filename):
 
