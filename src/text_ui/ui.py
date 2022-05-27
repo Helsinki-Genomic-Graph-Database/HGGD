@@ -1,15 +1,13 @@
 import os
 import json
-from src.text_ui.console_io import ConsoleIO
 
 
 class UI:
-    def __init__(self, folder_reader):
+    def __init__(self, folder_reader, io):
         self.folder_reader = folder_reader
-        self._io = ConsoleIO()
+        self._io = io
 
     def start(self):
-        print("start")
         folder_list = self.folder_reader.get_folder_info()
         for folder in folder_list:
             print("-------")
