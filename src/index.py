@@ -10,7 +10,6 @@ from src.text_ui.ui import UI
 def main():
 
     reader = DatasetReader("data")
-    
     f_reader = FolderReader(reader.get_paths())
     ui = UI(f_reader)
     ui.start()

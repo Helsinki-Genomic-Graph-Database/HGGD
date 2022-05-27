@@ -40,4 +40,3 @@ Everything is pushed to main branch. Only working code!
 * Pull from main -> Code and write tests -> Test on own computer -> Fix issues -> Pull from main -> Test again on own computer -> Fix issues -> Push to main.
 
 * When done, mark status as done and write down hours in backlog.
-
