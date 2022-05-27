@@ -22,7 +22,7 @@ for datasetpath in dir_paths:
     graphreader_service.run()
     graph_list = graphreader_service.get_graph_list()
     name, descr_short, descr_long = read_description(datasetpath)
-    dataset_list.append(Dataset(name, graph_list, descr_short, descr_long))
+    dataset_list.append(Dataset(name, graph_list, descr_short, descr_long, datasetpath))
 
 
 
@@ -40,7 +40,7 @@ def render_index():
     """
     dataset_names = []
     for dataset in dataset_list:
-        dataset_names.append((dataset.get_name(), dataset.get_descr_short()))
+        dataset_names.append((dataset.get_name(), dataset.get_descr_short(), dataset.get_foldername()))
     return render_template("index.html", dataset_names=dataset_names)
 
 @app.route("/datasets/<dataset>", methods=["GET"])
@@ -51,14 +51,14 @@ def render_dataset(dataset):
     Returns:
         html page
     """
-    current_dataset = find_dataset_by_name(dataset)
+    current_dataset = find_dataset_by_foldername(dataset)
     graphs_total, avg_nodes, avg_edges = calculator_service.calculate_statistics(current_dataset)
     total_nodes, total_edges = calculator_service.get_no_nodes_and_edges(current_dataset) 
     graphs = current_dataset.get_graphs()
     namelist = []
-    directory = get_datapath(current_dataset.get_name())
+    directory = get_datapath(current_dataset.get_foldername())
     zipfile = zipcreator_service.create_zip(dataset, directory)
-    long_description = current_dataset.get_descr_long
+    long_description = current_dataset.get_descr_long()
     for graph in graphs:
         namelist.append(graph.get_names())
     return render_template("dataset.html", total_graphs=graphs_total, average_nodes=avg_nodes, \
@@ -73,7 +73,7 @@ def render_graph(dataset, name):
     Returns:
         html page
     """
-    current_dataset = find_dataset_by_name(dataset)
+    current_dataset = find_dataset_by_foldername(dataset)
     graph = current_dataset.find_graph(name)
     name = graph.get_names()
     nodes = graph.get_nodes()
@@ -102,9 +102,9 @@ def get_datapath(dataset_name):
     goal_directory = path.join(app.root_path, '..', app.config['DATA_FOLDER'], dataset_name)
     return path.normpath(goal_directory)
 
-def find_dataset_by_name(dataset_name):
+def find_dataset_by_foldername(dataset_name):
     for dataset in dataset_list:
-        if dataset.get_name() == dataset_name:
+        if dataset.get_foldername() == dataset_name:
             return dataset
 
 if __name__ == "__main__":
