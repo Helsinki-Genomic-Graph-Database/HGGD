@@ -57,5 +57,6 @@ class FolderReader:
                 descr_short = True
             if "descr_long" in content and len(content["descr_long"]) > 0:
                 descr_long = True
+            file.close()
 
         return (name,descr_short,descr_long)

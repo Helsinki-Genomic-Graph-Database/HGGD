@@ -1,14 +1,16 @@
 {% extends "layout.html" %}
 
 {% if dataset %}
-    {% block title %} Dataset 1 {% endblock %}
+    {% block title %} {{ dataset }} {% endblock %}
 
     {% block body %}
 
-    <h2> {{ dataset }} </h2>
+    <h2> {{ dataset_name }} </h2>
+    <br>
+    {{ long_description }}
     <table>
         <tr> 
-            <th colspan="2">Statistics for {{ dataset }} </th>
+            <th colspan="2">Statistics for {{ dataset_name }} </th>
         </tr> 
         <tr> 
             <td>Total number of graphs in dataset: </td>
@@ -36,7 +38,7 @@
             <tr> 
                 <th colspan="2">Graphs in dataset </th>
             </tr> 
-            {% for name in namelist%}
+            {% for name in graph_namelist %}
             <tr>
                 <td> <a href="/hggd/datasets/{{ dataset }}/{{ name }}">  {{ name }} </a> </td>
             </tr>

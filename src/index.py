@@ -11,7 +11,6 @@ from src.text_ui.console_io import ConsoleIO
 def main():
 
     reader = DatasetReader("data")
-    
     f_reader = FolderReader(reader.get_paths())
     io = ConsoleIO()
     ui = UI(f_reader, io)
