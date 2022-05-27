@@ -5,6 +5,7 @@ from src.file_ui.graph_reader import GraphReader
 from src.file_ui.dataset_reader import DatasetReader
 from src.dataset import Dataset
 from src.zip_creator import zipcreator_service
+from src.file_ui.file_utils import read_description
 
 
 app = Flask(__name__)
@@ -20,11 +21,17 @@ for datasetpath in dir_paths:
     graphreader_service = GraphReader(datasetpath)
     graphreader_service.run()
     graph_list = graphreader_service.get_graph_list()
-    name = datasetpath.strip().split("/")[-1]
-    dataset_list.append(Dataset(name, graph_list))
+    #name = datasetpath.strip().split("/")[-1]
+    name, descr_short, descr_long = read_description(datasetpath)
+    dataset_list.append(Dataset(name, graph_list, descr_short, descr_long))
+
+
 
 def get_app():
     return app
+
+
+
 
 @app.route("/index", methods=["GET"])
 def render_index():
@@ -103,3 +110,4 @@ def find_dataset_by_name(dataset_name):
 if __name__ == "__main__":
     port = int(environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
+
