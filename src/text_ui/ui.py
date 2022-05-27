@@ -1,10 +1,13 @@
+import os
 import json
 from src.file_ui.folder_reader import FolderReader
+from src.text_ui.console_io import ConsoleIO
 
 
 class UI:
-    def __init__(self):
-        self.folder_reader = FolderReader()
+    def __init__(self, folder_reader):
+        self.folder_reader = folder_reader
+        self._io = ConsoleIO()
 
     def start(self):
         print("start")
@@ -21,11 +24,12 @@ class UI:
                 continue
             else:
                 print("\033[1;32;40mData exists.\033[0;37;40m")
-            if not json_exists:
+            json_path = folder_name+"/description.json"
+            if not json_exists or os.stat(json_path).st_size == 0:
                 name = self.ask_name()
                 sh_desc = self.ask_sh_desc()
                 long_desc = self.ask_long_desc()
-                self.create_json_file(folder_name, name, sh_desc, long_desc)
+                self.create_json_file(json_path, name, sh_desc, long_desc)
                 print("\033[1;32;40mJson-file exists.\033[0;37;40m")
                 print("\033[1;32;40mName exists.\033[0;37;40m")
                 print("\033[1;32;40mShort description exists.\033[0;37;40m")
@@ -37,15 +41,15 @@ class UI:
             print("\033[1;32;40mJson-file exists.\033[0;37;40m")
             if not name_exists:
                 name = self.ask_name()
-                self.update_json_file(folder_name, "name", name)
+                self.update_json_file(json_path, "name", name)
             print("\033[1;32;40mName exists.\033[0;37;40m")
             if not short_desc_exists:
                 sh_desc = self.ask_sh_desc()
-                self.update_json_file(folder_name, "descr_short", sh_desc)
+                self.update_json_file(json_path, "descr_short", sh_desc)
             print("\033[1;32;40mShort description exists.\033[0;37;40m")
             if not long_desc_exists:
                 long_desc = self.ask_long_desc()
-                self.update_json_file(folder_name, "descr_long", long_desc)
+                self.update_json_file(json_path, "descr_long", long_desc)
                 if long_desc == "":
                     print("\033[1;33;40mYou chose that the folder doesn't have a long description.\033[0;37;40m")
                 else:
@@ -58,37 +62,34 @@ class UI:
         name = ""
         while name == "":
             print("\033[1;31;40mThe dataset has no name.\033[0;37;40m")
-            name = input("Please give a name: ")
+            name = self._io.read("Please give a name: ")
         return name
 
     def ask_sh_desc(self):
         sh_desc = ""
         while sh_desc == "":
             print("\033[1;31;40mThe folder doesn't have a short description.\033[0;37;40m")
-            sh_desc = input("Please give a short description: ")
+            sh_desc = self._io.read("Please give a short description: ")
         return sh_desc
 
     def ask_long_desc(self):
         print("\033[1;31;40mThe folder doesn't have a long description.\033[0;37;40m")
-        long_desc = input("Please give a long description or leave empty: ")
+        long_desc = self._io.read("Please give a long description or leave empty: ")
         return long_desc
 
-    def create_json_file(self, folder_name, name, sh_desc, long_desc):
+    def create_json_file(self, json_path, name, sh_desc, long_desc):
         dataset_dict = {
             "name" : name,
             "descr_short" : sh_desc,
             "descr_long" : long_desc
         }
 
-        path_name = folder_name+"description.json"
-
-        with open (path_name, "w") as file:
+        with open (json_path, "w") as file:
             json.dump(dataset_dict, file)
 
-    def update_json_file(self, folder_name, key, value):
+    def update_json_file(self, json_path, key, value):
         new_info = {key : value}
-        path_name = folder_name+"description.json"
-        with open(path_name, "r+") as file:
+        with open(json_path, "r+") as file:
             data = json.load(file)
             data.update(new_info)
             file.seek(0)
