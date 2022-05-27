@@ -1,6 +1,5 @@
 import os
 import json
-from src.file_ui.folder_reader import FolderReader
 from src.text_ui.console_io import ConsoleIO
 
 
@@ -22,8 +21,7 @@ class UI:
                 print("\033[1;33;40mThere is not data in folder", folder_name, ".\033[0;37;40m")
                 print("Folder done.")
                 continue
-            else:
-                print("\033[1;32;40mData exists.\033[0;37;40m")
+            print("\033[1;32;40mData exists.\033[0;37;40m")
             json_path = folder_name+"/description.json"
             if not json_exists or os.stat(json_path).st_size == 0:
                 name = self.ask_name()
