@@ -23,7 +23,7 @@ class ZipCreator:
             for file in files:
                 if self.check_file_extension(file, "zip"):
                     return file
-        shutil.make_archive(f"./data/zip/{filename}", 'zip', directory)
+        shutil.make_archive(f"{directory}/zip/{filename}", 'zip', directory)
         return f"{filename}.zip"
 
     def check_file_extension(self, filename, extension):
