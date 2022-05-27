@@ -5,7 +5,9 @@ from src.file_ui.file_utils import check_file_extension
 
 class FolderReader:
     """
-    get_folder_info() runs the scan and returns the list
+    get_folder_info() runs the scan of folders given and returns the list of info of the folders,
+    format: [(path of folder:str, graph files exist:bool, description file exists:bool, description file has name:bool, description file exists:bool, description file has short description:bool,
+            description file exists:bool, description file has long description:bool)]
     """
 
     def __init__(self, paths):
