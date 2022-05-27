@@ -23,7 +23,6 @@ class FolderReader:
     def read_folder(self, path):
 
         data_exists = False
-        _description_found = False
         description_file_exists = False
         name_exists = False
         descr_short_exists = False
@@ -36,13 +35,9 @@ class FolderReader:
             if check_file_extension(filename, "graph"):
                 data_exists = True
 
-            if filename == "description.json":
-                if _description_found:
-                    description_file_exists = False
-                else:
-                    description_file_exists = True
-                    _description_found = True
-                    name_exists, descr_short_exists, descr_long_exists = self.read_json(path,filename)
+            if filename == "description.json":                
+                description_file_exists = True
+                name_exists, descr_short_exists, descr_long_exists = self.read_json(path,filename)
 
         self.info_list.append((path,data_exists,description_file_exists,name_exists, descr_short_exists, descr_long_exists))
 
@@ -54,11 +49,11 @@ class FolderReader:
         if os.stat(filepath).st_size > 0:
             file = open(filepath)
             content = json.load(file)
-            if len(content["name"]) > 0:
+            if "name" in content and len(content["name"]) > 0:
                 name = True
-            if len(content["descr_short"]) > 0:
+            if "descr_short" in content and len(content["descr_short"]) > 0:
                 descr_short = True
-            if len(content["descr_long"]) > 0:
+            if "descr_long" in content and len(content["descr_long"]) > 0:
                 descr_long = True
 
         return (name,descr_short,descr_long)

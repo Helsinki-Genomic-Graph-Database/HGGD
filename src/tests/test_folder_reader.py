@@ -47,3 +47,25 @@ class TestFolderReaderWithNoData(unittest.TestCase):
     def test_should_detect_there_are_no_graph_files_in_folder(self):
         res = self.folder_reader.get_folder_info()[0][1]
         self.assertEqual(res, False)
+
+class TestEmptyDesrciptionFile(unittest.TestCase):
+
+    def setUp(self):
+        self.folder_reader = FolderReader(["src/tests/testdata_with_empty_description"])
+
+    def test_should_detect_description_file(self):
+        res = self.folder_reader.get_folder_info()[0][2]
+        self.assertEqual(res, True)
+
+    def test_should_should_detect_no_name(self):
+        res = self.folder_reader.get_folder_info()[0][3]
+        self.assertEqual(res, False)
+
+class TestNoNameInDescription(unittest.TestCase):
+
+    def setUp(self):
+        res = self.folder_reader = FolderReader(["src/tests/testdata_with_description_missing_name"])
+
+    def test_should_detect_description_file(self):
+        res = self.folder_reader.get_folder_info()[0][2]
+        self.assertEqual(res, True)
