@@ -35,7 +35,7 @@ def render_index():
     dataset_names = []
     for dataset in dataset_list:
         dataset_names.append(dataset.get_name())
-    return render_template("index.html", dataset_names=dataset_names, description = "terve")
+    return render_template("index.html", dataset_names=dataset_names)
 
 @app.route("/datasets/<dataset>", methods=["GET"])
 def render_dataset(dataset):
@@ -56,7 +56,7 @@ def render_dataset(dataset):
         namelist.append(graph.get_names())
     return render_template("dataset.html", total_graphs=graphs_total, average_nodes=avg_nodes, \
         average_edges=avg_edges, total_edges=total_edges, total_nodes=total_nodes, \
-        namelist=namelist, dataset= dataset, zipfile=zipfile, description = "terve")
+        namelist=namelist, dataset= dataset, zipfile=zipfile)
 
 @app.route("/datasets/<dataset>/<name>", methods=["GET"])
 def render_graph(dataset, name):
