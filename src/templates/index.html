@@ -6,12 +6,12 @@ Genomic Graph Database
 
 {% block body %}
 
-    <h1> Genomic Graph Dataset collection</h1>
+    <h1> Helsinki Genomic Graph Database</h1>
 
     {% if dataset_names %}
         {% for dataset in dataset_names %}
         <div>
-            <a href="/hggd/datasets/{{ dataset }}">  {{ dataset }}</a>
+            <a href="/hggd/datasets/{{ dataset }}">  {{ dataset }}</a> {{ short_description }}
         </div>
         {% endfor %}
     {% endif %}

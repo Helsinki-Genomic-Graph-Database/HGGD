@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.secret_key = getenv("SECRET_KEY")
 app.config['DATA_FOLDER']='data'
 
-# Reads the datasets
+# Reads the datasets and makes a list of all of them
 DIR = "data"
 datasetreader_service = DatasetReader(DIR)
 dir_paths = datasetreader_service.get_paths()
@@ -54,7 +54,7 @@ def render_dataset(dataset):
     """
     current_dataset = find_dataset_by_name(dataset)
     graphs_total, avg_nodes, avg_edges = calculator_service.calculate_statistics(current_dataset)
-    total_nodes, total_edges = calculator_service.get_no_nodes_and_edges(current_dataset) 
+    total_nodes, total_edges = calculator_service.get_no_nodes_and_edges(current_dataset)
     graphs = current_dataset.get_graphs()
     namelist = []
     directory = get_datapath(current_dataset.get_name())
@@ -75,10 +75,10 @@ def render_graph(dataset, name):
     """
     current_dataset = find_dataset_by_name(dataset)
     graph = current_dataset.find_graph(name)
-    name = graph.get_names()
+    graph_name = graph.get_names()
     nodes = graph.get_nodes()
     edges = graph.get_edges()
-    return render_template("graph.html",name=name, nodes=nodes, edges=edges)
+    return render_template("graph.html",name=graph_name, nodes=nodes, edges=edges)
 
 @app.route('/data/<dataset>/zip/<path:filename>', methods=['GET'])
 def download(dataset, filename):
@@ -103,6 +103,14 @@ def get_datapath(dataset_name):
     return path.normpath(goal_directory)
 
 def find_dataset_by_name(dataset_name):
+    """ Finds dataset by name
+
+    Args:
+        dataset_name (str): dataset name
+
+    Returns:
+        dataset-object
+    """
     for dataset in dataset_list:
         if dataset.get_name() == dataset_name:
             return dataset
