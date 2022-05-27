@@ -1,11 +1,13 @@
 class Dataset:
     """This class creates a dataset object that has a list of graphs as a parameter."""
-    def __init__(self, graphs):
+    def __init__(self, name, graphs):
         """This function initializes the dataset object.
 
         Args:
+            name (str): name of the dataset
             graphs (list): list of graph objects
         """
+        self.name = name
         self.graphs = graphs
 
     def get_graphs(self):
@@ -28,3 +30,6 @@ class Dataset:
         for graph in self.get_graphs():
             if graph.get_names() == name:
                 return graph
+
+    def get_name(self):
+        return self.name
