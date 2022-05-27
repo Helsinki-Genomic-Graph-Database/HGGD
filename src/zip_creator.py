@@ -1,6 +1,7 @@
 import os
 import zipfile
 import pathlib
+from src.file_ui.file_utils import check_file_extension
 
 class ZipCreator:
     """ Makes a zipfile for a dataset of graphs
@@ -22,7 +23,7 @@ class ZipCreator:
         if os.path.exists(f"{directory}/zip"):
             files = os.listdir(f"{directory}/zip")
             for file in files:
-                if self.check_file_extension(file, "zip"):
+                if check_file_extension(file, "zip"):
                     return file
         directoryfiles = pathlib.Path(directory)
         if not os.path.exists(f"{directory}/zip"):
@@ -31,8 +32,5 @@ class ZipCreator:
             for file_path in directoryfiles.iterdir():
                 archive.write(file_path, arcname=file_path.name)
         return f"{filename}.zip"
-
-    def check_file_extension(self, filename, extension):
-        return filename.strip().split(".")[-1] == extension
 
 zipcreator_service = ZipCreator()
