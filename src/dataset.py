@@ -35,3 +35,9 @@ class Dataset:
 
     def get_name(self):
         return self.name
+
+    def get_descr_short(self):
+        return self.descr_short
+
+    def get_descr_long(self):
+        return self.descr_long
