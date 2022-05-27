@@ -1,5 +1,6 @@
-import shutil
 import os
+import zipfile
+import pathlib
 
 class ZipCreator:
     """ Makes a zipfile for a dataset of graphs
@@ -9,7 +10,7 @@ class ZipCreator:
 
     def create_zip(self, filename, directory):
         """ Checks if a zipfile exists in the datafolder
-        If not, it makes one for the dataset
+        If not, it makes one for the dataset files
 
         Args:
             filename (str): Name of the dataset and zipfile
@@ -23,7 +24,12 @@ class ZipCreator:
             for file in files:
                 if self.check_file_extension(file, "zip"):
                     return file
-        shutil.make_archive(f"{directory}/zip/{filename}", 'zip', directory)
+        directoryfiles = pathlib.Path(directory)
+        if not os.path.exists(f"{directory}/zip"):
+            os.mkdir(f"{directory}/zip")
+        with zipfile.ZipFile(f"{directory}/zip/{filename}.zip", mode="w") as archive:
+            for file_path in directoryfiles.iterdir():
+                archive.write(file_path, arcname=file_path.name)
         return f"{filename}.zip"
 
     def check_file_extension(self, filename, extension):
