@@ -12,7 +12,8 @@ app = Flask(__name__)
 app.secret_key = getenv("SECRET_KEY")
 app.config['DATA_FOLDER']='data'
 
-
+# Finds dataset info from datafolder and makes a list of all the
+# dataset objects with the info from the folders
 DIR = "data"
 datasetreader_service = DatasetReader(DIR)
 dir_paths = datasetreader_service.get_paths()
@@ -55,15 +56,16 @@ def render_dataset(dataset):
     graphs_total, avg_nodes, avg_edges = calculator_service.calculate_statistics(current_dataset)
     total_nodes, total_edges = calculator_service.get_no_nodes_and_edges(current_dataset) 
     graphs = current_dataset.get_graphs()
-    namelist = []
     directory = get_datapath(current_dataset.get_foldername())
     zipfile = zipcreator_service.create_zip(dataset, directory)
+    dataset_name = current_dataset.get_name()
     long_description = current_dataset.get_descr_long()
+    graph_namelist = []
     for graph in graphs:
-        namelist.append(graph.get_names())
+        graph_namelist.append(graph.get_names())
     return render_template("dataset.html", total_graphs=graphs_total, average_nodes=avg_nodes, \
-        average_edges=avg_edges, total_edges=total_edges, total_nodes=total_nodes, \
-        namelist=namelist, dataset= dataset, zipfile=zipfile, long_description = long_description)
+        average_edges=avg_edges, total_edges=total_edges, total_nodes=total_nodes, dataset_name = dataset_name, \
+        graph_namelist=graph_namelist, dataset= dataset, zipfile=zipfile, long_description = long_description)
 
 @app.route("/datasets/<dataset>/<name>", methods=["GET"])
 def render_graph(dataset, name):
@@ -103,6 +105,14 @@ def get_datapath(dataset_name):
     return path.normpath(goal_directory)
 
 def find_dataset_by_foldername(dataset_name):
+    """ Finds dataset by foldername
+
+    Args:
+        dataset_name (srt): name of the dataset folder
+
+    Returns:
+        dataset-object
+    """
     for dataset in dataset_list:
         if dataset.get_foldername() == dataset_name:
             return dataset
