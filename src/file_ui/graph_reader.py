@@ -27,20 +27,23 @@ class GraphReader:
             if not check_file_extension(filename, "graph"):
                 continue
             name = filename[:-6]
-            nodes, edges = self._read_file(filename)
-            self.graph_list.append(Graph(name, nodes, edges))
+            nodes, edges, sources = self._read_file(filename)
+            self.graph_list.append(Graph(name, nodes, edges, sources))
 
     def _read_file(self, filename):
 
         with open(os.path.join(self.dir, filename), "r") as file:
             line = file.readline()
+            sources = []
             while line[0] == "#":
+                if "genomes" in line:
+                    sources = self._get_sources(line)
                 line = file.readline()
             data = file.readlines()
             edges = len(data)
             nodes = self._get_number_of_nodes(data)
 
-        return (nodes, edges)
+        return (nodes, edges, sources)
 
     def _get_number_of_nodes(self, data):
 
@@ -52,3 +55,7 @@ class GraphReader:
             nodes.add(edge[1])
 
         return len(nodes)
+
+    def _get_sources(self, line):
+        source_names = line.split(":")[1].strip()
+        return source_names.split(" ")
