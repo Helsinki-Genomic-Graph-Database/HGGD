@@ -9,11 +9,21 @@ Genomic Graph Database
     <h1> Helsinki Genomic Graph Database</h1>
 
     {% if dataset_names %}
+    <table>
+        <tr> 
+            <th colspan="2">Datasets in database </th>
+        </tr>
+        <tr>            
+            <td> Name </td>
+            <td> Description </td>
+        </tr>  
         {% for dataset in dataset_names %}
-        <div>
-            <a href="/hggd/datasets/{{ dataset[2] }}">  {{ dataset[0] }}</a> {{ dataset[1] }}
-        </div>
+        <tr>
+            <td> <a href="/hggd/datasets/{{ dataset[2] }}">  {{ dataset[0] }}</a> </td>
+            <td> {{ dataset[1] }} </td>
+        </tr>
         {% endfor %}
+    </table>
     {% endif %}
 
 {% endblock %}

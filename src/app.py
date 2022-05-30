@@ -28,6 +28,8 @@ for datasetpath in dir_paths:
 
 
 def get_app():
+    """ For tests
+    """
     return app
 
 
@@ -55,12 +57,12 @@ def render_dataset(dataset):
     current_dataset = find_dataset_by_foldername(dataset)
     graphs_total, avg_nodes, avg_edges = calculator_service.calculate_statistics(current_dataset)
     total_nodes, total_edges = calculator_service.get_no_nodes_and_edges(current_dataset) 
-    graphs = current_dataset.get_graphs()
     directory = get_datapath(current_dataset.get_foldername())
     zipfile = zipcreator_service.create_zip(dataset, directory)
     dataset_name = current_dataset.get_name()
     long_description = current_dataset.get_descr_long()
     graph_namelist = []
+    graphs = current_dataset.get_graphs()
     for graph in graphs:
         graph_namelist.append(graph.get_names())
     return render_template("dataset.html", total_graphs=graphs_total, average_nodes=avg_nodes, \
@@ -80,10 +82,11 @@ def render_graph(dataset, name):
     name = graph.get_names()
     nodes = graph.get_nodes()
     edges = graph.get_edges()
-    return render_template("graph.html",name=name, nodes=nodes, edges=edges)
+    dataset_folder = current_dataset.get_foldername()
+    return render_template("graph.html",name=name, nodes=nodes, edges=edges, dataset=dataset_folder)
 
 @app.route('/data/<dataset>/zip/<path:filename>', methods=['GET'])
-def download(dataset, filename):
+def download_zip(dataset, filename):
     """ Downloads a zipfile of the dataset
 
     Args:
@@ -94,6 +97,21 @@ def download(dataset, filename):
     """
     directory = path.join(get_datapath(dataset), 'zip')
     return send_from_directory(directory=directory, path='', filename=filename)
+
+@app.route('/data/<dataset>/<path:name>', methods=['GET'])
+def download_graph(dataset, name):
+    """ Downloads a specific graph file
+
+    Args:
+        dataset (str): dataset folder of the graph
+        name (str): name of the graph
+
+    Returns:
+        .graph file
+    """
+    directory=get_datapath(dataset)
+    graphfilename = ".".join([name, "graph"])
+    return send_from_directory(directory=directory, path='', filename=graphfilename)
 
 def get_datapath(dataset_name):
     """ Returns the path of the datafolder of the datasets
