@@ -22,8 +22,8 @@ for datasetpath in dir_paths:
     graphreader_service = GraphReader(datasetpath)
     graphreader_service.run()
     graph_list = graphreader_service.get_graph_list()
-    name, descr_short, descr_long = read_description(datasetpath)
-    dataset_list.append(Dataset(name, graph_list, descr_short, descr_long, datasetpath))
+    name, descr_short, descr_long, licence = read_description(datasetpath)
+    dataset_list.append(Dataset(name, graph_list, descr_short, descr_long, licence, datasetpath))
 
 
 
@@ -61,13 +61,14 @@ def render_dataset(dataset):
     zipfile = zipcreator_service.create_zip(dataset, directory)
     dataset_name = current_dataset.get_name()
     long_description = current_dataset.get_descr_long()
+    licence = current_dataset.get_licence()
     graph_namelist = []
     graphs = current_dataset.get_graphs()
     for graph in graphs:
         graph_namelist.append(graph.get_names())
     return render_template("dataset.html", total_graphs=graphs_total, average_nodes=avg_nodes, \
         average_edges=avg_edges, total_edges=total_edges, total_nodes=total_nodes, dataset_name = dataset_name, \
-        graph_namelist=graph_namelist, dataset= dataset, zipfile=zipfile, long_description = long_description)
+        graph_namelist=graph_namelist, dataset= dataset, zipfile=zipfile, long_description = long_description, licence=licence)
 
 @app.route("/datasets/<dataset>/<name>", methods=["GET"])
 def render_graph(dataset, name):
@@ -80,10 +81,11 @@ def render_graph(dataset, name):
     current_dataset = find_dataset_by_foldername(dataset)
     graph = current_dataset.find_graph(name)
     name = graph.get_names()
+    licence = current_dataset.get_licence()
     nodes = graph.get_nodes()
     edges = graph.get_edges()
     dataset_folder = current_dataset.get_foldername()
-    return render_template("graph.html",name=name, nodes=nodes, edges=edges, dataset=dataset_folder)
+    return render_template("graph.html",name=name, nodes=nodes, edges=edges, dataset=dataset_folder, licence=licence)
 
 @app.route('/data/<dataset>/zip/<path:filename>', methods=['GET'])
 def download_zip(dataset, filename):

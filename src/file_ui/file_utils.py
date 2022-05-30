@@ -12,4 +12,5 @@ def read_description(filepath):
         name = content["name"]
         descr_short = content["descr_short"]
         descr_long = content["descr_long"]
-        return (name, descr_short, descr_long)
+        licence = content["licence"]
+        return (name, descr_short, descr_long, licence)
