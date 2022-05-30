@@ -60,6 +60,8 @@ class UI:
                 self._io.write("\033[1;32;40mLong description exists.\033[0;37;40m")
             if not licence_exists:
                 licence = self.ask_for_licence()
+                if len(licence)==0:
+                    licence = "None"
                 self.update_json_file(json_path, "licence", licence)
                 if licence == "":
                     self._io.write("\033[1;33;40mYou chose that the dataset doesn't have a licence.\033[0;37;40m")
