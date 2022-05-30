@@ -29,6 +29,7 @@ class FolderReader:
         name_exists = False
         descr_short_exists = False
         descr_long_exists = False
+        licence_exists = False
 
         files = os.listdir(path)
 
@@ -39,14 +40,15 @@ class FolderReader:
 
             if filename == "description.json":                
                 description_file_exists = True
-                name_exists, descr_short_exists, descr_long_exists = self.read_json(path,filename)
+                name_exists, descr_short_exists, descr_long_exists, licence_exists = self.read_json(path,filename)
 
-        self.info_list.append((path,data_exists,description_file_exists,name_exists, descr_short_exists, descr_long_exists))
+        self.info_list.append((path,data_exists,description_file_exists,name_exists, descr_short_exists, descr_long_exists,licence_exists))
 
     def read_json(self, path, filename):
         name = False
         descr_short = False
         descr_long = False
+        licence = False
         filepath = f"{path}/{filename}"
         if os.stat(filepath).st_size > 0:
             file = open(filepath)
@@ -57,6 +59,8 @@ class FolderReader:
                 descr_short = True
             if "descr_long" in content and len(content["descr_long"]) > 0:
                 descr_long = True
+            if "licence" in content and len(content["licence"]) > 0:
+                licence = True
             file.close()
 
-        return (name,descr_short,descr_long)
+        return (name,descr_short,descr_long,licence)
