@@ -2,6 +2,7 @@ import sys
 org_path = sys.path[0]
 modified_path = org_path[:-4]
 sys.path[0] = modified_path
+#to fix the import paths to work in the same way as they do with gunicorn
 
 from src.file_ui.dataset_reader import DatasetReader
 from src.file_ui.folder_reader import FolderReader
