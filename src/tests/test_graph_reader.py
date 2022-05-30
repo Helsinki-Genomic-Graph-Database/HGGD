@@ -42,13 +42,30 @@ class TestGraphReader(unittest.TestCase):
         self.assertEqual(res, 21)
 
     def test_graph_object_should_have_number_of_edges_2(self):
-        list = self.graphreader.get_graph_list()
+        graph_list = self.graphreader.get_graph_list()
         res = None
-        for graph in list:
+        for graph in graph_list:
             if graph.name == "gt1.kmer15.(1268000.1270000).V21.E27.cyc64":
                 res = graph.edges
 
         self.assertEqual(res, 27)
+
+    def test_graph_object_should_have_list_of_source_files(self):
+        graph_list = self.graphreader.get_graph_list()
+        for graph in graph_list:
+            if graph.name == "gt20.kmer15.(102000.104000).V75.E104.cyc1000":
+                res = graph.get_sources()
+
+        self.assertEqual(len(res), 20)
+
+    def test_graph_object_source_list_contains_correct_names(self):
+        graph_list = self.graphreader.get_graph_list()
+        for graph in graph_list:
+            if graph.name == "gt20.kmer15.(102000.104000).V75.E104.cyc1000":
+                res = graph.get_sources()
+            
+        self.assertEqual(res[1], "GCA_000006665.1_ASM666v1.fna")
+
 
 class TestGraphReaderEmptyDescription(unittest.TestCase):
 
