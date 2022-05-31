@@ -6,6 +6,7 @@ from src.file_ui.dataset_reader import DatasetReader
 from src.dataset import Dataset
 from src.zip_creator import zipcreator_service
 from src.file_ui.file_utils import read_description
+from src.helper_functions_for_app import find_dataset_by_foldername, get_datapath
 
 
 app = Flask(__name__)
@@ -19,6 +20,7 @@ datasetreader_service = DatasetReader(DIR)
 dir_paths = datasetreader_service.get_paths()
 dataset_list = []
 for datasetpath in dir_paths:
+    #dataset = create_dataset()
     graphreader_service = GraphReader(datasetpath)
     graphreader_service.run()
     graph_list = graphreader_service.get_graph_list()
@@ -55,10 +57,10 @@ def render_dataset(dataset):
     Returns:
         html page
     """
-    current_dataset = find_dataset_by_foldername(dataset)
+    current_dataset = find_dataset_by_foldername(dataset, dataset_list)
     graphs_total, avg_nodes, avg_edges = calculator_service.calculate_statistics(current_dataset)
     total_nodes, total_edges = calculator_service.get_no_nodes_and_edges(current_dataset)
-    directory = get_datapath(current_dataset.get_foldername())
+    directory = get_datapath(current_dataset.get_foldername(), app)
     zipfile = zipcreator_service.create_zip(dataset, directory)
     dataset_name = current_dataset.get_name()
     long_description = current_dataset.get_descr_long()
@@ -80,15 +82,16 @@ def render_graph(dataset, name):
     Returns:
         html page
     """
-    current_dataset = find_dataset_by_foldername(dataset)
+    current_dataset = find_dataset_by_foldername(dataset, dataset_list)
     graph = current_dataset.find_graph(name)
     name = graph.get_names()
     licence = current_dataset.get_licence()
     nodes = graph.get_nodes()
     edges = graph.get_edges()
+    sources = graph.get_sources()
     dataset_folder = current_dataset.get_foldername()
     return render_template("graph.html",name=name, nodes=nodes, edges=edges, \
-    dataset=dataset_folder, licence=licence)
+    dataset=dataset_folder, licence=licence, sources=sources)
 
 @app.route('/data/<dataset>/zip/<path:filename>', methods=['GET'])
 def download_zip(dataset, filename):
@@ -100,7 +103,7 @@ def download_zip(dataset, filename):
     Returns:
         zipfile
     """
-    directory = path.join(get_datapath(dataset), 'zip')
+    directory = path.join(get_datapath(dataset, app), 'zip')
     return send_from_directory(directory=directory, path='', filename=filename)
 
 @app.route('/data/<dataset>/<path:name>', methods=['GET'])
@@ -114,32 +117,9 @@ def download_graph(dataset, name):
     Returns:
         .graph file
     """
-    directory=get_datapath(dataset)
+    directory=get_datapath(dataset, app)
     graphfilename = ".".join([name, "graph"])
     return send_from_directory(directory=directory, path='', filename=graphfilename)
-
-def get_datapath(dataset_name):
-    """ Returns the path of the datafolder of the datasets
-
-    Returns:
-        string: datafolder path
-    """
-    goal_directory = path.join(app.root_path, '..', app.config['DATA_FOLDER'], dataset_name)
-    return path.normpath(goal_directory)
-
-def find_dataset_by_foldername(dataset_name):
-    """ Finds dataset by foldername
-
-    Args:
-        dataset_name (srt): name of the dataset folder
-
-    Returns:
-        dataset-object
-    """
-    for dataset in dataset_list:
-        if dataset.get_foldername() == dataset_name:
-            return dataset
-    return None
 
 if __name__ == "__main__":
     port = int(environ.get('PORT', 5000))

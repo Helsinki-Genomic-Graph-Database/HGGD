@@ -19,6 +19,14 @@
                 <td> Edges: </td>
                 <td> {{ edges }}</td>
             </tr>
+            <tr>
+               <td> Sourcefiles: </td>
+               <td> 
+                   {% for source in sources %}
+                   {{source}}
+                   {% endfor %}
+               </td>
+            </tr>
 
         </table>
     <br>

@@ -9,8 +9,20 @@ def read_description(filepath):
     except:
         return None, None, None, None
     content = json.load(file)
-    name = content["name"]
-    descr_short = content["descr_short"]
-    descr_long = content["descr_long"]
-    licence = content["licence"]
+    try:
+        name = content["name"]
+    except:
+        name = "No name (this should never happen)"
+    try:
+        descr_short = content["descr_short"]
+    except:
+        descr_short = "No short description (this should never happen)"
+    try:
+        descr_long = content["descr_long"]
+    except:
+        descr_long = ""
+    try:
+        licence = content["licence"]
+    except:
+        licence = "None"
     return (name, descr_short, descr_long, licence)
