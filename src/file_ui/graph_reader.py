@@ -12,12 +12,16 @@ class GraphReader:
         self.files = []
         self.graph_list = []
         self.dir = dir
+        self.set_sources = set()
 
     def get_graph_list(self):
         """
         returns list of graph objects
         """
         return self.graph_list
+
+    def get_set_sources(self):
+        return sorted(self.set_sources)
 
     def run(self):
         """scans the directory and creates the graph list
@@ -38,6 +42,8 @@ class GraphReader:
             while line[0] == "#":
                 if "genomes" in line:
                     sources = self._get_sources(line)
+                    self.set_sources.update(sources)
+
                 line = file.readline()
             data = file.readlines()
             edges = len(data)

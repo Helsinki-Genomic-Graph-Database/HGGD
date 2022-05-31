@@ -6,7 +6,7 @@ from src.file_ui.dataset_reader import DatasetReader
 from src.dataset import Dataset
 from src.zip_creator import zipcreator_service
 from src.file_ui.file_utils import read_description
-from src.helper_functions_for_app import find_dataset_by_foldername, get_datapath
+from src.helper_functions_for_app import find_dataset_by_foldername, get_datapath, create_dataset
 
 
 app = Flask(__name__)
@@ -20,12 +20,7 @@ datasetreader_service = DatasetReader(DIR)
 dir_paths = datasetreader_service.get_paths()
 dataset_list = []
 for datasetpath in dir_paths:
-    #dataset = create_dataset()
-    graphreader_service = GraphReader(datasetpath)
-    graphreader_service.run()
-    graph_list = graphreader_service.get_graph_list()
-    name, descr_short, descr_long, licence = read_description(datasetpath)
-    dataset_list.append(Dataset(name, graph_list, descr_short, descr_long, licence, datasetpath))
+    dataset_list.append(create_dataset(datasetpath))
 
 
 

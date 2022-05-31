@@ -1,4 +1,7 @@
 from os import path
+from src.file_ui.graph_reader import GraphReader
+from src.file_ui.file_utils import read_description
+from src.dataset import Dataset
 
 def find_dataset_by_foldername(dataset_name, dataset_list):
     """ Finds dataset by foldername
@@ -22,3 +25,11 @@ def get_datapath(dataset_name, app):
     """
     goal_directory = path.join(app.root_path, '..', app.config['DATA_FOLDER'], dataset_name)
     return path.normpath(goal_directory)
+
+def create_dataset(datasetpath):
+    graphreader_service = GraphReader(datasetpath)
+    graphreader_service.run()
+    graph_list = graphreader_service.get_graph_list()
+    set_sources = graphreader_service.get_set_sources()
+    name, descr_short, descr_long, licence = read_description(datasetpath)
+    return Dataset(name, graph_list, descr_short, descr_long, licence, datasetpath, set_sources)
