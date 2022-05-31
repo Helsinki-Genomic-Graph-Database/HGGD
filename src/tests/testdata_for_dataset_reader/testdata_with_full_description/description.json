@@ -1,6 +1,6 @@
 {
     "name":"testdata with description",
     "descr_long":"testing data",
-    "descr_short":"with full description"
-
+    "descr_short":"with full description",
+    "licence": "test licence"
 }

@@ -30,6 +30,10 @@ class TestFolderReaderFullDescription(unittest.TestCase):
         res = self.folder_reader.get_folder_info()[0][5]
         self.assertEqual(res, True)
 
+    def test_folder_reader_should_detect_licence_existing(self):
+        res = self.folder_reader.get_folder_info()[0][6]
+        self.assertEqual(res, True)
+
 class TestFolderReaderReadsMany_folders(unittest.TestCase):
 
     def setUp(self):

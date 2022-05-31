@@ -1,6 +1,7 @@
 {
     "name":"Testdata for e coli 2",
     "descr_long":"This is a long description for e coli 2",
-    "descr_short":"this is a dataset of graphs"
+    "descr_short":"this is a dataset of graphs",
+    "licence": "test licence"
 
 }
