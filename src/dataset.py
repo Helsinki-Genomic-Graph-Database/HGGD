@@ -34,6 +34,7 @@ class Dataset:
         for graph in self.get_graphs():
             if graph.get_names() == name:
                 return graph
+        return None
 
     def get_name(self):
         return self.name

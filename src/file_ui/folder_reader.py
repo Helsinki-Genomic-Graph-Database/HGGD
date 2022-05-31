@@ -1,13 +1,14 @@
 import json
 import os
-import json
 from src.file_ui.file_utils import check_file_extension
 
 class FolderReader:
     """
     get_folder_info() runs the scan of folders given and returns the list of info of the folders,
-    format: [(path of folder:str, graph files exist:bool, description file exists:bool, description file has name:bool, description file exists:bool, description file has short description:bool,
-            description file exists:bool, description file has long description:bool)]
+    format: [(path of folder:str, graph files exist:bool, description file exists:bool,
+    description file has name:bool, description file exists:bool,
+    description file has short description:bool,
+    description file exists:bool, description file has long description:bool)]
     """
 
     def __init__(self, paths):
@@ -38,11 +39,13 @@ class FolderReader:
             if check_file_extension(filename, "graph"):
                 data_exists = True
 
-            if filename == "description.json":                
+            if filename == "description.json":
                 description_file_exists = True
-                name_exists, descr_short_exists, descr_long_exists, licence_exists = self.read_json(path,filename)
+                name_exists, descr_short_exists, descr_long_exists, \
+                licence_exists = self.read_json(path,filename)
 
-        self.info_list.append((path,data_exists,description_file_exists,name_exists, descr_short_exists, descr_long_exists,licence_exists))
+        self.info_list.append((path,data_exists,description_file_exists,name_exists, \
+        descr_short_exists, descr_long_exists,licence_exists))
 
     def read_json(self, path, filename):
         name = False

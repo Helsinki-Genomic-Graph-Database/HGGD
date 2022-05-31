@@ -12,8 +12,8 @@ class UI:
         for folder in folder_list:
             self._io.write("-------")
             self._io.write("Folder:")
-            folder_name, data_exists, json_exists, name_exists, short_desc_exists, long_desc_exists, licence_exists \
-                = folder
+            folder_name, data_exists, json_exists, name_exists, short_desc_exists, \
+            long_desc_exists, licence_exists = folder
             self._io.write(folder_name)
             if not data_exists:
                 print_out = "\033[1;33;40mThere is not data in folder "+folder_name+".\033[0;37;40m"
@@ -32,11 +32,15 @@ class UI:
                 self._io.write("\033[1;32;40mName exists.\033[0;37;40m")
                 self._io.write("\033[1;32;40mShort description exists.\033[0;37;40m")
                 if long_desc == "":
-                    self._io.write("\033[1;33;40mYou chose that the dataset doesn't have a long description.\033[0;37;40m")
+                    self._io.write("""
+                    \033[1;33;40mYou chose that the dataset doesn't have a long description.\033[0;37;40m
+                    """)
                 else:
                     self._io.write("\033[1;32;40mLong description exists.\033[0;37;40m")
                 if licence == "":
-                    self._io.write("\033[1;33;40mYou chose that the dataset doesn't have a licence.\033[0;37;40m")
+                    self._io.write("""
+                    \033[1;33;40mYou chose that the dataset doesn't have a licence.\033[0;37;40m
+                    """)
                 else:
                     self._io.write("\033[1;32;40mLicence exists.\033[0;37;40m")
                 continue
@@ -53,7 +57,9 @@ class UI:
                 long_desc = self.ask_long_desc()
                 self.update_json_file(json_path, "descr_long", long_desc)
                 if long_desc == "":
-                    self._io.write("\033[1;33;40mYou chose that the datasetdoesn't have a long description.\033[0;37;40m")
+                    self._io.write("""
+                    \033[1;33;40mYou chose that the datasetdoesn't have a long description.\033[0;37;40
+                    """)
                 else:
                     self._io.write("\033[1;32;40mLong description exists.\033[0;37;40m")
             else:
@@ -64,7 +70,9 @@ class UI:
                     licence = "None"
                 self.update_json_file(json_path, "licence", licence)
                 if licence == "":
-                    self._io.write("\033[1;33;40mYou chose that the dataset doesn't have a licence.\033[0;37;40m")
+                    self._io.write("""
+                    \033[1;33;40mYou chose that the dataset doesn't have a licence.\033[0;37;40m
+                    """)
                 else:
                     self._io.write("\033[1;32;40mLicence exists.\033[0;37;40m")
             else:
@@ -86,7 +94,9 @@ class UI:
     def ask_sh_desc(self):
         sh_desc = ""
         while sh_desc == "":
-            self._io.write("\033[1;31;40mThe dataset doesn't have a short description.\033[0;37;40m")
+            self._io.write("""
+            \033[1;31;40mThe dataset doesn't have a short description.\033[0;37;40m
+            """)
             sh_desc = self._io.read("Please give a short description: ")
         return sh_desc
 

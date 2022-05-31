@@ -43,7 +43,8 @@ def render_index():
     """
     dataset_names = []
     for dataset in dataset_list:
-        dataset_names.append((dataset.get_name(), dataset.get_descr_short(), dataset.get_foldername()))
+        dataset_names.append((dataset.get_name(), dataset.get_descr_short(), \
+        dataset.get_foldername()))
     return render_template("index.html", dataset_names=dataset_names)
 
 @app.route("/datasets/<dataset>", methods=["GET"])
@@ -56,7 +57,7 @@ def render_dataset(dataset):
     """
     current_dataset = find_dataset_by_foldername(dataset)
     graphs_total, avg_nodes, avg_edges = calculator_service.calculate_statistics(current_dataset)
-    total_nodes, total_edges = calculator_service.get_no_nodes_and_edges(current_dataset) 
+    total_nodes, total_edges = calculator_service.get_no_nodes_and_edges(current_dataset)
     directory = get_datapath(current_dataset.get_foldername())
     zipfile = zipcreator_service.create_zip(dataset, directory)
     dataset_name = current_dataset.get_name()
@@ -67,8 +68,9 @@ def render_dataset(dataset):
     for graph in graphs:
         graph_namelist.append(graph.get_names())
     return render_template("dataset.html", total_graphs=graphs_total, average_nodes=avg_nodes, \
-        average_edges=avg_edges, total_edges=total_edges, total_nodes=total_nodes, dataset_name = dataset_name, \
-        graph_namelist=graph_namelist, dataset= dataset, zipfile=zipfile, long_description = long_description, licence=licence)
+        average_edges=avg_edges, total_edges=total_edges, total_nodes=total_nodes, \
+        dataset_name = dataset_name, graph_namelist=graph_namelist, dataset= dataset, \
+        zipfile=zipfile, long_description = long_description, licence=licence)
 
 @app.route("/datasets/<dataset>/<name>", methods=["GET"])
 def render_graph(dataset, name):
@@ -85,7 +87,8 @@ def render_graph(dataset, name):
     nodes = graph.get_nodes()
     edges = graph.get_edges()
     dataset_folder = current_dataset.get_foldername()
-    return render_template("graph.html",name=name, nodes=nodes, edges=edges, dataset=dataset_folder, licence=licence)
+    return render_template("graph.html",name=name, nodes=nodes, edges=edges, \
+    dataset=dataset_folder, licence=licence)
 
 @app.route('/data/<dataset>/zip/<path:filename>', methods=['GET'])
 def download_zip(dataset, filename):
@@ -136,8 +139,8 @@ def find_dataset_by_foldername(dataset_name):
     for dataset in dataset_list:
         if dataset.get_foldername() == dataset_name:
             return dataset
+    return None
 
 if __name__ == "__main__":
     port = int(environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
-
