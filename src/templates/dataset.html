@@ -38,7 +38,7 @@
         </table>
         <table>
             <tr> 
-                <th colspan="2">Graphs in dataset </th>
+                <th colspan="2">Graphs in the dataset </th>
             </tr>
             <tr>            
                 <td> Name </td>
@@ -50,6 +50,18 @@
                 <td> <a href="/hggd/data/{{ dataset }}/{{ name }}" download>.graph file</a> </td>
             </tr>
             {% endfor %}
+        </table>
+        <table>
+            <tr>
+                <th colspan="2">Source files for dataset </th>
+            </tr>
+            <tr>
+                {% for source in sources %}
+                    <tr>
+                    <td>{{ source }}</td>
+                    </tr>
+                {% endfor %}
+            </tr>
         </table>
     <br>
     <a href="/hggd/data/{{ dataset }}/zip/{{ zipfile }}" download>Download all graph files in a zip-file</a>

@@ -62,12 +62,13 @@ def render_dataset(dataset):
     licence = current_dataset.get_licence()
     graph_namelist = []
     graphs = current_dataset.get_graphs()
+    sources = current_dataset.get_sources()
     for graph in graphs:
         graph_namelist.append(graph.get_names())
     return render_template("dataset.html", total_graphs=graphs_total, average_nodes=avg_nodes, \
         average_edges=avg_edges, total_edges=total_edges, total_nodes=total_nodes, \
         dataset_name = dataset_name, graph_namelist=graph_namelist, dataset= dataset, \
-        zipfile=zipfile, long_description = long_description, licence=licence)
+        zipfile=zipfile, long_description = long_description, licence=licence, sources = sources)
 
 @app.route("/datasets/<dataset>/<name>", methods=["GET"])
 def render_graph(dataset, name):
