@@ -33,3 +33,23 @@ def create_dataset(datasetpath):
     set_sources = graphreader_service.get_set_sources()
     name, descr_short, descr_long, licence = read_description(datasetpath)
     return Dataset(name, graph_list, descr_short, descr_long, licence, datasetpath, set_sources)
+
+def create_link_fo_fna(text):
+
+    link = "https://ftp.ncbi.nlm.nih.gov/genomes/all/"
+
+    text_list = text.strip().split("_")
+
+    link = link+text_list[0]+"/"
+
+    numbers = text_list[1]
+
+    link = link+numbers[:3]+"/"
+    numbers = numbers[3:]
+    link = link+numbers[:3]+"/"
+    numbers = numbers[3:]
+    link = link+numbers[:3]+"/"
+    link = link+text[:-4]+"/"+text[:-4]+"_genomic.fna.gz"
+    
+    
+    return link

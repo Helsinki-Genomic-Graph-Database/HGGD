@@ -31,9 +31,9 @@
                 <th colspan="2">Source files </th>
             </tr>
             <tr>
-                {% for source in sources %}
+                {% for link, source in source_tuples %}
                     <tr>
-                    <td>{{ source }}</td>
+                    <td> <a href={{link}} download>{{ source }}</a></td>
                     </tr>
                 {% endfor %}
             </tr>

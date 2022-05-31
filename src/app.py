@@ -6,7 +6,7 @@ from src.file_ui.dataset_reader import DatasetReader
 from src.dataset import Dataset
 from src.zip_creator import zipcreator_service
 from src.file_ui.file_utils import read_description
-from src.helper_functions_for_app import find_dataset_by_foldername, get_datapath, create_dataset
+from src.helper_functions_for_app import find_dataset_by_foldername, get_datapath, create_dataset, create_link_fo_fna
 
 
 app = Flask(__name__)
@@ -85,9 +85,12 @@ def render_graph(dataset, name):
     nodes = graph.get_nodes()
     edges = graph.get_edges()
     sources = graph.get_sources()
+    source_tuples = []
+    for source in sources:
+        source_tuples.append((create_link_fo_fna(source), source))
     dataset_folder = current_dataset.get_foldername()
     return render_template("graph.html",name=name, nodes=nodes, edges=edges, \
-    dataset=dataset_folder, licence=licence, sources=sources)
+    dataset=dataset_folder, licence=licence, source_tuples=source_tuples)
 
 @app.route('/data/<dataset>/zip/<path:filename>', methods=['GET'])
 def download_zip(dataset, filename):
