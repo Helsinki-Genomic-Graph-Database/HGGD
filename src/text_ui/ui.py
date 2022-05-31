@@ -19,8 +19,9 @@ class UI:
             if not data_exists:
                 continue
             json_path = folder_name+"/description.json"
-            self.process_json_file(json_exists, json_path)
-            if not json_exists:
+            json_empty = os.stat(json_path).st_size == 0
+            self.process_json_file(json_exists, json_path, json_empty)
+            if not json_exists or json_empty:
                 self._io.write("Folder done.")
                 continue
             self.process_name(name_exists, json_path)
@@ -37,8 +38,8 @@ class UI:
         else:
             self._io.write("\033[1;32;40mData exists.\033[0;37;40m")
 
-    def process_json_file(self, json_exists, json_path):
-        if not json_exists or os.stat(json_path).st_size == 0:
+    def process_json_file(self, json_exists, json_path, json_empty):
+        if not json_exists or json_empty:
             name = self.ask_name()
             sh_desc = self.ask_sh_desc()
             long_desc = self.ask_long_desc()
@@ -49,11 +50,11 @@ class UI:
             self._io.write("\033[1;32;40mShort description exists.\033[0;37;40m")
             if long_desc == "":
                 self._io.write("\033[1;33;40mYou chose that the dataset \
-doesn't have a long description.\033[0;37;40m")
+doesn't have a long description.\033[1;37;40m")
             else:
                 self._io.write("\033[1;32;40mLong description exists.\033[0;37;40m")
             if licence == "":
-                self._io.write("033[1;33;40mYou chose that the dataset \
+                self._io.write("\033[1;33;40mYou chose that the dataset \
 doesn't have a licence.\033[0;37;40m")
             else:
                 self._io.write("\033[1;32;40mLicence exists.\033[0;37;40m")
