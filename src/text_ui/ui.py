@@ -3,9 +3,9 @@ import json
 
 
 class UI:
-    def __init__(self, folder_reader, io):
+    def __init__(self, folder_reader, input_output):
         self.folder_reader = folder_reader
-        self._io = io
+        self._io = input_output
 
     def start(self):
         folder_list = self.folder_reader.get_folder_info()
