@@ -80,6 +80,7 @@ have a short description.\033[0;37;40m"
         strings_short2 = "\033[1;32;40mShort description exists.\033[0;37;40m"
         strings_long2 = "\033[1;32;40mLong description exists.\033[0;37;40m"
         strings_licence2 = "\033[1;32;40mLicence exists.\033[0;37;40m"
+        open("src/tests/testdata_with_empty_description/description.json", 'w').close()
         self.assertEqual(io.outputs[4], strings_name)
         self.assertEqual(io.outputs[5], strings_short)
         self.assertEqual(io.outputs[6], strings_long)
