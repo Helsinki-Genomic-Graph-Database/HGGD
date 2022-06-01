@@ -17,7 +17,7 @@ Test environment is running on [staging server](https://ohtup-staging.cs.helsink
 
 ## Documentation
 
-[User manual](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/user_manual.mds).
+[User manual](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/user_manual.md)
 
 [Accessing and setting up the production server](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/production_server.md)
 

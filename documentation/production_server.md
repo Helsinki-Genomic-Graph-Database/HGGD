@@ -20,4 +20,4 @@ Then set up a [docker network](https://docs.docker.com/network/bridge/) with `su
 
 Now start the containers with `sudo docker-compose up -d caddy` and `sudo docker-compose up -d hggd` and the server should now be running.
 
-Adding files to the server is documented in the [user manual](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/user_manual.mds).
+Adding files to the server is documented in the [user manual](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/user_manual.md).
