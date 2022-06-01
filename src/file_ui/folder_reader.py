@@ -35,6 +35,8 @@ class FolderReader:
 
         files = os.listdir(path)
 
+        log_exists = False
+        
         for filename in files:
 
             if check_file_extension(filename, "graph"):
@@ -44,6 +46,13 @@ class FolderReader:
                 description_file_exists = True
                 name_exists, descr_short_exists, descr_long_exists, \
                 licence_exists = self.read_json(path,filename)
+
+            if filename == "log.txt":
+                log_exists = True
+
+            if not log_exists:
+                with open(path+"/log.txt", "w") as log:
+                    log.write("ui run on: never")
 
         self.info_list.append((path,data_exists,description_file_exists,name_exists, \
         descr_short_exists, descr_long_exists,licence_exists, ui_run))
