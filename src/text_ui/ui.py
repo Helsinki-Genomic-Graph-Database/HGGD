@@ -1,5 +1,6 @@
 import os
 import json
+from datetime import datetime
 
 
 class UI:
@@ -13,28 +14,28 @@ class UI:
             self._io.write("-------")
             self._io.write("Folder:")
             folder_name, data_exists, json_exists, name_exists, short_desc_exists, \
-            long_desc_exists, licence_exists = folder[:-1] # skips info on whether there are modifications after ui run for now
+            long_desc_exists, licence_exists, ui_run = folder
             self._io.write(folder_name)
-            self.process_data(folder_name, data_exists)
+            self.process_data(folder_name, data_exists, folder)
             if not data_exists:
                 continue
             json_path = folder_name+"/description.json"
             json_empty = os.stat(json_path).st_size == 0
             self.process_json_file(json_exists, json_path, json_empty)
             if not json_exists or json_empty:
-                self._io.write("Folder done.")
+                self.folder_done(folder)
                 continue
             self.process_name(name_exists, json_path)
             self.process_short_desc(short_desc_exists, json_path)
             self.process_long_description(long_desc_exists, json_path)
             self.process_licence(licence_exists, json_path)
-            self._io.write("Folder done.")
+            self.folder_done(folder)
 
-    def process_data(self, folder_name, data_exists):
+    def process_data(self, folder_name, data_exists, folder):
         if not data_exists:
             print_out = "\033[1;33;40mThere is not data in folder "+folder_name+".\033[0;37;40m"
             self._io.write(print_out)
-            self._io.write("Folder done.")
+            self.folder_done(folder)
         else:
             self._io.write("\033[1;32;40mData exists.\033[0;37;40m")
 
@@ -142,3 +143,11 @@ have a short description.\033[0;37;40m")
             data.update(new_info)
             file.seek(0)
             json.dump(data, file)
+
+    def folder_done(self, folder):
+        self._io.write("Folder done.")
+        path = folder[0]
+        logstamp = datetime.now().isoformat(" ", "seconds")
+        with open(path+"/log.txt", "w") as log:
+            log.write(f"ui run on: {logstamp}")
+
