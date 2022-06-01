@@ -43,3 +43,22 @@ def find_licence_files(path):
         if check_file_extension(filename, "licence"):
             return True
     return False
+
+def create_link_fo_fna(text):
+
+    link = "https://ftp.ncbi.nlm.nih.gov/genomes/all/"
+
+    text_list = text.strip().split("_")
+
+    link = link+text_list[0]+"/"
+
+    numbers = text_list[1]
+
+    link = link+numbers[:3]+"/"
+    numbers = numbers[3:]
+    link = link+numbers[:3]+"/"
+    numbers = numbers[3:]
+    link = link+numbers[:3]+"/"
+    link = link+text[:-4]+"/"+text[:-4]+"_genomic.fna.gz"
+
+    return link

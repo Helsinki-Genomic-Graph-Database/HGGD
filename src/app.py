@@ -4,7 +4,7 @@ from src.calculator import calculator_service
 from src.file_ui.dataset_reader import DatasetReader
 from src.zip_creator import zipcreator_service
 from src.file_ui.file_utils import read_licence_names_from_files
-from src.helper_functions_for_app import find_dataset_by_foldername, get_datapath, create_dataset
+from src.helper_functions_for_app import find_dataset_by_foldername, get_datapath, create_dataset, create_link_fo_fna
 
 
 app = Flask(__name__)
@@ -62,12 +62,16 @@ def render_dataset(dataset):
         licence = licence + ", " + licence_from_files
     graph_namelist = []
     graphs = current_dataset.get_graphs()
+    sources = current_dataset.get_sources()
+    source_tuples = []
+    for source in sources:
+        source_tuples.append((create_link_fo_fna(source), source))
     for graph in graphs:
         graph_namelist.append(graph.get_names())
     return render_template("dataset.html", total_graphs=graphs_total, average_nodes=avg_nodes, \
         average_edges=avg_edges, total_edges=total_edges, total_nodes=total_nodes, \
         dataset_name = dataset_name, graph_namelist=graph_namelist, dataset= dataset, \
-        zipfile=zipfile, long_description = long_description, licence=licence)
+        zipfile=zipfile, long_description = long_description, licence=licence, source_tuples = source_tuples)
 
 @app.route("/datasets/<dataset>/<name>", methods=["GET"])
 def render_graph(dataset, name):
@@ -84,9 +88,12 @@ def render_graph(dataset, name):
     nodes = graph.get_nodes()
     edges = graph.get_edges()
     sources = graph.get_sources()
+    source_tuples = []
+    for source in sources:
+        source_tuples.append((create_link_fo_fna(source), source))
     dataset_folder = current_dataset.get_foldername()
     return render_template("graph.html",name=name, nodes=nodes, edges=edges, \
-    dataset=dataset_folder, licence=licence, sources=sources)
+    dataset=dataset_folder, licence=licence, source_tuples=source_tuples)
 
 @app.route('/data/<dataset>/zip/<path:filename>', methods=['GET'])
 def download_zip(dataset, filename):
@@ -115,6 +122,7 @@ def download_graph(dataset, name):
     directory=get_datapath(dataset, app)
     graphfilename = ".".join([name, "graph"])
     return send_from_directory(directory=directory, path='', filename=graphfilename)
+
 
 if __name__ == "__main__":
     port = int(environ.get('PORT', 5000))

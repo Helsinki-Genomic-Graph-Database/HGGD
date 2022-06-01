@@ -19,16 +19,27 @@
                 <td> Edges: </td>
                 <td> {{ edges }}</td>
             </tr>
-            <tr>
-               <td> Sourcefiles: </td>
-               <td> 
-                   {% for source in sources %}
-                   {{source}}
-                   {% endfor %}
-               </td>
-            </tr>
+            
 
         </table>
+
+       
+
+
+        <table>
+            <tr>
+                <th colspan="2">Source files </th>
+            </tr>
+            <tr>
+                {% for link, source in source_tuples %}
+                    <tr>
+                    <td> <a href={{link}} download>{{ source }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tr>
+        </table>
+
+
     <br>
     <a href="/hggd/data/{{ dataset }}/{{ name }}" download>Download graph file</a>
     <br>
