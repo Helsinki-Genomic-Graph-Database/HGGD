@@ -1,5 +1,6 @@
 import json
 import os
+from datetime import datetime
 
 def check_file_extension(filename, extension):
     return filename.strip().split(".")[-1] == extension
@@ -60,3 +61,12 @@ def list_licence_files(path):
         if check_file_extension(filename, "licence"):
            file_list.append(filename)
     return file_list
+
+def check_log_update_after_file_modified(filepath, log):
+   
+    modified = datetime.fromtimestamp(os.path.getctime(filepath))
+    print(modified)
+    logtime = log[11:].strip()
+    logtimedt = datetime.fromisoformat(logtime)
+    return logtimedt > modified
+    
