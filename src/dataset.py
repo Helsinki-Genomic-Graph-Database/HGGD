@@ -1,6 +1,6 @@
 class Dataset:
     """This class creates a dataset object that has a list of graphs as a parameter."""
-    def __init__(self, name, graphs, descr_short = "", descr_long = "", licence="", foldername="", sources = []):
+    def __init__(self, datasetpath, name, graphs, descr_short = "", descr_long = "", licence="", foldername="", sources = [], has_licence_files=False):
         """This function initializes the dataset object.
 
         Args:
@@ -14,6 +14,8 @@ class Dataset:
         self.licence = licence
         self.foldername = foldername.strip().split("/")[-1]
         self.sources = sources
+        self.has_licence_files = has_licence_files
+        self.datasetpath = datasetpath
 
     def get_graphs(self):
         """This function returns a list of graphs.
@@ -54,3 +56,9 @@ class Dataset:
 
     def get_sources(self):
         return self.sources
+
+    def get_has_licence_files(self):
+        return self.has_licence_files
+
+    def get_datasetpath(self):
+        return self.datasetpath
