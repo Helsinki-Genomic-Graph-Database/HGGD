@@ -6,7 +6,11 @@
 
     {% block body %}
     <br>
-    Licence: {{ licence }}
+    {% if licence %}
+        Licence: {{ licence }}
+    {% else %}
+        Licence not provided
+    {% endif %}
         <table>
             <tr>
                 <th colspan="2"> Statistics for {{ name }} </th>
