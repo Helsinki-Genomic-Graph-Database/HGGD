@@ -50,3 +50,18 @@ class TestLogCreationWithNoLogInFolder(unittest.TestCase):
         res = check_log_update_after_file_modified(f"{self.DIR}/test.graph", line)
         self.assertEqual(res, False)
         
+class TestLogCreationWithLogInFolder(unittest.TestCase):
+
+    def setUp(self):
+        self.DIR = "src/tests/testdata_with_log"
+        self.folder_reader = FolderReader([self.DIR])
+
+    def test_should_notice_log_updated_after_file_modified(self):
+        inputs = ["test_name"]
+        io = StubIO(inputs)
+        ui = UI(self.folder_reader, io)
+        ui.start()
+        with open(f"{self.DIR}/log.txt") as log:
+            line = log.readline()
+        res = check_log_update_after_file_modified(f"{self.DIR}/gt20.kmer15.(102000.104000).V75.E104.cyc1000.graph", line)
+        self.assertEqual(res, True)
