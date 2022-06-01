@@ -1,6 +1,7 @@
 import unittest
-from urllib import response
-from src.file_ui.dataset_reader import DatasetReader
+import os
+import json
+from io import StringIO
 from src.file_ui.folder_reader import FolderReader
 from src.text_ui.ui import UI
 from src.tests.stub_io import StubIO
@@ -102,3 +103,17 @@ have a short description.\033[0;37;40m"
         open("src/tests/testdata_with_empty_description/description.json", 'w').close()
         self.assertEqual(io.outputs[11], strings_long)
         self.assertEqual(io.outputs[12], strings_licence)
+
+    def test_create_json_file(self):
+        fr = FolderReader(["src/tests/testdata_with_empty_description/"])
+        inputs = ["test_name", "test_short_desc", "long_desc", "MIT"]
+        io = StubIO(inputs)
+        ui = UI(fr, io)
+        ui.start()
+        ui.create_json_file("src/tests/testdata_with_no_json_file/test_description.json","test_name", "test_short_desc", "long_desc", "MIT")
+        with open("src/tests/testdata_with_no_json_file/test_description.json", "r+") as file:
+            content = json.load(file)
+            content = str(content)
+        os.remove("src/tests/testdata_with_no_json_file/test_description.json")
+        open("src/tests/testdata_with_empty_description/description.json", 'w').close()
+        self.assertEqual(content, "{'name': 'test_name', 'descr_short': 'test_short_desc', 'descr_long': 'long_desc', 'licence': 'MIT'}")
