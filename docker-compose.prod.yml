@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  hggd:
+    image: hggd/test
+    restart: unless-stopped
+    container_name: hggd
+    ports:
+      - 5000:5000
+    volumes:
+      - ./data:/mydir/data/
+
+volumes:
+  data:
+
+networks:
+  default:
+    external:
+      name: hggd_network

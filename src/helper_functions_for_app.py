@@ -1,7 +1,9 @@
+import os
 from os import path
 from src.file_ui.graph_reader import GraphReader
 from src.file_ui.file_utils import read_description
 from src.dataset import Dataset
+from src.file_ui.file_utils import check_file_extension
 
 def find_dataset_by_foldername(dataset_name, dataset_list):
     """ Finds dataset by foldername
@@ -32,7 +34,15 @@ def create_dataset(datasetpath):
     graph_list = graphreader_service.get_graph_list()
     set_sources = graphreader_service.get_set_sources()
     name, descr_short, descr_long, licence = read_description(datasetpath)
-    return Dataset(name, graph_list, descr_short, descr_long, licence, datasetpath, set_sources)
+    has_licence_files = find_licence_files(datasetpath)
+    return Dataset(datasetpath, name, graph_list, descr_short, descr_long, licence, datasetpath, set_sources, has_licence_files)
+
+def find_licence_files(path):
+    files = os.listdir(path)
+    for filename in files:
+        if check_file_extension(filename, "licence"):
+            return True
+    return False
 
 def create_link_fo_fna(text):
 
@@ -50,6 +60,5 @@ def create_link_fo_fna(text):
     numbers = numbers[3:]
     link = link+numbers[:3]+"/"
     link = link+text[:-4]+"/"+text[:-4]+"_genomic.fna.gz"
-    
-    
+
     return link

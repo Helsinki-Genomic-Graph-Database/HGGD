@@ -1,11 +1,9 @@
 from os import getenv, environ, path
 from flask import render_template, Flask, send_from_directory
 from src.calculator import calculator_service
-from src.file_ui.graph_reader import GraphReader
 from src.file_ui.dataset_reader import DatasetReader
-from src.dataset import Dataset
 from src.zip_creator import zipcreator_service
-from src.file_ui.file_utils import read_description
+from src.file_ui.file_utils import read_licence_names_from_files
 from src.helper_functions_for_app import find_dataset_by_foldername, get_datapath, create_dataset, create_link_fo_fna
 
 
@@ -23,13 +21,10 @@ for datasetpath in dir_paths:
     dataset_list.append(create_dataset(datasetpath))
 
 
-
 def get_app():
     """ For tests
     """
     return app
-
-
 
 
 @app.route("/index", methods=["GET"])
@@ -59,7 +54,12 @@ def render_dataset(dataset):
     zipfile = zipcreator_service.create_zip(dataset, directory)
     dataset_name = current_dataset.get_name()
     long_description = current_dataset.get_descr_long()
+    has_licence_files = current_dataset.get_has_licence_files()
     licence = current_dataset.get_licence()
+    if has_licence_files:
+        path = current_dataset.get_datasetpath()
+        licence_from_files = read_licence_names_from_files(path)
+        licence = licence + ", " + licence_from_files
     graph_namelist = []
     graphs = current_dataset.get_graphs()
     sources = current_dataset.get_sources()
