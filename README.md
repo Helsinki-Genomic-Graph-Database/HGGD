@@ -7,11 +7,19 @@ Helsinki Genomic Graph Database is a database for the University of Helsinki res
 
 ## Project progress
 
-Project is testable on [staging server](https://ohtup-staging.cs.helsinki.fi/hggd/index)
+Program is running on [production server](https://hggd.cs.helsinki.fi/hggd/index)
+
+Test environment is running on [staging server](https://ohtup-staging.cs.helsinki.fi/hggd/index)
 
 [Product Backlog](https://docs.google.com/spreadsheets/d/1jQ1yPn0-mzYhNJW9QTR2Ywo7aS68i67zV4ff8tXcJfQ/edit#gid=1289730588)
 
 [Sprint Backlog](https://docs.google.com/spreadsheets/d/1jQ1yPn0-mzYhNJW9QTR2Ywo7aS68i67zV4ff8tXcJfQ/edit#gid=0)
+
+## Documentation
+
+[User manual](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/user_manual.mds).
+
+[Accessing and setting up the production server](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/production_server.md)
 
 ## Definition of Done
 
@@ -25,7 +33,7 @@ Project is testable on [staging server](https://ohtup-staging.cs.helsinki.fi/hgg
 
 [Working hours](https://docs.google.com/spreadsheets/d/1jQ1yPn0-mzYhNJW9QTR2Ywo7aS68i67zV4ff8tXcJfQ/edit#gid=2009419284) 9.00-15.00 in DK107 unless otherwise agreed.
 
-Daily scrum every day at 9.00. Client meetings (Sprint review) Mondays at 10.00, retrospectives and next sprint planning after the meeting.
+Daily scrum every day at 9.00. Client meetings (Sprint review) on Mondays at 10.00 (from sprint 3 onwards client meetings will be on Thursdays at 10), retrospectives and next sprint planning after the meeting.
 
 Everything documented in English.
 
