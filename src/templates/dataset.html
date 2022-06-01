@@ -9,7 +9,11 @@
     <br>
     {{ long_description }}
     <br>
-    Licence: {{ licence }}
+    {% if licence %}
+        Licence: {{ licence }}
+    {% else %}
+        Licence not provided
+    {% endif %}
     <table>
         <tr> 
             <th colspan="2">Statistics for {{ dataset_name }} </th>

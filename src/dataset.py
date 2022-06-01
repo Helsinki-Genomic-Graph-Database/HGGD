@@ -46,7 +46,15 @@ class Dataset:
         return self.descr_short
 
     def get_descr_long(self):
-        return self.descr_long
+        """ Returns long description if available
+        othewise uses short description
+
+        Returns:
+            str: description
+        """
+        if len(self.descr_long) > 0:
+            return self.descr_long
+        return self.descr_short
 
     def get_foldername(self):
         return self.foldername
