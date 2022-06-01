@@ -31,6 +31,7 @@ class FolderReader:
         descr_short_exists = False
         descr_long_exists = False
         licence_exists = False
+        ui_run = False
 
         files = os.listdir(path)
 
@@ -45,7 +46,7 @@ class FolderReader:
                 licence_exists = self.read_json(path,filename)
 
         self.info_list.append((path,data_exists,description_file_exists,name_exists, \
-        descr_short_exists, descr_long_exists,licence_exists))
+        descr_short_exists, descr_long_exists,licence_exists, ui_run))
 
     def read_json(self, path, filename):
         name = False

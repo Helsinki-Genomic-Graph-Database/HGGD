@@ -13,7 +13,7 @@ class UI:
             self._io.write("-------")
             self._io.write("Folder:")
             folder_name, data_exists, json_exists, name_exists, short_desc_exists, \
-            long_desc_exists, licence_exists = folder
+            long_desc_exists, licence_exists = folder[:-1] # skips info on whether there are modifications after ui run for now
             self._io.write(folder_name)
             self.process_data(folder_name, data_exists)
             if not data_exists:
