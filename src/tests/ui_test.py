@@ -110,10 +110,10 @@ have a short description.\033[0;37;40m"
         io = StubIO(inputs)
         ui = UI(fr, io)
         ui.start()
-        ui.create_json_file("src/tests/testdata_with_no_json_file/test_description.json","test_name", "test_short_desc", "long_desc", "MIT")
-        with open("src/tests/testdata_with_no_json_file/test_description.json", "r+") as file:
+        ui.create_json_file("src/tests/testdata_with_empty_description/test_description.json","test_name", "test_short_desc", "long_desc", "MIT")
+        with open("src/tests/testdata_with_empty_description/test_description.json", "r+") as file:
             content = json.load(file)
             content = str(content)
-        os.remove("src/tests/testdata_with_no_json_file/test_description.json")
+        os.remove("src/tests/testdata_with_empty_description/test_description.json")
         open("src/tests/testdata_with_empty_description/description.json", 'w').close()
         self.assertEqual(content, "{'name': 'test_name', 'descr_short': 'test_short_desc', 'descr_long': 'long_desc', 'licence': 'MIT'}")
