@@ -64,7 +64,7 @@ class TestUI(unittest.TestCase):
         print(io.outputs)
         self.assertEqual(io.outputs[3], strings_data)
 
-    def test_start_empty_description(self):
+    def test_start_empty_description_enter_all_fields(self):
         fr = FolderReader(["src/tests/testdata_with_empty_description/"])
         inputs = ["test_name", "test_short_desc", "long_desc", "MIT"]
         io = StubIO(inputs)
@@ -90,3 +90,15 @@ have a short description.\033[0;37;40m"
         self.assertEqual(io.outputs[10], strings_short2)
         self.assertEqual(io.outputs[11], strings_long2)
         self.assertEqual(io.outputs[12], strings_licence2)
+
+    def test_start_empty_description_enter_no_long_desc_or_licence(self):
+        fr = FolderReader(["src/tests/testdata_with_empty_description/"])
+        inputs = ["test_name", "test_short_desc", "", ""]
+        io = StubIO(inputs)
+        ui = UI(fr, io)
+        ui.start()
+        strings_long = "\033[1;33;40mYou chose that the dataset doesn't have a long description.\033[1;37;40m"
+        strings_licence = "\033[1;33;40mYou chose that the dataset doesn't have a licence.\033[0;37;40m"
+        open("src/tests/testdata_with_empty_description/description.json", 'w').close()
+        self.assertEqual(io.outputs[11], strings_long)
+        self.assertEqual(io.outputs[12], strings_licence)
