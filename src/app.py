@@ -3,7 +3,7 @@ from flask import render_template, Flask, send_from_directory
 from src.calculator import calculator_service
 from src.file_ui.dataset_reader import DatasetReader
 from src.zip_creator import zipcreator_service
-from src.file_ui.file_utils import read_licence_names_from_files
+from src.file_ui.file_utils import read_licence_names_from_files, read_licence_files, list_licence_files
 from src.helper_functions_for_app import find_dataset_by_foldername, get_datapath, create_dataset, create_link_fo_fna
 
 
@@ -85,6 +85,14 @@ def render_graph(dataset, name):
     graph = current_dataset.find_graph(name)
     name = graph.get_names()
     licence = current_dataset.get_licence()
+    has_licence_files = current_dataset.get_has_licence_files()
+    if has_licence_files:
+        path = current_dataset.get_datasetpath()
+        licence_file_list = list_licence_files(path)
+        for licence_file in licence_file_list:
+            licence_in_file = read_licence_files(path, licence_file, graph)
+            if licence_in_file:
+                licence = licence_file.strip(".licence")
     nodes = graph.get_nodes()
     edges = graph.get_edges()
     sources = graph.get_sources()

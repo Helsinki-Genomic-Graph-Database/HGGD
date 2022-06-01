@@ -29,6 +29,19 @@ def read_description(filepath):
         licence = "None"
     return (name, descr_short, descr_long, licence)
 
+def read_licence_files(filepath, filename, graph):
+    try:
+        licence_file = open(f"{filepath}/{filename}")
+    except:
+        return False
+    content = licence_file.readlines()
+    licence_file.close()
+    for graph_name in content:
+        graph_name = graph_name.strip()
+        if graph_name == graph.get_names():
+            return True
+    return False
+
 def read_licence_names_from_files(filepath):
     file_list = list_licence_files(filepath)
     licence_list = []
