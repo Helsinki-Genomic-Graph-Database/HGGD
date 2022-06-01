@@ -63,12 +63,15 @@ def render_dataset(dataset):
     graph_namelist = []
     graphs = current_dataset.get_graphs()
     sources = current_dataset.get_sources()
+    source_tuples = []
+    for source in sources:
+        source_tuples.append((create_link_fo_fna(source), source))
     for graph in graphs:
         graph_namelist.append(graph.get_names())
     return render_template("dataset.html", total_graphs=graphs_total, average_nodes=avg_nodes, \
         average_edges=avg_edges, total_edges=total_edges, total_nodes=total_nodes, \
         dataset_name = dataset_name, graph_namelist=graph_namelist, dataset= dataset, \
-        zipfile=zipfile, long_description = long_description, licence=licence, sources = sources)
+        zipfile=zipfile, long_description = long_description, licence=licence, source_tuples = source_tuples)
 
 @app.route("/datasets/<dataset>/<name>", methods=["GET"])
 def render_graph(dataset, name):
@@ -119,6 +122,7 @@ def download_graph(dataset, name):
     directory=get_datapath(dataset, app)
     graphfilename = ".".join([name, "graph"])
     return send_from_directory(directory=directory, path='', filename=graphfilename)
+
 
 if __name__ == "__main__":
     port = int(environ.get('PORT', 5000))
