@@ -7,23 +7,24 @@ def check_dataset_ui_run(datasetpath):
     try:
         with open(datasetpath+"/log.txt") as log:
             line = log.readline()
-            logtime = get_datetime_from_log_text(line)
+            lo = get_datetime_from_log_text(line)
     except:
         return False
 
     res = True
     files = os.listdir(datasetpath)
-
+    ltime = os.path.getctime(datasetpath+"/log.txt")
+    
     for file in files:
-        if not check_log_update_after_file_modified(datasetpath+"/"+file, datasetpath+"/"+"log.txt") and file != "log.txt":
+        if not check_log_update_after_file_modified(datasetpath+"/"+file, ltime) and file != "log.txt":
             res = False
 
     return res
 
-def check_log_update_after_file_modified(filepath, logpath):
-    logtime = os.path.getctime(logpath)
+def check_log_update_after_file_modified(filepath, logtime):
+    logtime = float(logtime)
     modified = os.path.getctime(filepath)
-    return logtime >= modified+1
+    return logtime >= modified
 
 def get_datetime_from_log_text(log):
     logtime = log[11:].strip()
