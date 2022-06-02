@@ -53,10 +53,11 @@ class TestUI(unittest.TestCase):
             content = json.load(file)
         with open("src/tests/testdata_with_description_missing_name/description.json", "w+") as file:
             json.dump(original, file)
+        name_exists = False
         if "name" in content:
             name_exists = True
-        name_in_content = content["name"]
         self.assertEqual(name_exists, True)
+        name_in_content = content["name"]
         self.assertEqual(name_in_content, "test_name")
         strings_name = "\033[1;32;40mName exists.\033[0;37;40m"
         self.assertEqual(io.outputs[1], strings_name)
@@ -68,6 +69,27 @@ class TestUI(unittest.TestCase):
         ui.process_name(True, "src/tests/testdata_with_full_description/description.json")
         strings_name = "\033[1;32;40mName exists.\033[0;37;40m"
         self.assertEqual(io.outputs[0], strings_name)
+
+    def test_process_short_desc(self):
+        inputs = ["test short desc"]
+        io = StubIO(inputs)
+        ui = UI(self.fr, io)
+        with open("src/tests/test_json_for_processing_methods/description_sh.json", "r+") as file:
+            original = json.load(file)
+        ui.process_short_desc(False, "src/tests/test_json_for_processing_methods/description_sh.json")
+        with open("src/tests/test_json_for_processing_methods/description_sh.json", "r+") as file:
+            content = json.load(file)
+        with open("src/tests/test_json_for_processing_methods/description_sh.json", "w+") as file:
+            json.dump(original, file)
+        short_desc_exists = False
+        if "descr_short" in content:
+            short_desc_exists = True
+        self.assertEqual(short_desc_exists , True)
+        short_desc_in_content = content["descr_short"]
+        self.assertEqual(short_desc_in_content, "test short desc")
+        strings_short = "\033[1;32;40mShort description exists.\033[0;37;40m"
+        self.assertEqual(io.outputs[1], strings_short)
+
 
     def test_start_all_data_correct(self):
         inputs = ["test_name"]
@@ -163,8 +185,9 @@ have a short description.\033[0;37;40m"
             content = json.load(file)
         with open("src/tests/testdata_with_description_missing_name/description.json", "w+") as file:
             json.dump(original, file)
+        name_exists = False
         if "name" in content:
             name_exists = True
-        name_in_content = content["name"]
         self.assertEqual(name_exists, True)
+        name_in_content = content["name"]
         self.assertEqual(name_in_content, "test_name")
