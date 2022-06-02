@@ -8,7 +8,7 @@ Production server is running on [https://hggd.cs.helsinki.fi/](https://hggd.cs.h
 ssh -J melkinpaasi.cs.helsinki.fi hggd.cs.helsinki.fi
 ```
 
-Program is currentlys running in a docker container in `/home/HGGD/`. Datafolder for the dataset files is in `/home/HGGD/data`. There is a reverse proxy running with [Caddy](https://caddyserver.com/) in a docker container in `/home/caddy/`.
+Program is currentlys running in a docker container in `/home/HGGD/`. Datafolder for the dataset files is in `/home/HGGD/data`. There is a reverse proxy running with [Caddy](https://caddyserver.com/) in a docker container in `/home/caddy/`. To automate changes in images, [watchtower](https://containrrr.dev/watchtower/) checks for changes in dockerhub and updates the images. It is running in a docker container in `/home/watchtower`.
 
 ## Setting up the server
 
@@ -19,5 +19,7 @@ Set up the reverse proxy in `caddy` -folder by pulling the caddy docker image wi
 Then set up a [docker network](https://docs.docker.com/network/bridge/) with `sudo docker network create hggd_network`. Then connect the hggd and caddy images with `sudo docker network connect hggd_network hggd` and `sudo docker network connect hggd_network caddy`.
 
 Now start the containers with `sudo docker-compose up -d caddy` and `sudo docker-compose up -d hggd` and the server should now be running.
+
+Watchtower can be set up with `sudo docker pull containrrr/watchtower` and adding the [docker-compose file](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/docker-compose.watchtower.yml) in the `watchtower` directory. It can be run with `sudo docker-compose up -d watchtower`.
 
 Adding files to the server is documented in the [user manual](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/user_manual.md).
