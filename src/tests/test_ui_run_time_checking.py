@@ -6,7 +6,7 @@ from src.helper_functions_for_app import create_dataset
 from src.file_ui.folder_reader import FolderReader
 from src.text_ui.ui import UI
 from src.tests.stub_io import StubIO
-from src.file_ui.log_time_checker import check_log_update_after_file_modified, check_dataset_ui_run, get_datetime_from_log_text
+from src.file_ui.log_time_checker import check_log_update_after_file_modified, check_dataset_ui_run
 
 class TestLogCreationWithNoLogInFolder(unittest.TestCase):
 
@@ -62,13 +62,6 @@ class TestLogCreationWithNoLogInFolder(unittest.TestCase):
         res = check_dataset_ui_run(self.DIR)
         self.assertEqual(res, False)
 
-    def test_checker_should_notice_log_has_no_time(self):
-        with open(f"{self.DIR}/log.txt", "w") as file:
-            file.write("ui run on: never")
-
-        res = check_dataset_ui_run(self.DIR)
-        self.assertEqual(res, False)
-        
     def test_checker_should_notice_file_updated_after_ui_run(self):
         inputs = ["test_name"]
         io = StubIO(inputs)
