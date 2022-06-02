@@ -61,6 +61,14 @@ class TestUI(unittest.TestCase):
         strings_name = "\033[1;32;40mName exists.\033[0;37;40m"
         self.assertEqual(io.outputs[1], strings_name)
 
+    def test_process_name_it_exists(self):
+        inputs = ["test_name"]
+        io = StubIO(inputs)
+        ui = UI(self.fr, io)
+        ui.process_name(True, "src/tests/testdata_with_full_description/description.json")
+        strings_name = "\033[1;32;40mName exists.\033[0;37;40m"
+        self.assertEqual(io.outputs[0], strings_name)
+
     def test_start_all_data_correct(self):
         inputs = ["test_name"]
         io = StubIO(inputs)
