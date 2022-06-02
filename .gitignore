@@ -4,3 +4,4 @@ htmlcov
 **/tests/**/*.json
 /data/**/zip
 log.txt
+**/tests/**/log.txt

@@ -52,7 +52,7 @@ class TestLogCreationWithNoLogInFolder(unittest.TestCase):
             f.write("test")
         with open(f"{self.DIR}/log.txt") as log:
             line = log.readline()
-        res = check_log_update_after_file_modified(f"{self.DIR}/test.graph", get_datetime_from_log_text(line))
+        res = check_log_update_after_file_modified(f"{self.DIR}/test.graph", f"{self.DIR}/log.txt")
         self.assertEqual(res, False)
 
     def test_checker_should_notice_no_log_file(self):
@@ -90,7 +90,7 @@ class TestLogCreationWithLogInFolder(unittest.TestCase):
         ui.start()
         with open(f"{self.DIR}/log.txt") as log:
             line = log.readline()
-        res = check_log_update_after_file_modified(f"{self.DIR}/gt20.kmer15.(102000.104000).V75.E104.cyc1000.graph", get_datetime_from_log_text(line))
+        res = check_log_update_after_file_modified(f"{self.DIR}/gt20.kmer15.(102000.104000).V75.E104.cyc1000.graph", f"{self.DIR}/log.txt")
         self.assertEqual(res, True)
 
     def test_checker_should_notice_log_updated_after_file_modified(self):
