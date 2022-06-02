@@ -34,6 +34,33 @@ class TestUI(unittest.TestCase):
 
         self.assertEqual(response, "test_long")
 
+    def test_ask_licence(self):
+        inputs = ["test_licence"]
+        io = StubIO(inputs)
+        ui = UI(self.fr, io)
+        response = ui.ask_for_licence()
+
+        self.assertEqual(response, "test_licence")
+
+    def test_process_name_when_doesnt_exist(self):
+        inputs = ["test_name"]
+        io = StubIO(inputs)
+        ui = UI(self.fr, io)
+        with open("src/tests/testdata_with_description_missing_name/description.json", "r+") as file:
+            original = json.load(file)
+        ui.process_name(False, "src/tests/testdata_with_description_missing_name/description.json")
+        with open("src/tests/testdata_with_description_missing_name/description.json", "r+") as file:
+            content = json.load(file)
+        with open("src/tests/testdata_with_description_missing_name/description.json", "w+") as file:
+            json.dump(original, file)
+        if "name" in content:
+            name_exists = True
+        name_in_content = content["name"]
+        self.assertEqual(name_exists, True)
+        self.assertEqual(name_in_content, "test_name")
+        strings_name = "\033[1;32;40mName exists.\033[0;37;40m"
+        self.assertEqual(io.outputs[1], strings_name)
+
     def test_start_all_data_correct(self):
         inputs = ["test_name"]
         io = StubIO(inputs)
@@ -105,15 +132,31 @@ have a short description.\033[0;37;40m"
         self.assertEqual(io.outputs[12], strings_licence)
 
     def test_create_json_file(self):
-        fr = FolderReader(["src/tests/testdata_with_empty_description/"])
         inputs = ["test_name", "test_short_desc", "long_desc", "MIT"]
         io = StubIO(inputs)
-        ui = UI(fr, io)
+        ui = UI(self.fr, io)
         ui.start()
         ui.create_json_file("src/tests/testdata_with_empty_description/test_description.json","test_name", "test_short_desc", "long_desc", "MIT")
         with open("src/tests/testdata_with_empty_description/test_description.json", "r+") as file:
             content = json.load(file)
             content = str(content)
         os.remove("src/tests/testdata_with_empty_description/test_description.json")
-        open("src/tests/testdata_with_empty_description/description.json", 'w').close()
         self.assertEqual(content, "{'name': 'test_name', 'descr_short': 'test_short_desc', 'descr_long': 'long_desc', 'licence': 'MIT'}")
+
+    def test_update_json_file(self):
+        inputs = ["test_name", "test_short_desc", "long_desc", "MIT"]
+        io = StubIO(inputs)
+        ui = UI(self.fr, io)
+        ui.start()
+        with open("src/tests/testdata_with_description_missing_name/description.json", "r+") as file:
+            original = json.load(file)
+        ui.update_json_file("src/tests/testdata_with_description_missing_name/description.json", "name", "test_name")
+        with open("src/tests/testdata_with_description_missing_name/description.json", "r+") as file:
+            content = json.load(file)
+        with open("src/tests/testdata_with_description_missing_name/description.json", "w+") as file:
+            json.dump(original, file)
+        if "name" in content:
+            name_exists = True
+        name_in_content = content["name"]
+        self.assertEqual(name_exists, True)
+        self.assertEqual(name_in_content, "test_name")
