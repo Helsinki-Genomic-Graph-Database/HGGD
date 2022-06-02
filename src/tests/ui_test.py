@@ -105,10 +105,9 @@ have a short description.\033[0;37;40m"
         self.assertEqual(io.outputs[12], strings_licence)
 
     def test_create_json_file(self):
-        fr = FolderReader(["src/tests/testdata_with_full_description"])
         inputs = ["test_name", "test_short_desc", "long_desc", "MIT"]
         io = StubIO(inputs)
-        ui = UI(fr, io)
+        ui = UI(self.fr, io)
         ui.start()
         ui.create_json_file("src/tests/testdata_with_empty_description/test_description.json","test_name", "test_short_desc", "long_desc", "MIT")
         with open("src/tests/testdata_with_empty_description/test_description.json", "r+") as file:
@@ -118,10 +117,9 @@ have a short description.\033[0;37;40m"
         self.assertEqual(content, "{'name': 'test_name', 'descr_short': 'test_short_desc', 'descr_long': 'long_desc', 'licence': 'MIT'}")
 
     def test_update_json_file(self):
-        fr = FolderReader(["src/tests/testdata_with_full_description"])
         inputs = ["test_name", "test_short_desc", "long_desc", "MIT"]
         io = StubIO(inputs)
-        ui = UI(fr, io)
+        ui = UI(self.fr, io)
         ui.start()
         with open("src/tests/testdata_with_description_missing_name/description.json", "r+") as file:
             original = json.load(file)
