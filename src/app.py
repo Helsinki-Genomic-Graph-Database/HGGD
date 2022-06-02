@@ -18,8 +18,10 @@ datasetreader_service = DatasetReader(DIR)
 dir_paths = datasetreader_service.get_paths()
 dataset_list = []
 for datasetpath in dir_paths:
-    dataset_list.append(create_dataset(datasetpath))
-
+    dataset = create_dataset(datasetpath)
+    if dataset:
+        dataset_list.append(dataset)
+    
 
 def get_app():
     """ For tests
