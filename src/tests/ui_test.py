@@ -110,6 +110,28 @@ class TestUI(unittest.TestCase):
         strings_long = "\033[1;32;40mLong description exists.\033[0;37;40m"
         self.assertEqual(io.outputs[1], strings_long)
 
+    def test_process_long_desc_entering_no_long_desc(self):
+        inputs = [""]
+        io = StubIO(inputs)
+        ui = UI(self.fr, io)
+        with open("src/tests/test_json_for_processing_methods/description_lo.json", "r+") as file:
+            original = json.load(file)
+        ui.process_long_description(False, "src/tests/test_json_for_processing_methods/description_lo.json")
+        with open("src/tests/test_json_for_processing_methods/description_lo.json", "r+") as file:
+            content = json.load(file)
+        long_desc_exists = False
+        if "descr_long" in content:
+            long_desc_exists = True
+        with open("src/tests/test_json_for_processing_methods/description_lo.json", "w+") as file:
+            json.dump(original, file)
+        self.assertEqual(long_desc_exists , True)
+        long_desc_in_content = content["descr_long"]
+        self.assertEqual(long_desc_in_content, "")
+        strings_long = "\033[1;33;40mYou chose that the dataset \
+doesn't have a long description.\033[0;37;40m"
+        self.assertEqual(io.outputs[1], strings_long)
+
+
     def test_start_all_data_correct(self):
         inputs = ["test_name"]
         io = StubIO(inputs)
