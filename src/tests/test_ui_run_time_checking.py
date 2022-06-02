@@ -1,6 +1,7 @@
 import unittest
 import os
 from datetime import datetime
+from src.helper_functions_for_app import create_dataset
 from src.file_ui.folder_reader import FolderReader
 from src.text_ui.ui import UI
 from src.tests.stub_io import StubIO
@@ -37,6 +38,10 @@ class TestLogCreationWithNoLogInFolder(unittest.TestCase):
             line = log.readline()
         logstamp = datetime.now().isoformat(" ", "seconds")
         self.assertEqual(line, f"ui run on: {logstamp}")
+
+    def test_dataset_creator_should_return_none_with_no_log(self):
+        res = create_dataset(self.DIR)
+        self.assertEqual(res, None)
 
     def test_should_notice_file_modified_after_log_update(self):
         inputs = ["test_name"]
@@ -95,3 +100,11 @@ class TestLogCreationWithLogInFolder(unittest.TestCase):
         ui.start()
         res = check_dataset_ui_run(self.DIR)
         self.assertEqual(res, True)
+
+    def test_dataset_creator_should_return_dataset_with_good_log(self):
+        inputs = ["test_name"]
+        io = StubIO(inputs)
+        ui = UI(self.folder_reader, io)
+        ui.start()
+        res = create_dataset(self.DIR)
+        self.assertEqual(res.name, "testdata with description")

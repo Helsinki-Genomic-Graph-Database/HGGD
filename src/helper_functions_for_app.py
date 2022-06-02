@@ -4,6 +4,7 @@ from src.file_ui.graph_reader import GraphReader
 from src.file_ui.file_utils import read_description
 from src.dataset import Dataset
 from src.file_ui.file_utils import check_file_extension
+from src.file_ui.log_time_checker import check_dataset_ui_run
 
 def find_dataset_by_foldername(dataset_name, dataset_list):
     """ Finds dataset by foldername
@@ -29,6 +30,8 @@ def get_datapath(dataset_name, app):
     return path.normpath(goal_directory)
 
 def create_dataset(datasetpath):
+    if not check_dataset_ui_run(datasetpath):
+        return None
     graphreader_service = GraphReader(datasetpath)
     graphreader_service.run()
     graph_list = graphreader_service.get_graph_list()
