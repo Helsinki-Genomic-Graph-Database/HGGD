@@ -34,6 +34,14 @@ class TestUI(unittest.TestCase):
 
         self.assertEqual(response, "test_long")
 
+    def test_ask_licence(self):
+        inputs = ["test_licence"]
+        io = StubIO(inputs)
+        ui = UI(self.fr, io)
+        response = ui.ask_for_licence()
+
+        self.assertEqual(response, "test_licence")
+
     def test_start_all_data_correct(self):
         inputs = ["test_name"]
         io = StubIO(inputs)
