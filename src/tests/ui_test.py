@@ -117,3 +117,25 @@ have a short description.\033[0;37;40m"
         os.remove("src/tests/testdata_with_empty_description/test_description.json")
         open("src/tests/testdata_with_empty_description/description.json", 'w').close()
         self.assertEqual(content, "{'name': 'test_name', 'descr_short': 'test_short_desc', 'descr_long': 'long_desc', 'licence': 'MIT'}")
+
+    def test_update_json_file(self):
+        fr = FolderReader(["src/tests/testdata_with_empty_description/"])
+        inputs = ["test_name", "test_short_desc", "long_desc", "MIT"]
+        io = StubIO(inputs)
+        ui = UI(fr, io)
+        ui.start()
+        with open("src/tests/testdata_with_description_missing_name/description.json", "r+") as file:
+            original = json.load(file)
+            print(original)
+        ui.update_json_file("src/tests/testdata_with_description_missing_name/description.json", "name", "test_name")
+        with open("src/tests/testdata_with_description_missing_name/description.json", "r+") as file:
+            content = json.load(file)
+        with open("src/tests/testdata_with_description_missing_name/description.json", "w+") as file:
+            json.dump(original, file)
+        open("src/tests/testdata_with_empty_description/description.json", 'w').close()
+        name_exists = False
+        if "name" in content:
+            name_exists = True
+        name_in_content = content["name"]
+        self.assertEqual(name_exists, True)
+        self.assertEqual(name_in_content, "test_name")
