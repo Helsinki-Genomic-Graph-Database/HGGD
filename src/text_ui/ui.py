@@ -24,7 +24,7 @@ class UI:
             if not json_exists:
                 self.folder_done(folder)
                 continue
-            if not os.stat(json_path).st_size == 0:
+            if os.stat(json_path).st_size == 0:
                 self.folder_done(folder)
                 continue
             self.process_name(name_exists, json_path)
