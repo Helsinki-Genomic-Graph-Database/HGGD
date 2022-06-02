@@ -110,6 +110,68 @@ class TestUI(unittest.TestCase):
         strings_long = "\033[1;32;40mLong description exists.\033[0;37;40m"
         self.assertEqual(io.outputs[1], strings_long)
 
+    def test_process_long_desc_entering_no_long_desc(self):
+        inputs = [""]
+        io = StubIO(inputs)
+        ui = UI(self.fr, io)
+        with open("src/tests/test_json_for_processing_methods/description_lo.json", "r+") as file:
+            original = json.load(file)
+        ui.process_long_description(False, "src/tests/test_json_for_processing_methods/description_lo.json")
+        with open("src/tests/test_json_for_processing_methods/description_lo.json", "r+") as file:
+            content = json.load(file)
+        long_desc_exists = False
+        if "descr_long" in content:
+            long_desc_exists = True
+        with open("src/tests/test_json_for_processing_methods/description_lo.json", "w+") as file:
+            json.dump(original, file)
+        self.assertEqual(long_desc_exists , True)
+        long_desc_in_content = content["descr_long"]
+        self.assertEqual(long_desc_in_content, "")
+        strings_long = "\033[1;33;40mYou chose that the dataset \
+doesn't have a long description.\033[0;37;40m"
+        self.assertEqual(io.outputs[1], strings_long)
+
+    def test_process_licence_enter_licence(self):
+        inputs = ["test licence"]
+        io = StubIO(inputs)
+        ui = UI(self.fr, io)
+        with open("src/tests/test_json_for_processing_methods/description_li.json", "r+") as file:
+            original = json.load(file)
+        ui.process_licence(False, "src/tests/test_json_for_processing_methods/description_li.json")
+        with open("src/tests/test_json_for_processing_methods/description_li.json", "r+") as file:
+            content = json.load(file)
+        licence_exists = False
+        if "licence" in content:
+            licence_exists = True
+        with open("src/tests/test_json_for_processing_methods/description_li.json", "w+") as file:
+            json.dump(original, file)
+        self.assertEqual(licence_exists , True)
+        licence_in_content = content["licence"]
+        self.assertEqual(licence_in_content, "test licence")
+        strings_licence = "\033[1;32;40mLicence exists.\033[0;37;40m"
+        self.assertEqual(io.outputs[1], strings_licence)
+
+    def test_process_licence_entering_no_licence(self):
+        inputs = [""]
+        io = StubIO(inputs)
+        ui = UI(self.fr, io)
+        with open("src/tests/test_json_for_processing_methods/description_li.json", "r+") as file:
+            original = json.load(file)
+        ui.process_licence(False, "src/tests/test_json_for_processing_methods/description_li.json")
+        with open("src/tests/test_json_for_processing_methods/description_li.json", "r+") as file:
+            content = json.load(file)
+        licence_exists = False
+        if "licence" in content:
+            licence_exists = True
+        with open("src/tests/test_json_for_processing_methods/description_li.json", "w+") as file:
+            json.dump(original, file)
+        self.assertEqual(licence_exists, True)
+        licence_in_content = content["licence"]
+        self.assertEqual(licence_in_content, "None")
+        strings_licence = "\033[1;33;40mYou chose that the dataset \
+doesn't have a licence.\033[0;37;40m"
+        self.assertEqual(io.outputs[1], strings_licence)
+
     def test_start_all_data_correct(self):
         inputs = ["test_name"]
         io = StubIO(inputs)
