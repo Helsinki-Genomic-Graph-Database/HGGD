@@ -151,6 +151,27 @@ doesn't have a long description.\033[0;37;40m"
         strings_licence = "\033[1;32;40mLicence exists.\033[0;37;40m"
         self.assertEqual(io.outputs[1], strings_licence)
 
+    def test_process_licence_entering_no_licence(self):
+        inputs = [""]
+        io = StubIO(inputs)
+        ui = UI(self.fr, io)
+        with open("src/tests/test_json_for_processing_methods/description_li.json", "r+") as file:
+            original = json.load(file)
+        ui.process_licence(False, "src/tests/test_json_for_processing_methods/description_li.json")
+        with open("src/tests/test_json_for_processing_methods/description_li.json", "r+") as file:
+            content = json.load(file)
+        licence_exists = False
+        if "licence" in content:
+            licence_exists = True
+        with open("src/tests/test_json_for_processing_methods/description_li.json", "w+") as file:
+            json.dump(original, file)
+        self.assertEqual(licence_exists, True)
+        licence_in_content = content["licence"]
+        self.assertEqual(licence_in_content, "None")
+        strings_licence = "\033[1;33;40mYou chose that the dataset \
+doesn't have a licence.\033[0;37;40m"
+        self.assertEqual(io.outputs[1], strings_licence)
+
     def test_start_all_data_correct(self):
         inputs = ["test_name"]
         io = StubIO(inputs)
