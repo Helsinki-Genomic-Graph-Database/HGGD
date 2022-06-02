@@ -24,10 +24,10 @@ class UI:
                 json_empty = os.stat(json_path).st_size == 0
             self.process_json_file(json_exists, json_path)
             if not json_exists:
-                self.folder_done(folder)
+                self._io.write("Folder done.")
                 continue
             if json_empty:
-                self.folder_done(folder)
+                self._io.write("Folder done.")
                 continue
             self.process_name(name_exists, json_path)
             self.process_short_desc(short_desc_exists, json_path)
