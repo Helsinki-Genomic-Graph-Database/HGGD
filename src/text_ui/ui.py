@@ -20,9 +20,13 @@ class UI:
             if not data_exists:
                 continue
             json_path = folder_name+"/description.json"
-            json_empty = os.stat(json_path).st_size == 0
-            self.process_json_file(json_exists, json_path, json_empty)
-            if not json_exists or json_empty:
+            if json_exists:
+                json_empty = os.stat(json_path).st_size == 0
+            self.process_json_file(json_exists, json_path)
+            if not json_exists:
+                self._io.write("Folder done.")
+                continue
+            if json_empty:
                 self._io.write("Folder done.")
                 continue
             self.process_name(name_exists, json_path)
@@ -39,8 +43,8 @@ class UI:
         else:
             self._io.write("\033[1;32;40mData exists.\033[0;37;40m")
 
-    def process_json_file(self, json_exists, json_path, json_empty):
-        if not json_exists or json_empty:
+    def process_json_file(self, json_exists, json_path):
+        if not json_exists or os.stat(json_path).st_size == 0:
             name = self.ask_name()
             sh_desc = self.ask_sh_desc()
             long_desc = self.ask_long_desc()
