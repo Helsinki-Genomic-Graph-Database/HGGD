@@ -35,7 +35,7 @@ class UI:
         if not data_exists:
             print_out = "\033[1;33;40mThere is not data in folder "+folder_name+".\033[0;37;40m"
             self._io.write(print_out)
-            self.folder_done(folder)
+            self._io.write("Folder done.")
         else:
             self._io.write("\033[1;32;40mData exists.\033[0;37;40m")
 
