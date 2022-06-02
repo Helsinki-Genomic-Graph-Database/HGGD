@@ -20,11 +20,13 @@ class UI:
             if not data_exists:
                 continue
             json_path = folder_name+"/description.json"
+            if json_exists:
+                json_empty = os.stat(json_path).st_size == 0
             self.process_json_file(json_exists, json_path)
             if not json_exists:
                 self.folder_done(folder)
                 continue
-            if os.stat(json_path).st_size == 0:
+            if json_empty:
                 self.folder_done(folder)
                 continue
             self.process_name(name_exists, json_path)
