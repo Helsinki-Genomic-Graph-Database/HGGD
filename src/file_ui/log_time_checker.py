@@ -23,7 +23,7 @@ def check_dataset_ui_run(datasetpath):
 def check_log_update_after_file_modified(filepath, logpath):
     logtime = os.path.getctime(logpath)
     modified = os.path.getctime(filepath)
-    return logtime >= modified
+    return logtime >= modified+1
 
 def get_datetime_from_log_text(log):
     logtime = log[11:].strip()
