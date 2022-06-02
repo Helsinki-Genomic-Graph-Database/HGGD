@@ -5,48 +5,86 @@
     {% block title %} {{ name }} {% endblock %}
 
     {% block body %}
-    <br>
-    {% if licence %}
-        Licence: {{ licence }}
-    {% else %}
-        Licence not provided
-    {% endif %}
-        <table>
-            <tr>
-                <th colspan="2"> Statistics for {{ name }} </th>
-            </tr>
-            <tr>
-                <td> Nodes: </td>
-                <td> {{ nodes }} </td>
-            </tr>
-            <tr>
-                <td> Edges: </td>
-                <td> {{ edges }}</td>
-            </tr>
-            
-
-        </table>
-
-       
-
-
-        <table>
-            <tr>
-                <th colspan="2">Source files </th>
-            </tr>
-            <tr>
-                {% for link, source in source_tuples %}
+    <hy-docs-container>
+        <hy-baseline>
+            <hy-heading heading="h2"> {{ name }}</hy-heading>
+        </hy-baseline>
+        {% if licence %}
+            <hy-paragraph-text>Licence: {{ licence }}</hy-paragraph-text> 
+        {% else %}
+            <hy-paragraph-text>Licence not provided</hy-paragraph-text> 
+        {% endif %}
+        <br>
+        <hy-table-container>
+            <table>
+                <thead>
+                <tr>
+                    <th colspan="2"> <hy-heading heading="h5">Statistics for {{ name }} </hy-heading></th>
+                </tr>
+                </thead>
+                <tbody>
                     <tr>
-                    <td> <a href={{link}} download>{{ source }}</a></td>
+                        <td> <hy-paragraph-text>Nodes:</hy-paragraph-text> </td>
+                        <td> <hy-paragraph-text>{{ nodes }}</hy-paragraph-text> </td>
                     </tr>
-                {% endfor %}
-            </tr>
-        </table>
+                    <tr>
+                        <td> <hy-paragraph-text>Edges:</hy-paragraph-text> </td>
+                        <td> <hy-paragraph-text>{{ edges }}</hy-paragraph-text></td>
+                    </tr>
+                </tbody>
 
-
-    <br>
-    <a href="/hggd/data/{{ dataset }}/{{ name }}" download>Download graph file</a>
-    <br>
-    <a href="/hggd/index">Back to main page</a>
+            </table>
+        </hy-table-container>
+        <br>
+        <hy-link 
+            url="/hggd/data/{{ dataset }}/{{ name }}"
+            link-content="Download graph file"
+            aria-label="Download graph file"
+            is-external="false"
+            >
+        </hy-link>
+        <br> 
+        <hy-table-container>
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2"><hy-heading heading="h5">Source files </hy-heading></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for link, source in source_tuples %}
+                    <tr>
+                        <td> 
+                            <hy-link 
+                                url="{{link}}"
+                                link-content="{{ source }}"
+                                aria-label="{{ source }}"
+                                is-external="false"
+                                >
+                            </hy-link>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </hy-table-container>
+        <br>
+        <hy-link 
+            variant="within-paragraph"
+            url="/hggd/datasets/{{ dataset }}"
+            link-content="Back to dataset page"
+            aria-label="Back to dataset page"
+            is-external="false"
+            >
+        </hy-link>
+        <hy-link 
+            variant="within-paragraph"
+            url="/hggd/index"
+            link-content="Back to main page"
+            aria-label="Back to main page"
+            is-external="false"
+            >
+        </hy-link>
+    </hy-docs-container>
     {% endblock %}
 {% endif %}
