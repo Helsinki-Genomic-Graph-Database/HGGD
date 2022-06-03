@@ -1,7 +1,8 @@
 class Dataset:
     """This class creates a dataset object that holds all the information on the dataset."""
-    def __init__(self, description_file_exists,data_exists, licence_file_exists, path, name, descr_short, descr_long, licence, zipname, show_on_website):
+    def __init__(self, folder_name, description_file_exists, data_exists, licence_file_exists, path, name, descr_short, descr_long, licence, zipname, show_on_website):
         """This function initializes the dataset object."""
+        self.folder_name = folder_name
         self.description_file_exists = description_file_exists
         self.data_exists = data_exists
         self.licence_file_exists = licence_file_exists
@@ -19,6 +20,9 @@ class Dataset:
         self.average_nodes = None
         self.number_of_graphs =  None
         self.show_on_website = show_on_website
+
+    def get_folder_name(self):
+        return self.folder_name
 
     def get_description_file_exists(self):
         return self.description_file_exists
@@ -70,6 +74,9 @@ class Dataset:
 
     def get_show_on_website(self):
         return self.show_on_website
+
+    def set_folder_name(self, folder_name):
+        self.folder_name = folder_name
 
     def set_description_file_exists(self, description_file_exists):
         self.description_file_exists = description_file_exists
