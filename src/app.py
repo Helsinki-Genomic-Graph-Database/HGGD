@@ -1,7 +1,9 @@
 from os import getenv, environ, path
 from flask import render_template, Flask, send_from_directory
 from src.calculator import calculator_service
-from src.file_ui.dataset_reader import DatasetReader
+from src.dataset_services.dataset_creator import DatasetCreator
+from src.dataset_services.dataset_reader import DatasetReader
+from src.website_creator.read_graphs import ReadGraphs
 from src.zip_creator import zipcreator_service
 from src.file_ui.file_utils import read_licence_names_from_files, read_licence_files, list_licence_files
 from src.helper_functions_for_app import find_dataset_by_foldername, get_datapath, create_dataset, create_link_fo_fna
@@ -15,12 +17,14 @@ app.config['DATA_FOLDER']='data'
 # dataset objects with the info from the folders
 DIR = "data"
 datasetreader_service = DatasetReader(DIR)
+datasetreader_service.run()
 dir_paths = datasetreader_service.get_paths()
-dataset_list = []
-for datasetpath in dir_paths:
-    dataset = create_dataset(datasetpath)
-    if dataset:
-        dataset_list.append(dataset)
+datasetcreator_service = DatasetCreator(dir_paths)
+dataset_list = datasetcreator_service.get_datasets()
+graph_update_service = ReadGraphs(dataset_list)
+graph_update_service.run()
+dataset_list = graph_update_service.get_dataset_list_with_graphs()
+
     
 
 def get_app():
@@ -50,7 +54,7 @@ def render_dataset(dataset):
         html page
     """
     current_dataset = find_dataset_by_foldername(dataset, dataset_list)
-    graphs_total, avg_nodes, avg_edges = calculator_service.calculate_statistics(current_dataset)
+    graphs_total, avg_nodes, avg_edges, total_nodes, total_edges = current_dataset.get_statistics()
     total_nodes, total_edges = calculator_service.get_no_nodes_and_edges(current_dataset)
     directory = get_datapath(current_dataset.get_foldername(), app)
     zipfile = zipcreator_service.create_zip(dataset, directory)
