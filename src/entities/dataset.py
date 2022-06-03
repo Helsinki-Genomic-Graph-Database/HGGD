@@ -1,6 +1,6 @@
 class Dataset:
     """This class creates a dataset object that holds all the information on the dataset."""
-    def __init__(self, folder_name, description_file_exists, data_exists, licence_file_exists, path, name, descr_short, descr_long, licence, zipname, show_on_website):
+    def __init__(self, description_file_exists = False, data_exists = False, licence_file_exists = False, path = "", name = "", descr_short = "", descr_long = "", licence ="", zipname = "", show_on_website = False, folder_name = ""):
         """This function initializes the dataset object."""
         self.folder_name = folder_name
         self.description_file_exists = description_file_exists
