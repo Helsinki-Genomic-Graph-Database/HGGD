@@ -30,7 +30,21 @@
 
     <title>{% block title %}{% endblock %}</title>
 </head>
+<div >
+    <img src="/hggd/static/HY__LD01_LogoFP_EN_B3____BW.jpg" alt="HY logo" height="125" width="153"/>
+</div>
 <hy-heading heading="h1"> Helsinki Genomic Graph Database</hy-heading>
 <body> 
     {% block body %}{% endblock %}
 </body>
+<footer>
+    <hr class="solid">
+    <hy-link 
+        variant="within-paragraph"
+        url="https://www.helsinki.fi/en/researchgroups/algorithmic-bioinformatics/teams/graph-algorithms"
+        link-content="University of Helsinki Graph Algorithms team"
+        aria-label="University of Helsinki Graph Algorithms team"
+        is-external="false"
+        >
+    </hy-link>
+</footer>
