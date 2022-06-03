@@ -26,8 +26,18 @@ class DatasetCreator:
             licence = None
             zipname = path+"/zip"
             show_on_website = False
-
+            folder_name = path.split("/")[-1]
+            highest_modification_time = 0
+            logtime =0
             for file in files:
+
+                modification_time = os.path.getctime(path+"/"+file)
+                if file == "log.txt":
+                    logtime = modification_time
+                else:
+                    if modification_time > highest_modification_time:
+                        highest_modification_time = modification_time
+
                 if file == "description.json":
                     descrition_file_exists = True
                     name, descr_short, descr_long, licence = self.read_description(path)
@@ -38,9 +48,13 @@ class DatasetCreator:
                 if check_file_extension(file, "licence"):
                     licence_file_exists = True
 
+            ui_run = logtime >= highest_modification_time
+            if ui_run and data_exists:
+                show_on_website = True
+
             self.dataset_list.append(Dataset(descrition_file_exists, data_exists, licence_file_exists, \
                                             path, name, descr_short, descr_long, licence, zipname,\
-                                             show_on_website))
+                                             show_on_website, folder_name))
 
     def read_description(self, path):
         filepath = path+"/description.json"
@@ -56,7 +70,6 @@ class DatasetCreator:
                 descr_long = self.check_field(content, "descr_long")
                 licence = self.check_field(content, "licence")
                 
-
         return name, descr_short, descr_long, licence
 
     def check_field(self, content, field):

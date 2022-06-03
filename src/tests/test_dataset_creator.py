@@ -1,4 +1,6 @@
 import unittest
+import os
+from time import sleep
 from src.dataset_services.dataset_creator import DatasetCreator
 
 
@@ -11,8 +13,9 @@ class TestDataSetCreator(unittest.TestCase):
         self.empty_descr = testdatadir+"_with_empty_description"
         self.no_data = testdatadir+"_with_no_data"
         self.no_descr = testdatadir
+        self.no_log = testdatadir+"_with_no_log"
         
-    def test_given_folders_should_return_list_of_5_datset_objects(self):
+    def test_given_folders_should_return_list_of_5_dataset_objects(self):
         creator = DatasetCreator([self.full_descr, self.no_name_descr, self.empty_descr, self.no_data, self.no_descr])
         res = creator.get_datasets()
         self.assertEqual(len(res), 5)
@@ -81,3 +84,40 @@ class TestDataSetCreator(unittest.TestCase):
         creator = DatasetCreator([self.full_descr])
         res = creator.get_datasets()[0]
         self.assertEqual(res.get_licence(), "test_licence")
+
+    def test_creator_should_find_folder_name(self):
+        creator = DatasetCreator([self.full_descr])
+        res = creator.get_datasets()[0]
+        self.assertEqual(res.get_folder_name(), "testdata_with_full_description")
+
+    def test_creator_should_detect_no_files_updated_after_log(self):
+        creator = DatasetCreator([self.no_log])
+        with open(self.no_log+"/log.txt", "w") as log:
+            log.write("test")
+        res = creator.get_datasets()[0]
+        os.remove(self.no_log+"/log.txt")
+        self.assertEqual(res.get_show_on_website(), True)
+
+    def test_creator_should_detect_no_log(self):
+        creator = DatasetCreator([self.no_log])
+        res = creator.get_datasets()[0]
+        self.assertEqual(res.get_show_on_website(), False)
+
+    def test_creator_should_detect_file_added_after_log(self):
+        creator = DatasetCreator([self.no_log])
+        with open(self.no_log+"/log.txt", "w") as log:
+            log.write("test")
+        sleep(0.05)
+        with open(self.no_log+"/test.graph", "w") as test:
+            test.write("test")
+        res = creator.get_datasets()[0]
+        os.remove(self.no_log+"/log.txt")
+        os.remove(self.no_log+"/test.graph")
+        self.assertEqual(res.get_show_on_website(), False)
+
+    def test_creator_should_prevent_no_data_set_from_displaying(self):
+        creator = DatasetCreator([self.no_data])
+        with open(self.no_data+"/log.txt", "w") as log:
+            log.write("test")
+        res = creator.get_datasets()[0]
+        self.assertEqual(res.get_show_on_website(), False)
