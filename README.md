@@ -33,7 +33,7 @@ Test environment is running on [staging server](https://ohtup-staging.cs.helsink
 
 [Working hours](https://docs.google.com/spreadsheets/d/1jQ1yPn0-mzYhNJW9QTR2Ywo7aS68i67zV4ff8tXcJfQ/edit#gid=2009419284) 9.00-15.00 in DK107 unless otherwise agreed.
 
-Daily scrum every day at 9.00. Client meetings (Sprint review) on Mondays at 10.00 (from sprint 3 onwards client meetings will be on Thursdays at 10), retrospectives and next sprint planning after the meeting.
+Daily scrum every day at 9.00. Client meetings (Sprint review) on Mondays at 10.00 (from sprint 3 onwards client meetings will be on Thursdays at 10.00), retrospectives and next sprint planning after the meeting.
 
 Everything documented in English.
 
