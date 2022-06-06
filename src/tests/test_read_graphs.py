@@ -7,8 +7,8 @@ from src.entities.dataset import Dataset
 class TestReadGraphs(unittest.TestCase):
     def setUp(self):
         self.dir = "./src/tests/testdata_for_dataset_reader"
-        dataset1 = Dataset(True, True, True, self.dir+"/testdata_with_full_description", "name1", "desc1", "desc1", "MIT", "zip", True, "testdata_with_full_description")
-        dataset2 = Dataset(True, True, True, self.dir+"/testdata_with_no_data", "name2", "desc2", "desc2", "GNU", "zip", True, "testdata_with_no_data")
+        dataset1 = Dataset(True, True, True, self.dir+"/testdata_with_full_description", "name1", "desc1", "desc1", "MIT", True, "testdata_with_full_description")
+        dataset2 = Dataset(True, True, True, self.dir+"/testdata_with_no_data", "name2", "desc2", "desc2", "GNU", True, "testdata_with_no_data")
         dataset_list = [dataset1, dataset2]
         self.readgraphs = ReadGraphs(dataset_list)
         self.readgraphs.run()
@@ -42,8 +42,8 @@ class TestReadGraphs(unittest.TestCase):
 class TestReadGraphsNotVisible(unittest.TestCase):
     def setUp(self):
         self.dir = "./src/tests/testdata_for_dataset_reader"
-        dataset1 = Dataset(True, True, True, self.dir+"/testdata_with_full_description", "name1", "desc1", "desc1", "MIT", "zip", False, "testdata_with_full_description")
-        dataset2 = Dataset(True, True, True, self.dir+"/testdata_with_no_data", "name2", "desc2", "desc2", "GNU", "zip", False, "testdata_with_no_data")
+        dataset1 = Dataset(True, True, True, self.dir+"/testdata_with_full_description", "name1", "desc1", "desc1", "MIT", False, "testdata_with_full_description")
+        dataset2 = Dataset(True, True, True, self.dir+"/testdata_with_no_data", "name2", "desc2", "desc2", "GNU", False, "testdata_with_no_data")
         dataset_list = [dataset1, dataset2]
         self.readgraphs = ReadGraphs(dataset_list)
         self.readgraphs.run()
