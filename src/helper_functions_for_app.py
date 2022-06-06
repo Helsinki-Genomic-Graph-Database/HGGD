@@ -16,7 +16,7 @@ def find_dataset_by_foldername(dataset_name, dataset_list):
         dataset-object
     """
     for dataset in dataset_list:
-        if dataset.get_foldername() == dataset_name:
+        if dataset.get_folder_name() == dataset_name:
             return dataset
     return None
 

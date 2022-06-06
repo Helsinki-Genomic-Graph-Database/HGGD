@@ -45,6 +45,17 @@ class Dataset:
     def get_descr_long(self):
         return self.descr_long
 
+    def get_descr_long_for_dataset_html(self):
+        """ Returns long description if available
+        othewise uses short description
+
+        Returns:
+            str: description
+        """
+        if len(self.descr_long) > 0:
+            return self.descr_long
+        return self.descr_short
+
     def get_licence(self):
         return self.licence
 
@@ -128,3 +139,25 @@ class Dataset:
 
     def set_show_on_website(self, show_on_website):
         self.show_on_website = show_on_website
+
+    def find_graph(self, name):
+        """ This function returns a specific graph
+
+        Args:
+            name (string): name of graph
+
+        Returns:
+            graph-object
+        """
+        for graph in self.list_of_graphs:
+            if graph.get_names() == name:
+                return graph
+        return None
+
+    def get_statistics(self):
+        """ Returns all statistics at once
+
+        Returns:
+            _type_: _description_
+        """
+        return self.number_of_graphs, self.average_nodes, self.average_edges, self.total_nodes, self.total_edges

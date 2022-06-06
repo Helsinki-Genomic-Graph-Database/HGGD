@@ -1,13 +1,14 @@
 import unittest
-from src.calculator import Calculator
-from src.dataset import Dataset
-from src.graph import Graph
+from src.website_creator.calculator import Calculator
+from src.entities.dataset import Dataset
+from src.entities.graph import Graph
 
 class TestCalculator(unittest.TestCase):
     def setUp(self):
         self.calculator = Calculator()
         self.graph_list = [Graph("name1", 11, 12), Graph("name2", 13, 14), Graph("name3", 15, 16)]
-        self.dataset = Dataset("datasetpath", "name", self.graph_list)
+        self.dataset = Dataset(True, True, True, "datasetpath", "name", "desc", "desc", "MIT", "folder", True)
+        self.dataset.set_list_of_graphs(self.graph_list)
 
     def test_get_no_nodes_and_edges(self):
         nodes, edges = self.calculator.get_no_nodes_and_edges(self.dataset)
