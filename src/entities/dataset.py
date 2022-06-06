@@ -43,6 +43,9 @@ class Dataset:
         return self.descr_short
 
     def get_descr_long(self):
+        return self.descr_long
+
+    def get_descr_long_for_dataset_html(self):
         """ Returns long description if available
         othewise uses short description
 

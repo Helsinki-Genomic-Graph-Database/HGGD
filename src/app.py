@@ -42,7 +42,7 @@ def render_index():
     dataset_names = []
     for dataset in dataset_list:
         dataset_names.append((dataset.get_name(), dataset.get_descr_short(), \
-        dataset.get_foldername()))
+        dataset.get_folder_name()))
     return render_template("index.html", dataset_names=dataset_names)
 
 @app.route("/datasets/<dataset>", methods=["GET"])
@@ -55,20 +55,13 @@ def render_dataset(dataset):
     """
     current_dataset = find_dataset_by_foldername(dataset, dataset_list)
     graphs_total, avg_nodes, avg_edges, total_nodes, total_edges = current_dataset.get_statistics()
-    total_nodes, total_edges = calculator_service.get_no_nodes_and_edges(current_dataset)
-    directory = get_datapath(current_dataset.get_foldername(), app)
-    zipfile = zipcreator_service.create_zip(dataset, directory)
+    zipfile = current_dataset.get_zipfile_path()
     dataset_name = current_dataset.get_name()
-    long_description = current_dataset.get_descr_long()
-    has_licence_files = current_dataset.get_has_licence_files()
+    long_description = current_dataset.get_descr_long_for_dataset_html()
     licence = current_dataset.get_licence()
-    if has_licence_files:
-        path = current_dataset.get_datasetpath()
-        licence_from_files = read_licence_names_from_files(path)
-        licence = licence + ", " + licence_from_files
     graph_namelist = []
-    graphs = current_dataset.get_graphs()
-    sources = current_dataset.get_sources()
+    graphs = current_dataset.get_list_of_graphs()
+    sources = current_dataset.get_dataset_sources()
     source_tuples = []
     for source in sources:
         source_tuples.append((create_link_fo_fna(source), source))
@@ -90,22 +83,14 @@ def render_graph(dataset, name):
     current_dataset = find_dataset_by_foldername(dataset, dataset_list)
     graph = current_dataset.find_graph(name)
     name = graph.get_names()
-    licence = current_dataset.get_licence()
-    has_licence_files = current_dataset.get_has_licence_files()
-    if has_licence_files:
-        path = current_dataset.get_datasetpath()
-        licence_file_list = list_licence_files(path)
-        for licence_file in licence_file_list:
-            licence_in_file = read_licence_files(path, licence_file, graph)
-            if licence_in_file:
-                licence = licence_file.strip(".licence")
+    licence = graph.get_licence()
     nodes = graph.get_nodes()
     edges = graph.get_edges()
     sources = graph.get_sources()
     source_tuples = []
     for source in sources:
         source_tuples.append((create_link_fo_fna(source), source))
-    dataset_folder = current_dataset.get_foldername()
+    dataset_folder = current_dataset.get_folder_name()
     return render_template("graph.html",name=name, nodes=nodes, edges=edges, \
     dataset=dataset_folder, licence=licence, source_tuples=source_tuples)
 
