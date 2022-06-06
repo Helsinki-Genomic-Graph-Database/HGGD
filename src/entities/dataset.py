@@ -168,3 +168,4 @@ class Dataset:
             _type_: _description_
         """
         return self.number_of_graphs, self.average_nodes, self.average_edges, self.total_nodes, self.total_edges
+        
