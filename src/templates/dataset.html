@@ -70,14 +70,7 @@
                                 is-external="false"
                                 >
                             </hy-link>
-                        </td>
-                        <td> 
-                            <hy-link 
-                                url="/hggd/data/{{ dataset }}/{{ name }}"
-                                link-content=".graph file "
-                                aria-label=".graph file"
-                                is-external="false"
-                                >
+                        </td> 
                             </hy-link>   
                         </td>
                     </tr>
@@ -85,6 +78,25 @@
                 </tbody>
             </table>
         </hy-table-container>
+        <br>
+        
+        {% if user_defined_columns %}
+        
+        
+                <caption><hy-heading heading="h5"> Other information</hy-heading></caption>
+                <br>
+                {% for name, content in user_defined_columns %}
+                    <tr><th><hy-heading heading="h6">{{ name }}</hy-heading></th></tr>
+                    <br>
+                    {% for item in content %}
+                    <tr><td><hy-paragraph-text>{{ item }}</hy-paragraph-text></td></tr>
+                    {% endfor %}
+                    <br>
+                {% endfor %}
+
+                
+            
+        {% endif %}
         <br>
         <hy-table-container>
             <hy-link 
