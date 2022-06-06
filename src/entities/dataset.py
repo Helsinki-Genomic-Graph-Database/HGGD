@@ -22,6 +22,14 @@ class Dataset:
         self.show_on_website = show_on_website
         self.user_defined_columns = user_defined_columns
 
+    def __eq__(self, other):
+        return self.name == other.name
+
+    def __lt__(self, other):
+        if self.name is None or other.name is None:
+            return False
+        return self.name.lower() < other.name.lower()
+
     def get_folder_name(self):
         return self.folder_name
 

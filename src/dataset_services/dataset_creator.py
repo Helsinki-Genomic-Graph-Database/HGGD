@@ -10,7 +10,7 @@ class DatasetCreator:
 
     def get_datasets(self):
         self.run()
-        return self.dataset_list
+        return sorted(self.dataset_list)
 
     def run(self):
         for path in self.folder_paths:

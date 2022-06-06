@@ -2,18 +2,26 @@ import unittest
 import os
 import json
 from io import StringIO
-from src.file_ui.folder_reader import FolderReader
-from src.text_ui.ui import UI
+from src.dataset_services.dataset_reader import DatasetReader
+from src.dataset_services.dataset_creator import DatasetCreator
+from src.data_check.ui import UI
 from src.tests.stub_io import StubIO
 
 class TestUI(unittest.TestCase):
     def setUp(self):
-        self.fr = FolderReader(["src/tests/testdata_with_full_description"])
+        self.reader = DatasetReader("src/tests/")
+        self.dir_paths = self.reader.get_paths()
+        self.creator = DatasetCreator(self.dir_paths)
+        self.dataset_list = self.creator.get_datasets()
+        self.dataset_dict = {}
+        for dataset in self.dataset_list:
+            name = dataset.get_folder_name()
+            self.dataset_dict.update({name : dataset})
 
     def test_ask_name_(self):
         inputs = ["test_name"]
         io = StubIO(inputs)
-        ui = UI(self.fr, io)
+        ui = UI(self.dataset_list, io)
         response = ui.ask_name()
 
         self.assertEqual(response, "test_name")
@@ -21,7 +29,7 @@ class TestUI(unittest.TestCase):
     def test_ask_sh_desc(self):
         inputs = ["test_sh"]
         io = StubIO(inputs)
-        ui = UI(self.fr, io)
+        ui = UI(self.dataset_list, io)
         response = ui.ask_sh_desc()
 
         self.assertEqual(response, "test_sh")
@@ -29,7 +37,7 @@ class TestUI(unittest.TestCase):
     def test_ask_long_desc(self):
         inputs = ["test_long"]
         io = StubIO(inputs)
-        ui = UI(self.fr, io)
+        ui = UI(self.dataset_list, io)
         response = ui.ask_long_desc()
 
         self.assertEqual(response, "test_long")
@@ -37,7 +45,7 @@ class TestUI(unittest.TestCase):
     def test_ask_licence(self):
         inputs = ["test_licence"]
         io = StubIO(inputs)
-        ui = UI(self.fr, io)
+        ui = UI(self.dataset_list, io)
         response = ui.ask_for_licence()
 
         self.assertEqual(response, "test_licence")
@@ -45,10 +53,12 @@ class TestUI(unittest.TestCase):
     def test_process_name_when_doesnt_exist(self):
         inputs = ["test_name"]
         io = StubIO(inputs)
-        ui = UI(self.fr, io)
+        ui = UI(self.dataset_list, io)
+        dataset = self.dataset_dict["testdata_with_description_missing_name"]
+        print(dataset.get_folder_name())
         with open("src/tests/testdata_with_description_missing_name/description.json", "r+") as file:
             original = json.load(file)
-        ui.process_name(False, "src/tests/testdata_with_description_missing_name/description.json")
+        ui.process_name(dataset)
         with open("src/tests/testdata_with_description_missing_name/description.json", "r+") as file:
             content = json.load(file)
         with open("src/tests/testdata_with_description_missing_name/description.json", "w+") as file:
@@ -65,26 +75,28 @@ class TestUI(unittest.TestCase):
     def test_process_name_it_exists(self):
         inputs = ["test_name"]
         io = StubIO(inputs)
-        ui = UI(self.fr, io)
-        ui.process_name(True, "src/tests/testdata_with_full_description/description.json")
+        ui = UI(self.dataset_list, io)
+        dataset = self.dataset_dict["testdata_with_full_description"]
+        ui.process_name(dataset)
         strings_name = "\033[1;32;40mName exists.\033[0;37;40m"
         self.assertEqual(io.outputs[0], strings_name)
 
     def test_process_short_desc(self):
         inputs = ["test short desc"]
         io = StubIO(inputs)
-        ui = UI(self.fr, io)
-        with open("src/tests/test_json_for_processing_methods/description_sh.json", "r+") as file:
+        ui = UI(self.dataset_list, io)
+        dataset = self.dataset_dict["test_json_for_processing_methods_short_desc"]
+        with open("src/tests/test_json_for_processing_methods_short_desc/description.json", "r+") as file:
             original = json.load(file)
-        ui.process_short_desc(False, "src/tests/test_json_for_processing_methods/description_sh.json")
-        with open("src/tests/test_json_for_processing_methods/description_sh.json", "r+") as file:
+        ui.process_short_desc(dataset)
+        with open("src/tests/test_json_for_processing_methods_short_desc/description.json", "r+") as file:
             content = json.load(file)
-        with open("src/tests/test_json_for_processing_methods/description_sh.json", "w+") as file:
+        with open("src/tests/test_json_for_processing_methods_short_desc/description.json", "w+") as file:
             json.dump(original, file)
         short_desc_exists = False
         if "descr_short" in content:
             short_desc_exists = True
-        self.assertEqual(short_desc_exists , True)
+        self.assertEqual(short_desc_exists, True)
         short_desc_in_content = content["descr_short"]
         self.assertEqual(short_desc_in_content, "test short desc")
         strings_short = "\033[1;32;40mShort description exists.\033[0;37;40m"
@@ -93,18 +105,19 @@ class TestUI(unittest.TestCase):
     def test_process_long_desc_entering_long_desc(self):
         inputs = ["test long desc"]
         io = StubIO(inputs)
-        ui = UI(self.fr, io)
-        with open("src/tests/test_json_for_processing_methods/description_lo.json", "r+") as file:
+        ui = UI(self.dataset_list, io)
+        dataset = self.dataset_dict["test_json_for_processing_methods_long_desc"]
+        with open("src/tests/test_json_for_processing_methods_long_desc/description.json", "r+") as file:
             original = json.load(file)
-        ui.process_long_description(False, "src/tests/test_json_for_processing_methods/description_lo.json")
-        with open("src/tests/test_json_for_processing_methods/description_lo.json", "r+") as file:
+        ui.process_long_description(dataset, False)
+        with open("src/tests/test_json_for_processing_methods_long_desc/description.json", "r+") as file:
             content = json.load(file)
         long_desc_exists = False
         if "descr_long" in content:
             long_desc_exists = True
-        with open("src/tests/test_json_for_processing_methods/description_lo.json", "w+") as file:
+        with open("src/tests/test_json_for_processing_methods_long_desc/description.json", "w+") as file:
             json.dump(original, file)
-        self.assertEqual(long_desc_exists , True)
+        self.assertEqual(long_desc_exists, True)
         long_desc_in_content = content["descr_long"]
         self.assertEqual(long_desc_in_content, "test long desc")
         strings_long = "\033[1;32;40mLong description exists.\033[0;37;40m"
@@ -113,16 +126,17 @@ class TestUI(unittest.TestCase):
     def test_process_long_desc_entering_no_long_desc(self):
         inputs = [""]
         io = StubIO(inputs)
-        ui = UI(self.fr, io)
-        with open("src/tests/test_json_for_processing_methods/description_lo.json", "r+") as file:
+        ui = UI(self.dataset_list, io)
+        dataset = self.dataset_dict["test_json_for_processing_methods_long_desc"]
+        with open("src/tests/test_json_for_processing_methods_long_desc/description.json", "r+") as file:
             original = json.load(file)
-        ui.process_long_description(False, "src/tests/test_json_for_processing_methods/description_lo.json")
-        with open("src/tests/test_json_for_processing_methods/description_lo.json", "r+") as file:
+        ui.process_long_description(dataset, False)
+        with open("src/tests/test_json_for_processing_methods_long_desc/description.json", "r+") as file:
             content = json.load(file)
         long_desc_exists = False
         if "descr_long" in content:
             long_desc_exists = True
-        with open("src/tests/test_json_for_processing_methods/description_lo.json", "w+") as file:
+        with open("src/tests/test_json_for_processing_methods_long_desc/description.json", "w+") as file:
             json.dump(original, file)
         self.assertEqual(long_desc_exists , True)
         long_desc_in_content = content["descr_long"]
@@ -134,16 +148,17 @@ doesn't have a long description.\033[0;37;40m"
     def test_process_licence_enter_licence(self):
         inputs = ["test licence"]
         io = StubIO(inputs)
-        ui = UI(self.fr, io)
-        with open("src/tests/test_json_for_processing_methods/description_li.json", "r+") as file:
+        ui = UI(self.dataset_list, io)
+        dataset = self.dataset_dict["test_json_for_processing_methods_licence"]
+        with open("src/tests/test_json_for_processing_methods_licence/description.json", "r+") as file:
             original = json.load(file)
-        ui.process_licence(False, "src/tests/test_json_for_processing_methods/description_li.json")
-        with open("src/tests/test_json_for_processing_methods/description_li.json", "r+") as file:
+        ui.process_licence(dataset, False)
+        with open("src/tests/test_json_for_processing_methods_licence/description.json", "r+") as file:
             content = json.load(file)
         licence_exists = False
         if "licence" in content:
             licence_exists = True
-        with open("src/tests/test_json_for_processing_methods/description_li.json", "w+") as file:
+        with open("src/tests/test_json_for_processing_methods_licence/description.json", "w+") as file:
             json.dump(original, file)
         self.assertEqual(licence_exists , True)
         licence_in_content = content["licence"]
@@ -154,60 +169,68 @@ doesn't have a long description.\033[0;37;40m"
     def test_process_licence_entering_no_licence(self):
         inputs = [""]
         io = StubIO(inputs)
-        ui = UI(self.fr, io)
-        with open("src/tests/test_json_for_processing_methods/description_li.json", "r+") as file:
+        ui = UI(self.dataset_list, io)
+        dataset = self.dataset_dict["test_json_for_processing_methods_licence"]
+        with open("src/tests/test_json_for_processing_methods_licence/description.json", "r+") as file:
             original = json.load(file)
-        ui.process_licence(False, "src/tests/test_json_for_processing_methods/description_li.json")
-        with open("src/tests/test_json_for_processing_methods/description_li.json", "r+") as file:
+        ui.process_licence(dataset, False)
+        with open("src/tests/test_json_for_processing_methods_licence/description.json", "r+") as file:
             content = json.load(file)
         licence_exists = False
         if "licence" in content:
             licence_exists = True
-        with open("src/tests/test_json_for_processing_methods/description_li.json", "w+") as file:
+        with open("src/tests/test_json_for_processing_methods_licence/description.json", "w+") as file:
             json.dump(original, file)
-        self.assertEqual(licence_exists, True)
-        licence_in_content = content["licence"]
-        self.assertEqual(licence_in_content, "None")
+        self.assertEqual(licence_exists, False)
         strings_licence = "\033[1;33;40mYou chose that the dataset \
 doesn't have a licence.\033[0;37;40m"
         self.assertEqual(io.outputs[1], strings_licence)
 
     def test_start_all_data_correct(self):
+        reader = DatasetReader("src/tests/ui_test_full_data")
+        dir_paths = reader.get_paths()
+        creator = DatasetCreator(dir_paths)
+        dataset_list = creator.get_datasets()
         inputs = ["test_name"]
         io = StubIO(inputs)
-        ui = UI(self.fr, io)
+        ui = UI(dataset_list, io)
         ui.start()
-        strings_path = "src/tests/testdata_with_full_description"
+        strings_path = "testdata_with_full_description"
         strings_data = "\033[1;32;40mData exists.\033[0;37;40m"
         strings_json = "\033[1;32;40mJson-file exists.\033[0;37;40m"
         strings_name = "\033[1;32;40mName exists.\033[0;37;40m"
         strings_short = "\033[1;32;40mShort description exists.\033[0;37;40m"
         strings_long = "\033[1;32;40mLong description exists.\033[0;37;40m"
         strings_licence = "\033[1;32;40mLicence exists.\033[0;37;40m"
+        os.remove("src/tests/ui_test_full_data/testdata_with_full_description/log.txt")
         self.assertEqual(io.outputs[2], strings_path)
-        self.assertEqual(io.outputs[3], strings_data)
-        self.assertEqual(io.outputs[4], strings_json)
-        self.assertEqual(io.outputs[5], strings_name)
-        self.assertEqual(io.outputs[6], strings_short)
-        self.assertEqual(io.outputs[7], strings_long)
-        self.assertEqual(io.outputs[8], strings_licence)
+        self.assertEqual(io.outputs[5], strings_data)
+        self.assertEqual(io.outputs[6], strings_json)
+        self.assertEqual(io.outputs[7], strings_name)
+        self.assertEqual(io.outputs[8], strings_short)
+        self.assertEqual(io.outputs[9], strings_long)
+        self.assertEqual(io.outputs[10], strings_licence)
 
     def test_start_no_data(self):
-        fr = FolderReader(["src/tests/testdata_with_no_data"])
+        reader = DatasetReader("src/tests/ui_test_no_data")
+        dir_paths = reader.get_paths()
+        creator = DatasetCreator(dir_paths)
+        dataset_list = creator.get_datasets()
         inputs = ["test_name"]
         io = StubIO(inputs)
-        ui = UI(fr, io)
+        ui = UI(dataset_list, io)
         ui.start()
-        strings_data = "\x1b[1;33;40mThere is not data in folder src/tests/testdata_with_no_data.\x1b[0;37;40m"
-
-        print(io.outputs)
-        self.assertEqual(io.outputs[3], strings_data)
+        strings_data = "\x1b[1;33;40mThere is not data in folder testdata_with_no_data.\x1b[0;37;40m"
+        self.assertEqual(io.outputs[5], strings_data)
 
     def test_start_empty_description_enter_all_fields(self):
-        fr = FolderReader(["src/tests/testdata_with_empty_description/"])
+        reader = DatasetReader("src/tests/ui_test_empty_desc/")
+        dir_paths = reader.get_paths()
+        creator = DatasetCreator(dir_paths)
+        dataset_list = creator.get_datasets()
         inputs = ["test_name", "test_short_desc", "long_desc", "MIT"]
         io = StubIO(inputs)
-        ui = UI(fr, io)
+        ui = UI(dataset_list, io)
         ui.start()
         strings_json = "\033[1;32;40mJson-file exists.\033[0;37;40m"
         strings_name = "\033[1;31;40mThe dataset has no name.\033[0;37;40m"
@@ -219,56 +242,32 @@ have a short description.\033[0;37;40m"
         strings_short2 = "\033[1;32;40mShort description exists.\033[0;37;40m"
         strings_long2 = "\033[1;32;40mLong description exists.\033[0;37;40m"
         strings_licence2 = "\033[1;32;40mLicence exists.\033[0;37;40m"
-        open("src/tests/testdata_with_empty_description/description.json", 'w').close()
-        self.assertEqual(io.outputs[4], strings_name)
-        self.assertEqual(io.outputs[5], strings_short)
-        self.assertEqual(io.outputs[6], strings_long)
-        self.assertEqual(io.outputs[7], strings_licence)
-        self.assertEqual(io.outputs[8], strings_json)
-        self.assertEqual(io.outputs[9], strings_name2)
-        self.assertEqual(io.outputs[10], strings_short2)
-        self.assertEqual(io.outputs[11], strings_long2)
-        self.assertEqual(io.outputs[12], strings_licence2)
+        open("src/tests/ui_test_empty_desc/testdata_with_empty_description/description.json", 'w').close()
+        os.remove("src/tests/ui_test_empty_desc/testdata_with_empty_description/log.txt")
+        print(io.outputs)
+        self.assertEqual(io.outputs[6], strings_name)
+        self.assertEqual(io.outputs[7], strings_short)
+        self.assertEqual(io.outputs[8], strings_long)
+        self.assertEqual(io.outputs[9], strings_licence)
+        self.assertEqual(io.outputs[10], strings_json)
+        self.assertEqual(io.outputs[11], strings_name2)
+        self.assertEqual(io.outputs[12], strings_short2)
+        self.assertEqual(io.outputs[13], strings_long2)
+        self.assertEqual(io.outputs[14], strings_licence2)
 
     def test_start_empty_description_enter_no_long_desc_or_licence(self):
-        fr = FolderReader(["src/tests/testdata_with_empty_description/"])
+        reader = DatasetReader("src/tests/ui_test_empty_desc/")
+        dir_paths = reader.get_paths()
+        creator = DatasetCreator(dir_paths)
+        dataset_list = creator.get_datasets()
         inputs = ["test_name", "test_short_desc", "", ""]
         io = StubIO(inputs)
-        ui = UI(fr, io)
+        ui = UI(dataset_list, io)
         ui.start()
-        strings_long = "\033[1;33;40mYou chose that the dataset doesn't have a long description.\033[1;37;40m"
+        strings_long = "\033[1;33;40mYou chose that the dataset \
+doesn't have a long description.\033[0;37;40m"
         strings_licence = "\033[1;33;40mYou chose that the dataset doesn't have a licence.\033[0;37;40m"
-        open("src/tests/testdata_with_empty_description/description.json", 'w').close()
-        self.assertEqual(io.outputs[11], strings_long)
-        self.assertEqual(io.outputs[12], strings_licence)
-
-    def test_create_json_file(self):
-        inputs = ["test_name", "test_short_desc", "long_desc", "MIT"]
-        io = StubIO(inputs)
-        ui = UI(self.fr, io)
-        ui.start()
-        ui.create_json_file("src/tests/testdata_with_empty_description/test_description.json","test_name", "test_short_desc", "long_desc", "MIT")
-        with open("src/tests/testdata_with_empty_description/test_description.json", "r+") as file:
-            content = json.load(file)
-            content = str(content)
-        os.remove("src/tests/testdata_with_empty_description/test_description.json")
-        self.assertEqual(content, "{'name': 'test_name', 'descr_short': 'test_short_desc', 'descr_long': 'long_desc', 'licence': 'MIT'}")
-
-    def test_update_json_file(self):
-        inputs = ["test_name", "test_short_desc", "long_desc", "MIT"]
-        io = StubIO(inputs)
-        ui = UI(self.fr, io)
-        ui.start()
-        with open("src/tests/testdata_with_description_missing_name/description.json", "r+") as file:
-            original = json.load(file)
-        ui.update_json_file("src/tests/testdata_with_description_missing_name/description.json", "name", "test_name")
-        with open("src/tests/testdata_with_description_missing_name/description.json", "r+") as file:
-            content = json.load(file)
-        with open("src/tests/testdata_with_description_missing_name/description.json", "w+") as file:
-            json.dump(original, file)
-        name_exists = False
-        if "name" in content:
-            name_exists = True
-        self.assertEqual(name_exists, True)
-        name_in_content = content["name"]
-        self.assertEqual(name_in_content, "test_name")
+        open("src/tests/ui_test_empty_desc/testdata_with_empty_description/description.json", 'w').close()
+        os.remove("src/tests/ui_test_empty_desc/testdata_with_empty_description/log.txt")
+        self.assertEqual(io.outputs[13], strings_long)
+        self.assertEqual(io.outputs[14], strings_licence)
