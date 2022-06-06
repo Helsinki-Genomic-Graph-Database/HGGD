@@ -1,12 +1,9 @@
 from os import getenv, environ, path
 from flask import render_template, Flask, send_from_directory
-from src.calculator import calculator_service
 from src.dataset_services.dataset_creator import DatasetCreator
 from src.dataset_services.dataset_reader import DatasetReader
 from src.website_creator.read_graphs import ReadGraphs
-from src.zip_creator import zipcreator_service
-from src.file_ui.file_utils import read_licence_names_from_files, read_licence_files, list_licence_files
-from src.helper_functions_for_app import find_dataset_by_foldername, get_datapath, create_dataset, create_link_fo_fna
+from src.helper_functions_for_app import find_dataset_by_foldername, get_datapath, create_link_fo_fna
 
 
 app = Flask(__name__)
@@ -25,13 +22,10 @@ graph_update_service = ReadGraphs(dataset_list)
 graph_update_service.run()
 dataset_list = graph_update_service.get_dataset_list_with_graphs()
 
-    
-
 def get_app():
     """ For tests
     """
     return app
-
 
 @app.route("/index", methods=["GET"])
 def render_index():
@@ -70,12 +64,14 @@ def render_dataset(dataset):
     return render_template("dataset.html", total_graphs=graphs_total, average_nodes=avg_nodes, \
         average_edges=avg_edges, total_edges=total_edges, total_nodes=total_nodes, \
         dataset_name = dataset_name, graph_namelist=graph_namelist, dataset= dataset, \
-        zipfile=zipfile, long_description = long_description, licence=licence, source_tuples = source_tuples)
+        zipfile=zipfile, long_description = long_description, licence=licence, \
+        source_tuples = source_tuples)
 
 @app.route("/datasets/<dataset>/<name>", methods=["GET"])
 def render_graph(dataset, name):
     """ Renders the pages for graphs
     Args:
+        dataset (string): name of dataset where the graph is included
         name (string): name for graph
     Returns:
         html page
@@ -99,6 +95,7 @@ def download_zip(dataset, filename):
     """ Downloads a zipfile of the dataset
 
     Args:
+        dataset (string): name of dataset
         filename (string): name of the zipfile
 
     Returns:

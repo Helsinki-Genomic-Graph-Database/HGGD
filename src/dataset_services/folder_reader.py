@@ -64,7 +64,7 @@ class FolderReader:
         descr_short = None
         descr_long = None
         licence = None
-        user_defined_strings = None
+        user_defined_columns = None
         if os.stat(filepath).st_size > 0:
             with open(filepath) as file:            
                 content = json.load(file)
@@ -72,12 +72,20 @@ class FolderReader:
                 descr_short = self.check_field(content, "descr_short")
                 descr_long = self.check_field(content, "descr_long")
                 licence = self.check_field(content, "licence")
-                user_defined_strings = self.check_field(content, "user_defined_columns")
+                user_defined_columns = self.check_field(content, "user_defined_columns")
                 
-        return name, descr_short, descr_long, licence, user_defined_strings
+        return name, descr_short, descr_long, licence, user_defined_columns
 
     def check_field(self, content, field):
         if field in content and len(content[field]) > 0:
+            if field == "user_defined_columns":
+                return self.handle_user_defined_columns(content[field])
             return content[field]
 
         return None
+
+    def handle_user_defined_columns(self, user_defined_columns):
+        column_list = []
+        for name, content in user_defined_columns.items():
+            column_list.append((name, content))
+        return column_list

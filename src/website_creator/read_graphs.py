@@ -2,10 +2,15 @@ from src.website_creator.graph_reader import GraphReader
 from src.website_creator.calculator import calculator_service
 
 class ReadGraphs:
+    """ Updates the dataset list with graphs, sources
+       and the statistics from the graphss
+    """
     def __init__(self, dataset_list):
         self.dataset_list = dataset_list
 
     def run(self):
+        """ Checks every dataset in dataset list and updates the info
+        """
         for dataset in self.dataset_list:
             graphreader_service = GraphReader(dataset.get_path(), dataset.get_licence(), dataset.get_licence_file_exists())
             graphreader_service.run()
@@ -17,4 +22,9 @@ class ReadGraphs:
             dataset.set_number_of_graphs(nro_graphs), dataset.set_average_nodes(avg_nodes), dataset.set_average_edges(avg_edges)
 
     def get_dataset_list_with_graphs(self):
+        """ Returns the updated dataset list
+
+        Returns:
+            list: Updated dataset list
+        """
         return self.dataset_list
