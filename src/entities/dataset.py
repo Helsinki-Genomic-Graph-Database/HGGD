@@ -1,6 +1,8 @@
+from src.helper_functions_for_app import get_datapath
+
 class Dataset:
     """This class creates a dataset object that holds all the information on the dataset."""
-    def __init__(self, description_file_exists = False, data_exists = False, licence_file_exists = False, path = "", name = "", descr_short = "", descr_long = "", licence ="", zipname = "", show_on_website = False, folder_name = "", user_defined_columns = None):
+    def __init__(self, description_file_exists = False, data_exists = False, licence_file_exists = False, path = "", name = "", descr_short = "", descr_long = "", licence ="", show_on_website = False, folder_name = "", user_defined_columns = None):
         """This function initializes the dataset object."""
         self.folder_name = folder_name
         self.description_file_exists = description_file_exists
@@ -11,7 +13,7 @@ class Dataset:
         self.descr_short = descr_short
         self.descr_long = descr_long
         self.licence = licence
-        self.zipfile_path = path+"/"+zipname
+        self.zipfile_path = f"{self.folder_name}.zip"
         self.list_of_graphs = None
         self.dataset_source = None
         self.total_edges = None
@@ -176,4 +178,3 @@ class Dataset:
             _type_: _description_
         """
         return self.number_of_graphs, self.average_nodes, self.average_edges, self.total_nodes, self.total_edges
-        
