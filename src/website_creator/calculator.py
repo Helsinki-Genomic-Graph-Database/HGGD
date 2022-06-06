@@ -14,6 +14,8 @@ class Calculator:
             tuple: number of nodes, number of edges
         """
         graphs = dataset.get_list_of_graphs()
+        if len(graphs) == 0:
+            return 0, 0
         total_nodes = 0
         total_edges = 0
         for graph in graphs:
@@ -27,6 +29,8 @@ class Calculator:
         """This function calculates the total amount of graphs in a dataset
         and the average number of nodes and edges in a dataset."""
         graphs_total = len(dataset.get_list_of_graphs())
+        if graphs_total == 0:
+            return 0, 0, 0
         number_nodes, number_edges = self.get_no_nodes_and_edges(dataset)
         avg_nodes = round(number_nodes / graphs_total)
         avg_edges = round(number_edges / graphs_total)
