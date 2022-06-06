@@ -1,0 +1,8 @@
+{
+    "name":"testdata with description",
+    "descr_long":"testing data",
+    "descr_short":"with full description",
+    "licence": "test_licence",
+    "user_defined_columns": ["testcolumn1", "testcolumn2", "testcolumn3"]
+
+}
