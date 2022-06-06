@@ -1,9 +1,8 @@
-from imghdr import tests
 import unittest
 import os
 import shutil
 import zipfile
-from src.zip_creator import zipcreator_service
+from src.data_check.zip_creator import zipcreator_service
 
 class TestZipReader(unittest.TestCase):
     def setUp(self):
@@ -19,7 +18,7 @@ class TestZipReader(unittest.TestCase):
         self.delete_zip_folder(self.directory)
         self.make_zip_folder(self.directory)
         testzipfile = zipcreator_service.create_zip("zip2", self.directory)
-        self.assertTrue(zipfile.is_zipfile(f"{self.directory}/zip/{testzipfile}"))        
+        self.assertTrue(zipfile.is_zipfile(f"{self.directory}/zip/{testzipfile}"))
         self.assertEqual("zip2.zip", testzipfile)
 
     def test_create_zip_testfolder_exists_zip_file_exists(self):
@@ -28,7 +27,7 @@ class TestZipReader(unittest.TestCase):
         self.make_zip_file("zip3", self.directory)
         testzipfile = zipcreator_service.create_zip("zip4", self.directory)
         self.assertTrue(zipfile.is_zipfile(f"{self.directory}/zip/{testzipfile}"))
-        self.assertEqual("zip3.zip", testzipfile)
+        self.assertEqual("zip4.zip", testzipfile)
         self.delete_zip_folder(self.directory) # deletes test-zipfolder after all tests
 
     def delete_zip_folder(self, directory):
