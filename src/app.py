@@ -61,7 +61,7 @@ def render_dataset(dataset):
     licence = current_dataset.get_licence()
     graph_namelist = []
     graphs = current_dataset.get_list_of_graphs()
-    sources = current_dataset.get_dataset_sources()
+    sources = current_dataset.get_dataset_source()
     source_tuples = []
     for source in sources:
         source_tuples.append((create_link_fo_fna(source), source))
