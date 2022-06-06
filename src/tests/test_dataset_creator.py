@@ -128,4 +128,15 @@ class TestDataSetCreator(unittest.TestCase):
         res = creator.get_datasets()[0]
         self.assertEqual(len(res.get_user_defined_columns()), 3)
 
+    def test_each_column_in_user_defined_columns_should_be_a_tuple(self):
+        creator = DatasetCreator([self.with_user_defined_columns])
+        res = creator.get_datasets()[0]
+        self.assertIsInstance(res.get_user_defined_columns()[0], tuple)
+
+    def test_values_in_user_defined_columns_should_be_correct(self):
+        creator = DatasetCreator([self.with_user_defined_columns])
+        res = creator.get_datasets()[0].get_user_defined_columns()[2][1]
+        self.assertIn("test string", res)
+        self.assertIn(2, res)
+
     
