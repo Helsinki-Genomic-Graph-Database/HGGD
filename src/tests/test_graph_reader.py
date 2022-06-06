@@ -1,8 +1,6 @@
 
 import unittest
 from src.website_creator.graph_reader import GraphReader
-from src.entities.dataset import Dataset
-
 
 class TestGraphReader(unittest.TestCase):
 

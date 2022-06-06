@@ -23,8 +23,9 @@ class ZipCreator:
         if os.path.exists(f"{directory}/zip"):
             files = os.listdir(f"{directory}/zip")
             for file in files:
+                print(file)
                 if check_file_extension(file, "zip"):
-                    return file
+                    os.remove(f"{directory}/zip/{file}")
         directoryfiles = pathlib.Path(directory)
         if not os.path.exists(f"{directory}/zip"):
             os.mkdir(f"{directory}/zip")

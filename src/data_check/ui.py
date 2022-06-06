@@ -1,6 +1,7 @@
 from datetime import datetime
 from src.data_check.json_writer import JsonWriter
 from src.data_check.validator import Validator
+from src.data_check.zip_creator import ZipCreator
 
 class UI:
     def __init__(self, dataset_list, input_output):
@@ -137,6 +138,9 @@ have a short description.\033[0;37;40m")
     def folder_done(self, dataset):
         self._io.write("Folder done.")
         path = dataset.get_path()
+        name = dataset.get_folder_name()
         logstamp = datetime.now().isoformat(" ", "seconds")
         with open(path+"/log.txt", "w", encoding='utf-8') as log:
             log.write(f"ui run on: {logstamp}")
+        zip_c = ZipCreator()
+        zip_c.create_zip(name, path)

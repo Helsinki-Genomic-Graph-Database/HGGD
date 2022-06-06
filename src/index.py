@@ -13,13 +13,13 @@ from src.data_check.console_io import ConsoleIO
 def main():
 
     DIR = "data"
-    DR = DatasetReader(DIR)
-    dir_paths = DR.get_paths()
-    DC = DatasetCreator(dir_paths)
-    dataset_list = DC.get_datasets()
+    reader = DatasetReader(DIR)
+    dir_paths = reader.get_paths()
+    creator = DatasetCreator(dir_paths)
+    dataset_list = creator.get_datasets()
     input_output = ConsoleIO()
-    ui = UI(dataset_list, input_output)
-    ui.start()
+    user_interface = UI(dataset_list, input_output)
+    user_interface.start()
 
 if __name__ == "__main__":
     main()

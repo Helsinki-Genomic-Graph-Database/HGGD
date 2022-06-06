@@ -21,7 +21,6 @@ class FolderReader:
         self.descr_long = None
         self.licence = None
         self.user_defined_strings = None
-        self.zipname = path+"/zip"
         self.show_on_website = False
         self.folder_name = path.split("/")[-1]
         self.highest_modification_time = 0
@@ -51,8 +50,8 @@ class FolderReader:
         if ui_run and self.data_exists:
             self.show_on_website = True
 
-        return Dataset(self.descrition_file_exists, self. data_exists, self.licence_file_exists, \
-                                            self.path, self.name, self.descr_short, self.descr_long, self.licence, self.zipname,\
+        return Dataset(self.descrition_file_exists, self.data_exists, self.licence_file_exists, \
+                                            self.path, self.name, self.descr_short, self.descr_long, self.licence, \
                                             self.show_on_website, self.folder_name, self.user_defined_strings)
 
 
