@@ -14,6 +14,7 @@ class TestDataSetCreator(unittest.TestCase):
         self.no_data = testdatadir+"_with_no_data"
         self.no_descr = testdatadir
         self.no_log = testdatadir+"_with_no_log"
+        self.with_user_defined_columns = testdatadir+"_with_user_defined_columns"
         
     def test_given_folders_should_return_list_of_5_dataset_objects(self):
         creator = DatasetCreator([self.full_descr, self.no_name_descr, self.empty_descr, self.no_data, self.no_descr])
@@ -121,3 +122,10 @@ class TestDataSetCreator(unittest.TestCase):
             log.write("test")
         res = creator.get_datasets()[0]
         self.assertEqual(res.get_show_on_website(), False)
+
+    def test_creator_should_read_a_list_from_user_defined_strings(self):
+        creator = DatasetCreator([self.with_user_defined_columns])
+        res = creator.get_datasets()[0]
+        self.assertEqual(len(res.get_user_defined_columns()), 3)
+
+    

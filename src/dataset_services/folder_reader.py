@@ -20,6 +20,7 @@ class FolderReader:
         self.descr_short = None
         self.descr_long = None
         self.licence = None
+        self.user_defined_strings = None
         self.zipname = path+"/zip"
         self.show_on_website = False
         self.folder_name = path.split("/")[-1]
@@ -38,7 +39,7 @@ class FolderReader:
 
                 if file == "description.json":
                     self.descrition_file_exists = True
-                    self.name, self.descr_short, self.descr_long, self.licence = self.read_description(self.path)
+                    self.name, self.descr_short, self.descr_long, self.licence, self.user_defined_strings = self.read_description(self.path)
                 
                 if check_file_extension(file, "graph"):
                     self.data_exists = True
@@ -52,7 +53,7 @@ class FolderReader:
 
         return Dataset(self.descrition_file_exists, self. data_exists, self.licence_file_exists, \
                                             self.path, self.name, self.descr_short, self.descr_long, self.licence, self.zipname,\
-                                            self.show_on_website, self.folder_name)
+                                            self.show_on_website, self.folder_name, self.user_defined_strings)
 
 
 
@@ -63,6 +64,7 @@ class FolderReader:
         descr_short = None
         descr_long = None
         licence = None
+        user_defined_strings = None
         if os.stat(filepath).st_size > 0:
             with open(filepath) as file:            
                 content = json.load(file)
@@ -70,8 +72,9 @@ class FolderReader:
                 descr_short = self.check_field(content, "descr_short")
                 descr_long = self.check_field(content, "descr_long")
                 licence = self.check_field(content, "licence")
+                user_defined_strings = self.check_field(content, "user_defined_columns")
                 
-        return name, descr_short, descr_long, licence
+        return name, descr_short, descr_long, licence, user_defined_strings
 
     def check_field(self, content, field):
         if field in content and len(content[field]) > 0:
