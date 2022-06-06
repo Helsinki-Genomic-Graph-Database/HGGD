@@ -15,11 +15,11 @@ class UI:
             self._io.write("Folder:")
             self._io.write(dataset.get_folder_name())
             self._io.write("Dataset:")
-            if dataset.get_name() == None:
+            if dataset.get_name() is None:
                 self._io.write("(The dataset has no name)")
             else:
                 self._io.write(dataset.get_name())
-            if self._validator.check_show_on_website(dataset) == True:
+            if self._validator.check_show_on_website(dataset):
                 print("Folder done.")
                 continue
             data_exists = self.process_data(dataset)
@@ -36,13 +36,13 @@ class UI:
     def process_data(self, dataset):
         data_exists = self._validator.check_data_exists(dataset)
         if not data_exists:
-            print_out = "\033[1;33;40mThere is not data in folder "+dataset.get_folder_name()+".\033[0;37;40m"
+            print_out = "\033[1;33;40mThere is not data in \
+folder "+dataset.get_folder_name()+".\033[0;37;40m"
             self._io.write(print_out)
             self._io.write("Folder done.")
             return False
-        else:
-            self._io.write("\033[1;32;40mData exists.\033[0;37;40m")
-            return True
+        self._io.write("\033[1;32;40mData exists.\033[0;37;40m")
+        return True
 
     def process_json_file(self, dataset, json_path):
         questions_asked = False
@@ -138,5 +138,5 @@ have a short description.\033[0;37;40m")
         self._io.write("Folder done.")
         path = dataset.get_path()
         logstamp = datetime.now().isoformat(" ", "seconds")
-        with open(path+"/log.txt", "w") as log:
+        with open(path+"/log.txt", "w", encoding='utf-8') as log:
             log.write(f"ui run on: {logstamp}")

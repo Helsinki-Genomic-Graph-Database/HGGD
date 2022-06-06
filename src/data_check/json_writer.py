@@ -12,13 +12,13 @@ class JsonWriter:
             "descr_long" : long_desc,
             "licence" : licence
         }
-        with open (self.get_json_path(dataset), "w") as file:
+        with open (self.get_json_path(dataset), "w", encoding='utf-8') as file:
             json.dump(dataset_dict, file)
 
     def update_json_file(self, dataset, key, value):
         json_path = self.get_json_path(dataset)
         new_info = {key : value}
-        with open(json_path, "r+") as file:
+        with open(json_path, "r+", encoding='utf-8') as file:
             data = json.load(file)
             data.update(new_info)
             file.seek(0)

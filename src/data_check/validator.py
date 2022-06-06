@@ -16,28 +16,28 @@ class Validator:
     def check_name_exists(self, dataset):
         if (dataset.get_name()) == 0:
             return False
-        if (dataset.get_name()) == None:
+        if (dataset.get_name()) is None:
             return False
         return True
 
     def check_descr_short_exists(self, dataset):
         if (dataset.get_descr_short()) == 0:
             return False
-        if (dataset.get_descr_short()) == None:
+        if (dataset.get_descr_short()) is None:
             return False
         return True
 
     def check_descr_long_exists(self, dataset):
         if (dataset.get_descr_long()) == 0:
             return False
-        if (dataset.get_descr_long()) == None:
+        if (dataset.get_descr_long()) is None:
             return False
         return True
 
     def check_licence_exists(self, dataset):
         if (dataset.get_licence()) == 0:
             return False
-        if (dataset.get_licence()) == None:
+        if (dataset.get_licence()) is None:
             return False
         return True
 
