@@ -16,8 +16,9 @@ class JsonWriter:
             json.dump(dataset_dict, file)
 
     def update_json_file(self, dataset, key, value):
+        json_path = self.get_json_path(dataset)
         new_info = {key : value}
-        with open(self.get_json_path(dataset), "r+") as file:
+        with open(json_path, "r+") as file:
             data = json.load(file)
             data.update(new_info)
             file.seek(0)

@@ -1,5 +1,4 @@
 from datetime import datetime
-from re import L
 from src.data_check.json_writer import JsonWriter
 from src.data_check.validator import Validator
 
