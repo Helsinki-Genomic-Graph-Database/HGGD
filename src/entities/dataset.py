@@ -1,6 +1,6 @@
 class Dataset:
     """This class creates a dataset object that holds all the information on the dataset."""
-    def __init__(self, folder_name, description_file_exists, data_exists, licence_file_exists, path, name, descr_short, descr_long, licence, zipname, show_on_website):
+    def __init__(self, description_file_exists = False, data_exists = False, licence_file_exists = False, path = "", name = "", descr_short = "", descr_long = "", licence ="", zipname = "", show_on_website = False, folder_name = "", user_defined_strings = []):
         """This function initializes the dataset object."""
         self.folder_name = folder_name
         self.description_file_exists = description_file_exists
@@ -20,6 +20,7 @@ class Dataset:
         self.average_nodes = None
         self.number_of_graphs =  None
         self.show_on_website = show_on_website
+        self.user_defined_strings = user_defined_strings
 
     def get_folder_name(self):
         return self.folder_name
@@ -44,6 +45,17 @@ class Dataset:
 
     def get_descr_long(self):
         return self.descr_long
+
+    def get_descr_long_for_dataset_html(self):
+        """ Returns long description if available
+        othewise uses short description
+
+        Returns:
+            str: description
+        """
+        if len(self.descr_long) > 0:
+            return self.descr_long
+        return self.descr_short
 
     def get_licence(self):
         return self.licence
@@ -74,6 +86,9 @@ class Dataset:
 
     def get_show_on_website(self):
         return self.show_on_website
+
+    def get_user_defined_strings(self):
+        return self.user_defined_strings
 
     def set_folder_name(self, folder_name):
         self.folder_name = folder_name
@@ -128,3 +143,28 @@ class Dataset:
 
     def set_show_on_website(self, show_on_website):
         self.show_on_website = show_on_website
+
+    def set_user_defined_strings(self, user_defined_strings):
+        self.user_defined_strings = user_defined_strings
+
+    def find_graph(self, name):
+        """ This function returns a specific graph
+
+        Args:
+            name (string): name of graph
+
+        Returns:
+            graph-object
+        """
+        for graph in self.list_of_graphs:
+            if graph.get_names() == name:
+                return graph
+        return None
+
+    def get_statistics(self):
+        """ Returns all statistics at once
+
+        Returns:
+            _type_: _description_
+        """
+        return self.number_of_graphs, self.average_nodes, self.average_edges, self.total_nodes, self.total_edges

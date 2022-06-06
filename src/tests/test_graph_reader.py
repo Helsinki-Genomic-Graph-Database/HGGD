@@ -1,13 +1,14 @@
 
 import unittest
-from src.file_ui.graph_reader import GraphReader
+from src.website_creator.graph_reader import GraphReader
+from src.entities.dataset import Dataset
 
 
 class TestGraphReader(unittest.TestCase):
 
     def setUp(self):
         DIR = "src/tests/testdata"
-        self.graphreader = GraphReader(DIR)
+        self.graphreader = GraphReader(DIR, "MIT", False)
         self.graphreader.run()
 
     def test_get_graph_list_should_return_list(self):
@@ -66,15 +67,35 @@ class TestGraphReader(unittest.TestCase):
             
         self.assertEqual(res[1], "GCA_000006665.1_ASM666v1.fna")
 
+    def test_graphs_have_correct_licence(self):
+        graph_list = self.graphreader.get_graph_list()
+        for graph in graph_list:
+            self.assertEqual("MIT", graph.get_licence())
 
 class TestGraphReaderEmptyDescription(unittest.TestCase):
 
     def setUp(self):
         DIR = "src/tests/testdata_with_empty_description"
-        self.graphreader = GraphReader(DIR)
+        self.graphreader = GraphReader(DIR, "MIT", False)
         self.graphreader.run()
 
     def test_get_graph_list_should_return_list_of_only_graph_files(self):
         res = self.graphreader.get_graph_list()
         self.assertEqual(len(res), 5)
+
+class TestGraphReaderWithLicencefile(unittest.TestCase):
+
+    def setUp(self):
+        DIR = "src/tests/testdata_with_licencefile"
+        self.graphreader = GraphReader(DIR, "GNU", True)
+        self.graphreader.run()
+
+    def test_graphs_with_different_licences(self):
+        graph_list = self.graphreader.get_graph_list()
+        for graph in graph_list:
+            if graph.name == "gt1.kmer15.(736000.738000).V22.E29.cyc128" or graph.name == "gt1.kmer15.(3194000.3196000).V22.E28.cyc64":
+                self.assertEqual("MIT", graph.get_licence())
+            else:
+                self.assertEqual("GNU", graph.get_licence())                
+            
 

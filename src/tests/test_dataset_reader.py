@@ -1,5 +1,5 @@
 import unittest
-from src.file_ui.dataset_reader import DatasetReader
+from src.dataset_services.dataset_reader import DatasetReader
 
 class TestDatasetReader(unittest.TestCase):
 
