@@ -44,7 +44,7 @@ class UI:
     def process_data(self, dataset):
         data_exists = self._validator.check_data_exists(dataset)
         if not data_exists:
-            print_out = "\033[1;33;40mThere is not data in \
+            print_out = "\033[1;33;40mThere is no data in \
 folder "+dataset.get_folder_name()+".\033[0;37;40m"
             self._io.write(print_out)
             self._io.write("Folder done.")

@@ -220,7 +220,7 @@ doesn't have a licence.\033[0;37;40m"
         io = StubIO(inputs)
         ui = UI(dataset_list, io)
         ui.start()
-        strings_data = "\x1b[1;33;40mThere is not data in folder testdata_with_no_data.\x1b[0;37;40m"
+        strings_data = "\x1b[1;33;40mThere is no data in folder testdata_with_no_data.\x1b[0;37;40m"
         self.assertEqual(io.outputs[5], strings_data)
 
     def test_start_empty_description_enter_all_fields(self):
