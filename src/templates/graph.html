@@ -43,12 +43,22 @@
             is-external="false"
             >
         </hy-link>
-        <br> 
+        <br>
+        {% if over_ten_sources %}
+            <hy-heading heading="h5">Source files for the graph </hy-heading>
+            <hy-link 
+                url="/hggd/datasets/{{ dataset }}/{{ name }}/sources"
+                link-content="List of links to the {{ nro_of_sources }} source files"
+                aria-label="List of links to {{ nro_of_sources }} source files"
+                is-external="false"
+                >
+            </hy-link>
+        {% else %}
         <hy-table-container>
             <table>
                 <thead>
                     <tr>
-                        <th colspan="2"><hy-heading heading="h5">Source files </hy-heading></th>
+                        <th colspan="2"><hy-heading heading="h5">Source files for the graph </hy-heading></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,6 +78,7 @@
                 </tbody>
             </table>
         </hy-table-container>
+        {% endif %}
         <br>
         <hy-link 
             variant="within-paragraph"
