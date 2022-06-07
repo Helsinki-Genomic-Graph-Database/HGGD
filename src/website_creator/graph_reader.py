@@ -8,8 +8,8 @@ from src.file_ui.file_utils import list_licence_files, read_licence_files
 class GraphReader:
     """reads graph files and makes graph objects and puts them to a list
     """
-    def __init__(self, dir, dataset_licence, has_licence_file):
-        """ 
+    def __init__(self, directory, dataset_licence, has_licence_file):
+        """
 
         Args:
             dir (str): directory for the dataset
@@ -18,7 +18,7 @@ class GraphReader:
         """
         self.files = []
         self.graph_list = []
-        self.dir = dir
+        self.dir = directory
         self.dataset_licence = dataset_licence
         self.has_licence_file = has_licence_file
         self.set_sources = set()
@@ -50,7 +50,6 @@ class GraphReader:
             self.graph_list.append(new_graph)
             if self.has_licence_file:
                 self._add_licence(new_graph)
-                
 
     def _read_file(self, filename):
         """ Reads the files and returns the data for it
@@ -61,7 +60,7 @@ class GraphReader:
         Returns:
             int, str: number of nodes and edges, names of sources
         """
-        with open(os.path.join(self.dir, filename), "r") as file:
+        with open(os.path.join(self.dir, filename), "r", encoding='utf-8') as file:
             line = file.readline()
             sources = []
             while line[0] == "#":

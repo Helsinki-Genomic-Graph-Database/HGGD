@@ -1,4 +1,3 @@
-from multiprocessing.spawn import import_main_path
 import sys
 org_path = sys.path[0]
 modified_path = org_path[:-4]

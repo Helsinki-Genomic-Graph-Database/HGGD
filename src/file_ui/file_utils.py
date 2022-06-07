@@ -1,13 +1,12 @@
 import json
 import os
-from datetime import datetime
 
 def check_file_extension(filename, extension):
     return filename.strip().split(".")[-1] == extension
 
 def read_description(filepath):
     try:
-        file = open(f"{filepath}/description.json")
+        file = open(f"{filepath}/description.json", encoding='utf-8')
     except:
         return None, None, None, None
     content = json.load(file)
@@ -31,7 +30,7 @@ def read_description(filepath):
 
 def read_licence_files(filepath, filename, graph):
     try:
-        licence_file = open(f"{filepath}/{filename}")
+        licence_file = open(f"{filepath}/{filename}", encoding='utf-8')
     except:
         return False
     content = licence_file.readlines()
@@ -59,8 +58,5 @@ def list_licence_files(path):
     file_list = []
     for filename in files:
         if check_file_extension(filename, "licence"):
-           file_list.append(filename)
+            file_list.append(filename)
     return file_list
-
-
-    

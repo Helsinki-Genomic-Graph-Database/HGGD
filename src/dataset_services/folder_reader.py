@@ -39,7 +39,7 @@ class FolderReader:
                 if file == "description.json":
                     self.descrition_file_exists = True
                     self.name, self.descr_short, self.descr_long, self.licence, self.user_defined_strings = self.read_description(self.path)
-                
+
                 if check_file_extension(file, "graph"):
                     self.data_exists = True
 
@@ -51,11 +51,8 @@ class FolderReader:
             self.show_on_website = True
 
         return Dataset(self.descrition_file_exists, self.data_exists, self.licence_file_exists, \
-                                            self.path, self.name, self.descr_short, self.descr_long, self.licence, \
-                                            self.show_on_website, self.folder_name, self.user_defined_strings)
-
-
-
+                self.path, self.name, self.descr_short, self.descr_long, self.licence, \
+                self.show_on_website, self.folder_name, self.user_defined_strings)
 
     def read_description(self, path):
         filepath = path+"/description.json"
@@ -65,14 +62,14 @@ class FolderReader:
         licence = None
         user_defined_columns = None
         if os.stat(filepath).st_size > 0:
-            with open(filepath) as file:            
+            with open(filepath, encoding='utf-8') as file:
                 content = json.load(file)
                 name = self.check_field(content, "name")
                 descr_short = self.check_field(content, "descr_short")
                 descr_long = self.check_field(content, "descr_long")
                 licence = self.check_field(content, "licence")
                 user_defined_columns = self.check_field(content, "user_defined_columns")
-                
+
         return name, descr_short, descr_long, licence, user_defined_columns
 
     def check_field(self, content, field):
