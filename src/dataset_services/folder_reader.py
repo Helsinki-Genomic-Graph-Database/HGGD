@@ -25,10 +25,10 @@ class FolderReader:
         self.folder_name = path.split("/")[-1]
         self.highest_modification_time = 0
         self.logtime = 0
+        self.has_log_file = False
 
     def get_dataset(self):
         for file in self.files:
-
             self.check_modification_times(file)
 
             if file == "description.json":
@@ -54,6 +54,7 @@ class FolderReader:
         modification_time = os.path.getctime(self.path+"/"+file)
         if file == "log.txt":
             self.logtime = modification_time
+            self.has_log_file = True
         else:
             if modification_time > self.highest_modification_time:
                 self.highest_modification_time = modification_time

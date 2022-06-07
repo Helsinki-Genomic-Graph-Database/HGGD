@@ -2,6 +2,7 @@ import unittest
 import os
 import json
 from io import StringIO
+from time import sleep
 from src.dataset_services.dataset_reader import DatasetReader
 from src.dataset_services.dataset_creator import DatasetCreator
 from src.data_check.ui import UI
@@ -202,6 +203,7 @@ doesn't have a licence.\033[0;37;40m"
         strings_short = "\033[1;32;40mShort description exists.\033[0;37;40m"
         strings_long = "\033[1;32;40mLong description exists.\033[0;37;40m"
         strings_licence = "\033[1;32;40mLicence exists.\033[0;37;40m"
+        strings_checked = "Data has been checked."
         os.remove("src/tests/ui_test_full_data/testdata_with_full_description/log.txt")
         self.assertEqual(io.outputs[2], strings_path)
         self.assertEqual(io.outputs[5], strings_data)
@@ -210,6 +212,7 @@ doesn't have a licence.\033[0;37;40m"
         self.assertEqual(io.outputs[8], strings_short)
         self.assertEqual(io.outputs[9], strings_long)
         self.assertEqual(io.outputs[10], strings_licence)
+        self.assertEqual(io.outputs[11], strings_checked)
 
     def test_start_no_data(self):
         reader = DatasetReader("src/tests/ui_test_no_data")
@@ -242,9 +245,9 @@ have a short description.\033[0;37;40m"
         strings_short2 = "\033[1;32;40mShort description exists.\033[0;37;40m"
         strings_long2 = "\033[1;32;40mLong description exists.\033[0;37;40m"
         strings_licence2 = "\033[1;32;40mLicence exists.\033[0;37;40m"
+        strings_checked = "Data has been checked and updated."
         open("src/tests/ui_test_empty_desc/testdata_with_empty_description/description.json", 'w').close()
         os.remove("src/tests/ui_test_empty_desc/testdata_with_empty_description/log.txt")
-        print(io.outputs)
         self.assertEqual(io.outputs[6], strings_name)
         self.assertEqual(io.outputs[7], strings_short)
         self.assertEqual(io.outputs[8], strings_long)
@@ -254,6 +257,7 @@ have a short description.\033[0;37;40m"
         self.assertEqual(io.outputs[12], strings_short2)
         self.assertEqual(io.outputs[13], strings_long2)
         self.assertEqual(io.outputs[14], strings_licence2)
+        self.assertEqual(io.outputs[15], strings_checked)
 
     def test_start_empty_description_enter_no_long_desc_or_licence(self):
         reader = DatasetReader("src/tests/ui_test_empty_desc/")
@@ -271,3 +275,37 @@ doesn't have a long description.\033[0;37;40m"
         os.remove("src/tests/ui_test_empty_desc/testdata_with_empty_description/log.txt")
         self.assertEqual(io.outputs[13], strings_long)
         self.assertEqual(io.outputs[14], strings_licence)
+
+
+    def test_start_new_file_but_all_data_correct(self):
+        with open("src/tests/ui_test_full_data/testdata_with_full_description/log.txt", 'w') as log:
+            log.write("test")
+        sleep(0.05)
+        with open("src/tests/ui_test_full_data/testdata_with_full_description/test.txt", 'w') as test:
+            test.write("test")
+        reader = DatasetReader("src/tests/ui_test_full_data")
+        dir_paths = reader.get_paths()
+        creator = DatasetCreator(dir_paths)
+        dataset_list = creator.get_datasets()
+        inputs = ["test_name"]
+        io = StubIO(inputs)
+        ui = UI(dataset_list, io)
+        ui.start()
+        strings_path = "testdata_with_full_description"
+        strings_data = "\033[1;32;40mData exists.\033[0;37;40m"
+        strings_json = "\033[1;32;40mJson-file exists.\033[0;37;40m"
+        strings_name = "\033[1;32;40mName exists.\033[0;37;40m"
+        strings_short = "\033[1;32;40mShort description exists.\033[0;37;40m"
+        strings_long = "\033[1;32;40mLong description exists.\033[0;37;40m"
+        strings_licence = "\033[1;32;40mLicence exists.\033[0;37;40m"
+        strings_checked = "Data has been checked and updated."
+        os.remove("src/tests/ui_test_full_data/testdata_with_full_description/log.txt")
+        os.remove("src/tests/ui_test_full_data/testdata_with_full_description/test.txt")
+        self.assertEqual(io.outputs[2], strings_path)
+        self.assertEqual(io.outputs[5], strings_data)
+        self.assertEqual(io.outputs[6], strings_json)
+        self.assertEqual(io.outputs[7], strings_name)
+        self.assertEqual(io.outputs[8], strings_short)
+        self.assertEqual(io.outputs[9], strings_long)
+        self.assertEqual(io.outputs[10], strings_licence)
+        self.assertEqual(io.outputs[11], strings_checked)
