@@ -4,6 +4,9 @@ from src.data_check.validator import Validator
 from src.data_check.zip_creator import ZipCreator
 
 class UI:
+    """This is a text-based user interface for processing
+    the dataset so they're ready for the website.
+    """
     def __init__(self, dataset_list, input_output):
         self.dataset_list = dataset_list
         self._io = input_output
@@ -11,6 +14,10 @@ class UI:
         self._writer = JsonWriter()
 
     def start(self):
+        """This method goes through all the datasets in
+        a loop and call the appropriate methods to
+        check and add to the data.
+        """
         for dataset in self.dataset_list:
             self._io.write("-------")
             self._io.write("Folder:")
@@ -136,6 +143,14 @@ have a short description.\033[0;37;40m")
         return licence
 
     def folder_done(self, dataset):
+        """
+        This method creates a log.txt file to save the date
+        and time when the ui was last run and a zip-file for the
+        dataset's graphs for the website.
+
+        Args:
+            dataset
+        """
         self._io.write("Folder done.")
         path = dataset.get_path()
         name = dataset.get_folder_name()
