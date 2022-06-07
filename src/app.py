@@ -53,7 +53,6 @@ def render_dataset(dataset):
     long_description = current_dataset.get_descr_long_for_dataset_html()
     licence = current_dataset.get_licence()
     user_defined_columns = current_dataset.get_user_defined_columns()
-    user_defined_columns_length = len(user_defined_columns)
     graph_namelist = []
     graphs = current_dataset.get_list_of_graphs()
     sources = current_dataset.get_dataset_source()
@@ -66,7 +65,7 @@ def render_dataset(dataset):
         average_edges=avg_edges, total_edges=total_edges, total_nodes=total_nodes, \
         dataset_name = dataset_name, graph_namelist=graph_namelist, dataset= dataset, \
         zipfile=zipfile, long_description = long_description, licence=licence, \
-        source_tuples = source_tuples, user_defined_columns = user_defined_columns, user_defined_columns_length = user_defined_columns_length)
+        source_tuples = source_tuples, user_defined_columns = user_defined_columns)
 
 @app.route("/datasets/<dataset>/<name>", methods=["GET"])
 def render_graph(dataset, name):
