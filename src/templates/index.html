@@ -6,23 +6,34 @@ Helsinki Genomic Graph Database
 
 {% block body %}
 <hy-docs-container>
-    <hy-paragraph-text>Helsinki Genomic Graph Database is a database for the University of Helsinki researchers to add graph datasets of genomic sequences.</hy-paragraph-text>
+    <hy-paragraph-text>Helsinki Genomic Graph Database is a database for the University of Helsinki researchers to add
+        graph datasets of genomic sequences.</hy-paragraph-text>
     <br>
     {% if dataset_names %}
     <hy-table-container>
         <table>
-            <caption><hy-heading heading="h5">Datasets in database</hy-heading></caption>
-            <thead> 
-                <tr>            
-                    <td> <hy-paragraph-text>Name </hy-paragraph-text></td>
-                    <td> <hy-paragraph-text>Description</hy-paragraph-text> </td>
+            <caption>
+                <hy-heading heading="h5">Datasets in database</hy-heading>
+            </caption>
+            <thead>
+                <tr>
+                    <td>
+                        <hy-paragraph-text>Name </hy-paragraph-text>
+                    </td>
+                    <td>
+                        <hy-paragraph-text>Description</hy-paragraph-text>
+                    </td>
                 </tr>
             </thead>
             <tbody>
                 {% for dataset in dataset_names %}
                 <tr>
-                    <td> <a href="/hggd/datasets/{{ dataset[2] }}"> <hy-paragraph-text> {{ dataset[0] }} </hy-paragraph-text></a> </td>
-                    <td><hy-paragraph-text>{{ dataset[1] }} </hy-paragraph-text> </td>
+                    <td> <a href="/hggd/datasets/{{ dataset[2] }}">
+                            <hy-paragraph-text> {{ dataset[0] }} </hy-paragraph-text>
+                        </a> </td>
+                    <td>
+                        <hy-paragraph-text>{{ dataset[1] }} </hy-paragraph-text>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

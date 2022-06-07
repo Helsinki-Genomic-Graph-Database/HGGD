@@ -104,7 +104,14 @@ def render_graph(dataset, name):
 
 @app.route("/datasets/<dataset>/sources", methods=["GET"])
 def render_dataset_sources(dataset):
+    """ Renders the link page to source files for a dataset
 
+    Args:
+        dataset (string): name of dataset 
+
+    Returns:
+        html page
+    """
     current_dataset = find_dataset_by_foldername(dataset, dataset_list)
     dataset_name = current_dataset.get_name()
     sources = current_dataset.get_dataset_source()
@@ -117,7 +124,15 @@ def render_dataset_sources(dataset):
 
 @app.route("/datasets/<dataset>/<name>/sources", methods=["GET"])
 def render_graph_sources(dataset, name):
+    """ Renders the link page to source files for a graph
 
+    Args:
+        dataset (string): name of dataset where the graph is included
+        name (string): name of the graph
+
+    Returns:
+        html page
+    """
     current_dataset = find_dataset_by_foldername(dataset, dataset_list)
     graph = current_dataset.find_graph(name)
     graph_name = graph.get_names()
