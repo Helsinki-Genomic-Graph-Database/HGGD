@@ -20,7 +20,7 @@ class FolderReader:
         self.descr_short = None
         self.descr_long = None
         self.licence = None
-        self.user_defined_strings = None
+        self.user_defined_columns = None
         self.show_on_website = False
         self.folder_name = path.split("/")[-1]
         self.highest_modification_time = 0
@@ -29,30 +29,34 @@ class FolderReader:
     def get_dataset(self):
         for file in self.files:
 
-            modification_time = os.path.getctime(self.path+"/"+file)
-            if file == "log.txt":
-                self.logtime = modification_time
-            else:
-                if modification_time > self.highest_modification_time:
-                    self.highest_modification_time = modification_time
+            self.check_modification_times(file)
 
-                if file == "description.json":
-                    self.descrition_file_exists = True
-                    self.name, self.descr_short, self.descr_long, self.licence, self.user_defined_strings = self.read_description(self.path)
+            if file == "description.json":
+                self.descrition_file_exists = True
+                self.name, self.descr_short, self.descr_long, self.licence, self.user_defined_columns = self.read_description(self.path)
 
-                if check_file_extension(file, "graph"):
-                    self.data_exists = True
+            if check_file_extension(file, "graph"):
+                self.data_exists = True
 
-                if check_file_extension(file, "licence"):
-                    self.licence_file_exists = True
+            if check_file_extension(file, "licence"):
+                self.licence_file_exists = True
 
-        ui_run = self.logtime >= self.highest_modification_time
+        ui_run = (self.logtime >= self.highest_modification_time)
+
         if ui_run and self.data_exists:
             self.show_on_website = True
 
         return Dataset(self.descrition_file_exists, self.data_exists, self.licence_file_exists, \
                 self.path, self.name, self.descr_short, self.descr_long, self.licence, \
-                self.show_on_website, self.folder_name, self.user_defined_strings)
+                self.show_on_website, self.folder_name, self.user_defined_columns)
+
+    def check_modification_times(self, file):
+        modification_time = os.path.getctime(self.path+"/"+file)
+        if file == "log.txt":
+            self.logtime = modification_time
+        else:
+            if modification_time > self.highest_modification_time:
+                self.highest_modification_time = modification_time
 
     def read_description(self, path):
         filepath = path+"/description.json"
