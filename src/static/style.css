@@ -1,5 +1,23 @@
 body {
-    margin: 0 auto;
-    max-width: 50em;
-    background-color: #f8f8f8;
-  }
+  margin: 0 auto;
+  max-width: 50em;
+  background-color: #f8f8f8;
+}
+
+.float-container {
+  
+  padding: 20px;
+}
+
+.float-child {
+  width: 20%;
+  float: left;
+  padding: 20px;
+  
+}
+
+.clear:after {
+clear: both;
+content: "";
+display: table;
+}
