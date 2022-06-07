@@ -1,6 +1,8 @@
 import os
 
 class Validator:
+    """This class has method for checking whether the dataset
+    include the necessary information."""
     def __init__(self):
         pass
 
