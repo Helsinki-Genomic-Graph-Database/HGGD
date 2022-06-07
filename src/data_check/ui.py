@@ -35,11 +35,12 @@ class UI:
                 continue
             json_path = self._writer.get_json_path(dataset)
             questions_asked = self.process_json_file(dataset, json_path)
+            something_updated = questions_asked
             self.process_name(dataset)
             self.process_short_desc(dataset)
             self.process_long_description(dataset, questions_asked)
             self.process_licence(dataset, questions_asked)
-            self.folder_done(dataset)
+            self.folder_done(dataset, something_updated)
 
     def process_data(self, dataset):
         data_exists = self._validator.check_data_exists(dataset)
@@ -79,6 +80,7 @@ folder "+dataset.get_folder_name()+".\033[0;37;40m"
         if not name_exists:
             name = self.ask_name()
             self._writer.update_json_file(dataset, "name", name)
+            something_updated = True
         self._io.write("\033[1;32;40mName exists.\033[0;37;40m")
 
     def process_short_desc(self, dataset):
@@ -86,6 +88,7 @@ folder "+dataset.get_folder_name()+".\033[0;37;40m"
         if not short_desc_exists:
             sh_desc = self.ask_sh_desc()
             self._writer.update_json_file(dataset, "descr_short", sh_desc)
+            something_updated = True
         self._io.write("\033[1;32;40mShort description exists.\033[0;37;40m")
 
     def process_long_description(self, dataset, questions_asked):
@@ -95,6 +98,7 @@ folder "+dataset.get_folder_name()+".\033[0;37;40m"
             if not long_desc_exists:
                 long_desc = self.ask_long_desc()
                 self._writer.update_json_file(dataset, "descr_long", long_desc)
+            something_updated = True
         if long_desc == "":
             self._io.write("\033[1;33;40mYou chose that the dataset \
 doesn't have a long description.\033[0;37;40m")
@@ -111,6 +115,7 @@ doesn't have a long description.\033[0;37;40m")
                     licence = "None"
                 if licence != "None":
                     self._writer.update_json_file(dataset, "licence", licence)
+            something_updated = True
         if licence == "None":
             self._io.write("\033[1;33;40mYou chose that the dataset \
 doesn't have a licence.\033[0;37;40m")
@@ -142,7 +147,7 @@ have a short description.\033[0;37;40m")
         licence = self._io.read("Which licence is the dataset under? (Leave empty if no licence.) ")
         return licence
 
-    def folder_done(self, dataset):
+    def folder_done(self, dataset, something_updated):
         """
         This method creates a log.txt file to save the date
         and time when the ui was last run and a zip-file for the
@@ -151,6 +156,10 @@ have a short description.\033[0;37;40m")
         Args:
             dataset
         """
+        if dataset.get_has_log_file() or something_updated:
+            self._io.write("Data has been checked and updated.")
+        else:
+            self._io.write("Data has been checked.")
         self._io.write("Folder done.")
         path = dataset.get_path()
         name = dataset.get_folder_name()
