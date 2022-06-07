@@ -27,7 +27,7 @@ class GraphReader:
         """
         returns list of graph objects
         """
-        return self.graph_list
+        return sorted(self.graph_list)
 
     def get_set_sources(self):
         """ Returns the sources for the dataset
