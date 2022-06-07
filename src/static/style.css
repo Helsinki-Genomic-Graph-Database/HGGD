@@ -19,4 +19,26 @@ body {
 clear: both;
 content: "";
 display: table;
-}
+}  
+
+.indextable {
+    table-layout: fixed;
+    width: 100%;  
+    border-collapse: collapse;
+    border: 2px #0e688b solid
+  }
+
+  .indexth {
+    border: 1px #0e688b solid;
+    text-align: center;
+  }
+
+  .indextdnumber {
+    border: 1px #0e688b solid;
+    text-align: center;
+  }
+
+  .indextdtext {
+    border: 1px #0e688b solid;
+    text-align: left;
+  }

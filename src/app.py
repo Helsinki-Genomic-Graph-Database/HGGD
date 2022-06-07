@@ -32,11 +32,11 @@ def render_index():
     Returns:
         html page
     """
-    dataset_names = []
+    dataset_info = []
     for dataset in dataset_list:
-        dataset_names.append((dataset.get_name(), dataset.get_descr_short(), \
-        dataset.get_folder_name()))
-    return render_template("index.html", dataset_names=dataset_names)
+        dataset_info.append((dataset.get_name(), dataset.get_descr_short(), \
+        dataset.get_folder_name(), dataset.get_total_edges(), dataset.get_total_nodes()))
+    return render_template("index.html", dataset_info=dataset_info)
 
 @app.route("/datasets/<dataset>", methods=["GET"])
 def render_dataset(dataset):

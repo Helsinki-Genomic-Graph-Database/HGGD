@@ -107,7 +107,6 @@
             
         {% endif %}
         <br>
-        <hy-table-container>
             <hy-link 
                 url="/hggd/data/{{ dataset }}/zip/{{ zipfile }}"
                 link-content="Download all graph files in a zip-file"
@@ -126,6 +125,7 @@
                     >
                 </hy-link>
             {% else %}
+            <hy-table-container>
                 <table>
                     <thead> 
                         <tr>
@@ -148,8 +148,8 @@
                         {% endfor %}
                     </tbody>
                 </table>
-            {% endif %}
-        </hy-table-container>
+            </hy-table-container>
+            {% endif %}      
         <br>
         <hy-link 
             variant="within-paragraph"
