@@ -1,5 +1,44 @@
 body {
-    margin: 0 auto;
-    max-width: 50em;
-    background-color: #f8f8f8;
+  margin: 0 auto;
+  max-width: 50em;
+  background-color: #f8f8f8;
+}
+
+.float-container {
+  padding: 20px;
+}
+
+.float-child {
+  width: 20%;
+  float: left;
+  padding: 20px;
+  
+}
+
+.clear:after {
+clear: both;
+content: "";
+display: table;
+}  
+
+.indextable {
+    table-layout: fixed;
+    width: 100%;  
+    border-collapse: collapse;
+    border: 2px #0e688b solid
+  }
+
+  .indexth {
+    border: 1px #0e688b solid;
+    text-align: center;
+  }
+
+  .indextdnumber {
+    border: 1px #0e688b solid;
+    text-align: center;
+  }
+
+  .indextdtext {
+    border: 1px #0e688b solid;
+    text-align: left;
   }

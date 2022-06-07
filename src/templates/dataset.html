@@ -88,24 +88,25 @@
         <br>
         
         {% if user_defined_columns %}
-        
-        
+        <div class ="float-container clear">
                 <caption><hy-heading heading="h5"> Other information</hy-heading></caption>
                 <br>
+                
                 {% for name, content in user_defined_columns %}
+                <div class="float-child">
                     <tr><th><hy-heading heading="h6">{{ name }}</hy-heading></th></tr>
                     <br>
                     {% for item in content %}
                     <tr><td><hy-paragraph-text>{{ item }}</hy-paragraph-text></td></tr>
                     {% endfor %}
                     <br>
+                </div>
                 {% endfor %}
 
-                
+        </div>
             
         {% endif %}
         <br>
-        <hy-table-container>
             <hy-link 
                 url="/hggd/data/{{ dataset }}/zip/{{ zipfile }}"
                 link-content="Download all graph files in a zip-file"
@@ -124,6 +125,7 @@
                     >
                 </hy-link>
             {% else %}
+            <hy-table-container>
                 <table>
                     <thead> 
                         <tr>
@@ -146,8 +148,8 @@
                         {% endfor %}
                     </tbody>
                 </table>
-            {% endif %}
-        </hy-table-container>
+            </hy-table-container>
+            {% endif %}      
         <br>
         <hy-link 
             variant="within-paragraph"

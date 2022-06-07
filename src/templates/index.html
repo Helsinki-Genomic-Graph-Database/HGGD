@@ -9,30 +9,44 @@ Helsinki Genomic Graph Database
     <hy-paragraph-text>Helsinki Genomic Graph Database is a database for the University of Helsinki researchers to add
         graph datasets of genomic sequences.</hy-paragraph-text>
     <br>
-    {% if dataset_names %}
+    {% if dataset_info %}
     <hy-table-container>
-        <table>
+        <table class="indextable">
             <caption>
                 <hy-heading heading="h5">Datasets in database</hy-heading>
             </caption>
             <thead>
                 <tr>
-                    <td>
+                    <th class="indexth">
                         <hy-paragraph-text>Name </hy-paragraph-text>
-                    </td>
-                    <td>
+                    </th>
+                    <th class="indexth">
                         <hy-paragraph-text>Description</hy-paragraph-text>
-                    </td>
+                    </th>
+                    <th class="indexth">
+                        <hy-paragraph-text>Total edges</hy-paragraph-text>
+                    </th>
+                    <th class="indexth">
+                        <hy-paragraph-text>Total nodes</hy-paragraph-text>
+                    </th>
                 </tr>
             </thead>
             <tbody>
-                {% for dataset in dataset_names %}
+                {% for dataset in dataset_info %}
                 <tr>
-                    <td> <a href="/hggd/datasets/{{ dataset[2] }}">
-                            <hy-paragraph-text> {{ dataset[0] }} </hy-paragraph-text>
-                        </a> </td>
-                    <td>
+                    <td class="indextdtext">
+                        <hy-link variant="within-paragraph" url="/hggd/datasets/{{ dataset[2] }}" link-content= "{{ dataset[0] }}"
+                            aria-label= "{{ dataset[0] }}" is-external="false">
+                        </hy-link>
+                    </td>
+                    <td class="indextdtext">
                         <hy-paragraph-text>{{ dataset[1] }} </hy-paragraph-text>
+                    </td>
+                    <td class="indextdnumber">
+                        <hy-paragraph-text>{{ dataset[3] }} </hy-paragraph-text>
+                    </td>
+                    <td class="indextdnumber">
+                        <hy-paragraph-text>{{ dataset[4] }} </hy-paragraph-text>
                     </td>
                 </tr>
                 {% endfor %}
