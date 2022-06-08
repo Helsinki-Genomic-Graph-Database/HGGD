@@ -56,7 +56,6 @@ class TestUI(unittest.TestCase):
         io = StubIO(inputs)
         ui = UI(self.dataset_list, io)
         dataset = self.dataset_dict["testdata_with_description_missing_name"]
-        print(dataset.get_folder_name())
         with open("src/tests/testdata_with_description_missing_name/description.json", "r+") as file:
             original = json.load(file)
         ui.process_name(dataset)
@@ -309,3 +308,19 @@ doesn't have a long description.\033[0;37;40m"
         self.assertEqual(io.outputs[9], strings_long)
         self.assertEqual(io.outputs[10], strings_licence)
         self.assertEqual(io.outputs[11], strings_checked)
+
+    def test_start_log_file_newest(self):
+        with open("src/tests/ui_test_full_data/testdata_with_full_description/log.txt", 'w') as log:
+            log.write("test")
+        sleep(0.05)
+        reader = DatasetReader("src/tests/ui_test_full_data")
+        dir_paths = reader.get_paths()
+        creator = DatasetCreator(dir_paths)
+        dataset_list = creator.get_datasets()
+        inputs = ["test_name"]
+        io = StubIO(inputs)
+        ui = UI(dataset_list, io)
+        ui.start()
+        string_done = "Folder done."
+        os.remove("src/tests/ui_test_full_data/testdata_with_full_description/log.txt")
+        self.assertEqual(io.outputs[5], string_done)
