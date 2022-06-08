@@ -8,7 +8,7 @@ class TestRoutes(unittest.TestCase):
 
     def test_index(self):
         with self.app as test_client:
-            res = test_client.get("/hggd/index")
+            res = test_client.get("/index")
             assert res.status_code == 200
         
     def test_wrong_url_fails(self):
