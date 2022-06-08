@@ -17,6 +17,17 @@ class Graph:
         self.sources = sources
         self.licence = licence
 
+    def __eq__(self, other):
+        return self.name == other.name
+
+    def __lt__(self, other):
+        """ To sort graphs by name
+
+        """
+        if self.name is None or other.name is None:
+            return False
+        return self.name.lower() < other.name.lower()
+
     def get_names(self):
         """This function returns the name of the graph.
 
