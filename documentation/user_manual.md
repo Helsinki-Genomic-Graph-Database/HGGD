@@ -4,10 +4,27 @@
 
 For server access, see [production server access](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/production_server.md#accessing-the-server).
 
-Add datafiles as a separate folder into the data folder, for example `/data/new_folder`. The `new_folder` should contain the graph files in base folder. The folder can also contain `description.json` that contains the info about the dataset. The file should contain [these fields](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/description.json). The required fields are `name` and `descr_short`, others are optional. The UI will still ask if user wants to add the other fields, apart from the `user defined fields` that will only be shown if added manually to the file. If some graph files are under different licences than the one specified in the description file, a file or several files to contain these exceptions can be added. These files should be labelled as `"licence_name".licence`, and should contain the all graph names (without file extensions) that are under the specific `"licence_name"`-licence, for example [MIT.licence](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/MIT.licence).
+Add datafiles as a separate folder into the data folder, for example `/data/new_folder`. The `new_folder` should contain the graph files in base folder. 
 
-After adding the files, run `sudo docker exec -it hggd bash` that allows access to the docker container. There run `python3 src/index.py` that executes the console user interface for the adding of data. It checks either if the description file exist or if the provided description file has the required information. Then it asks for the missing information if needed. If this script is not run, then the added data won't be visible on the website. After this the container can be exited with `exit`. The container must then be restarted with the command `sudo docker-compose restart hggd`.
+### Description file 
 
-The user interface **must be executed** always when adding data and also when updating or removing any information in the data folder, otherwise no info of the dataset or the information will not be correct.
+The folder can also contain `description.json` that contains the info about the dataset. The file must contain [these fields](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/description.json). The required fields are `name` and `descr_short`, others are optional. The UI will still ask whether you want to add the other fields, apart from the `user defined fields` that will only be shown if added manually to the file. If the `description.json` file does not exists upon running the UI, the UI will ask for all information for all the fields and create the file. Otherwise it will only ask for information on the missing fields.
 
-The program also makes a `zip` -folder in the `new_folder` with all the files in the base folder as a zip-file to download.
+### Licence file
+
+If some graph files are under different licences than the one specified in the description file, you can add a file or several files to contain these exceptions. These files must be labelled as `"licence_name".licence` and contain the all graph names (without file extensions) that are under that specific `"licence_name"`-licence, for example [MIT.licence](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/MIT.licence).
+
+## Execution
+
+After adding the files:
+
+1. Run `sudo docker exec -it hggd bash` to access the docker container. 
+2. Once you're in the container, run `python3 src/index.py` to execute the console user interface. It checks if the description file exists and if so whether the description file has the all the required information. If necessary, it asks for the missing information. **If this script is not run, then the added data won't be visible on the website.** 
+3. Exit the container with `exit` command. 
+4. Restart the container with `sudo docker-compose restart hggd` command.
+
+The user interface **must always be executed** when adding, updating or removing any information or data in the data folder, otherwise the website will not show this dataset.
+
+### Zip file
+
+The program also makes a `zip` -folder in the `new_folder` with all the files in the base folder as a zip-file to download. The download link will appear on th website.
