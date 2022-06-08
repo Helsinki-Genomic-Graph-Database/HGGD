@@ -46,13 +46,13 @@
         </table>
     </hy-table-container>
     <br>
-    <hy-link url="/hggd/data/{{ dataset }}/{{ name }}" link-content="Download graph file"
+    <hy-link url="/data/{{ dataset }}/{{ name }}" link-content="Download graph file"
         aria-label="Download graph file" is-external="false">
     </hy-link>
     <br>
     {% if over_ten_sources %}
     <hy-heading heading="h5">Source files for the graph </hy-heading>
-    <hy-link url="/hggd/datasets/{{ dataset }}/{{ name }}/sources"
+    <hy-link url="/datasets/{{ dataset }}/{{ name }}/sources"
         link-content="List of links to the {{ nro_of_sources }} source files"
         aria-label="List of links to {{ nro_of_sources }} source files" is-external="false">
     </hy-link>
@@ -81,10 +81,10 @@
     </hy-table-container>
     {% endif %}
     <br>
-    <hy-link variant="within-paragraph" url="/hggd/datasets/{{ dataset }}" link-content="Back to dataset page"
+    <hy-link variant="within-paragraph" url="/datasets/{{ dataset }}" link-content="Back to dataset page"
         aria-label="Back to dataset page" is-external="false">
     </hy-link>
-    <hy-link variant="within-paragraph" url="/hggd/index" link-content="Back to main page"
+    <hy-link variant="within-paragraph" url="/index" link-content="Back to main page"
         aria-label="Back to main page" is-external="false">
     </hy-link>
 </hy-docs-container>

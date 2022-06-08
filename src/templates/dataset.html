@@ -64,7 +64,7 @@
                         <td>         
                             <hy-link 
                                 variant="within-paragraph"
-                                url="/hggd/datasets/{{ dataset }}/{{ name }}"
+                                url="/datasets/{{ dataset }}/{{ name }}"
                                 link-content="{{ name }} "
                                 aria-label="{{ name }} "
                                 is-external="false"
@@ -73,7 +73,7 @@
                         </td>
                         <td> 
                             <hy-link 
-                                url="/hggd/data/{{ dataset }}/{{ name }}"
+                                url="/data/{{ dataset }}/{{ name }}"
                                 link-content=".graph file "
                                 aria-label=".graph file"
                                 is-external="false"
@@ -108,7 +108,7 @@
         {% endif %}
         <br>
             <hy-link 
-                url="/hggd/data/{{ dataset }}/zip/{{ zipfile }}"
+                url="/data/{{ dataset }}/zip/{{ zipfile }}"
                 link-content="Download all graph files in a zip-file"
                 aria-label="Download all graph files in a zip-file"
                 is-external="false"
@@ -118,7 +118,7 @@
             {% if over_ten_sources %}
                 <hy-heading heading="h5">Source files in the dataset</hy-heading>
                 <hy-link 
-                    url="/hggd/datasets/{{ dataset }}/sources"
+                    url="/datasets/{{ dataset }}/sources"
                     link-content="List of links to the {{ nro_of_sources }} source files"
                     aria-label="List of links to the {{ nro_of_sources }} source files"
                     is-external="false"
@@ -153,7 +153,7 @@
         <br>
         <hy-link 
             variant="within-paragraph"
-            url="/hggd/index"
+            url="/index"
             link-content="Back to main page"
             aria-label="Back to main page"
             is-external="false"
