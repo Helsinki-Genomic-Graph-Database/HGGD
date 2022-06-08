@@ -26,7 +26,7 @@ def get_app():
     """
     return app
 
-@app.route("/index", methods=["GET"])
+@app.route("/hggd/index", methods=["GET"])
 def render_index():
     """ Renders the index page
     Returns:
@@ -38,7 +38,7 @@ def render_index():
         dataset.get_folder_name(), dataset.get_total_edges(), dataset.get_total_nodes()))
     return render_template("index.html", dataset_info=dataset_info)
 
-@app.route("/datasets/<dataset>", methods=["GET"])
+@app.route("/hggd/datasets/<dataset>", methods=["GET"])
 def render_dataset(dataset):
     """ Render the pages for dataset
     Args:
@@ -73,7 +73,7 @@ def render_dataset(dataset):
         source_tuples = source_tuples, user_defined_columns = user_defined_columns, \
         over_ten_sources=over_ten_sources, nro_of_sources=nro_of_sources)
 
-@app.route("/datasets/<dataset>/<name>", methods=["GET"])
+@app.route("/hggd/datasets/<dataset>/<name>", methods=["GET"])
 def render_graph(dataset, name):
     """ Renders the pages for graphs
     Args:
@@ -102,7 +102,7 @@ def render_graph(dataset, name):
         licence=licence, source_tuples=source_tuples, over_ten_sources=over_ten_sources, \
         nro_of_sources=nro_of_sources)
 
-@app.route("/datasets/<dataset>/sources", methods=["GET"])
+@app.route("/hggd/datasets/<dataset>/sources", methods=["GET"])
 def render_dataset_sources(dataset):
     """ Renders the link page to source files for a dataset
 
@@ -122,7 +122,7 @@ def render_dataset_sources(dataset):
     return render_template("genomelinks.html", name=dataset_name, \
     dataset=dataset_folder, source_tuples=source_tuples)
 
-@app.route("/datasets/<dataset>/<name>/sources", methods=["GET"])
+@app.route("/hggd/datasets/<dataset>/<name>/sources", methods=["GET"])
 def render_graph_sources(dataset, name):
     """ Renders the link page to source files for a graph
 
@@ -144,7 +144,7 @@ def render_graph_sources(dataset, name):
     return render_template("genomelinks.html", name=graph_name, \
     dataset=dataset_folder, source_tuples=source_tuples, graph=graph_name)
 
-@app.route('/data/<dataset>/zip/<path:filename>', methods=['GET'])
+@app.route('/hggd/data/<dataset>/zip/<path:filename>', methods=['GET'])
 def download_zip(dataset, filename):
     """ Downloads a zipfile of the dataset
 
@@ -158,7 +158,7 @@ def download_zip(dataset, filename):
     directory = path.join(get_datapath(dataset, app), 'zip')
     return send_from_directory(directory=directory, path='', filename=filename)
 
-@app.route('/data/<dataset>/<path:name>', methods=['GET'])
+@app.route('/hggd/data/<dataset>/<path:name>', methods=['GET'])
 def download_graph(dataset, name):
     """ Downloads a specific graph file
 
