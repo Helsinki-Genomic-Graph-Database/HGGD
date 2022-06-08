@@ -56,9 +56,9 @@ def render_dataset(dataset):
     graph_namelist = []
     graphs = current_dataset.get_list_of_graphs()
     sources = current_dataset.get_dataset_source()
-    source_tuples = []    
+    source_tuples = []
     over_ten_sources = False
-    nro_of_sources = len(sources) 
+    nro_of_sources = len(sources)
     if nro_of_sources > 10:
         over_ten_sources = True
     else:
@@ -91,7 +91,7 @@ def render_graph(dataset, name):
     sources = graph.get_sources()
     source_tuples = []
     over_ten_sources = False
-    nro_of_sources = len(sources) 
+    nro_of_sources = len(sources)
     if nro_of_sources > 10:
         over_ten_sources = True
     else:
@@ -107,7 +107,7 @@ def render_dataset_sources(dataset):
     """ Renders the link page to source files for a dataset
 
     Args:
-        dataset (string): name of dataset 
+        dataset (string): name of dataset
 
     Returns:
         html page
