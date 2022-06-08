@@ -2,7 +2,7 @@
 
 ## Accessing the server
 
-Production server is running on [https://hggd.cs.helsinki.fi/](https://hggd.cs.helsinki.fi/hggd/index). To get access, ask for permissions to grp-cs-hggd-server -user group. Server can be entered from the university network with ssh-connection, for example:
+Production server is running on [https://hggd.cs.helsinki.fi/](https://hggd.cs.helsinki.fi/hggd/index). To get access, ask for permissions to grp-cs-hggd-server IAM user group. A group admin can add you in the university's group management tool: [https://idm.helsinki.fi/web/](https://idm.helsinki.fi/web/). The server can be entered from the university network with ssh-connection, for example:
 
 ```bash
 ssh -J melkinpaasi.cs.helsinki.fi hggd.cs.helsinki.fi
