@@ -64,7 +64,7 @@
                         <td>         
                             <hy-link 
                                 variant="within-paragraph"
-                                url="/datasets/{{ dataset }}/{{ name }}"
+                                url="/hggd/datasets/{{ dataset }}/{{ name }}"
                                 link-content="{{ name }} "
                                 aria-label="{{ name }} "
                                 is-external="false"
@@ -73,7 +73,7 @@
                         </td>
                         <td> 
                             <hy-link 
-                                url="/data/{{ dataset }}/{{ name }}"
+                                url="/hggd/data/{{ dataset }}/{{ name }}"
                                 link-content=".graph file "
                                 aria-label=".graph file"
                                 is-external="false"
@@ -108,7 +108,7 @@
         {% endif %}
         <br>
             <hy-link 
-                url="/data/{{ dataset }}/zip/{{ zipfile }}"
+                url="/hggd/data/{{ dataset }}/zip/{{ zipfile }}"
                 link-content="Download all graph files in a zip-file"
                 aria-label="Download all graph files in a zip-file"
                 is-external="false"
@@ -118,13 +118,14 @@
             {% if over_ten_sources %}
                 <hy-heading heading="h5">Source files in the dataset</hy-heading>
                 <hy-link 
-                    url="/datasets/{{ dataset }}/sources"
+                    url="/hggd/datasets/{{ dataset }}/sources"
                     link-content="List of links to the {{ nro_of_sources }} source files"
                     aria-label="List of links to the {{ nro_of_sources }} source files"
                     is-external="false"
                     >
                 </hy-link>
             {% else %}
+
             <hy-table-container>
                 <table>
                     <thead> 
@@ -153,7 +154,7 @@
         <br>
         <hy-link 
             variant="within-paragraph"
-            url="/index"
+            url="/hggd/index"
             link-content="Back to main page"
             aria-label="Back to main page"
             is-external="false"
