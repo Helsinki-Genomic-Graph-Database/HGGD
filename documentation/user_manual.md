@@ -4,9 +4,9 @@
 
 For server access, see [production server access](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/production_server.md#accessing-the-server).
 
-Add datafiles as a separate folder into the data folder, for example `/data/new_folder`. The `new_folder` should contain the graph files in base folder. 
+Add datafiles as a separate folder into the data folder, for example `/data/new_folder`. The `new_folder` should contain the graph files in base folder.
 
-### Description file 
+### Description file
 
 The folder can also contain `description.json` that contains the info about the dataset. The file must contain [these fields](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/description.json). The required fields are `name` and `descr_short`, others are optional. The UI will still ask whether you want to add the other fields, apart from the `user defined fields` that will only be shown if added manually to the file. If the `description.json` file does not exists upon running the UI, the UI will ask for all information for all the fields and create the file. Otherwise it will only ask for information on the missing fields.
 
@@ -18,9 +18,9 @@ If some graph files are under different licences than the one specified in the d
 
 After adding the files:
 
-1. Run `sudo docker exec -it hggd bash` to access the docker container. 
-2. Once you're in the container, run `python3 src/index.py` to execute the console user interface. It checks if the description file exists and if so whether the description file has the all the required information. If necessary, it asks for the missing information. **If this script is not run, then the added data won't be visible on the website.** 
-3. Exit the container with `exit` command. 
+1. Run `sudo docker exec -it hggd bash` to access the docker container.
+2. Once you're in the container, run `python3 src/index.py` to execute the console user interface. It checks if the description file exists and if so whether the description file has the all the required information. If necessary, it asks for the missing information. **If this script is not run, then the added data won't be visible on the website.**
+3. Exit the container with `exit` command.
 4. Restart the container with `sudo docker-compose restart hggd` command.
 
 The user interface **must always be executed** when adding, updating or removing any information or data in the data folder, otherwise the website will not show this dataset.
