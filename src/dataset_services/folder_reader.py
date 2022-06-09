@@ -48,7 +48,8 @@ class FolderReader:
 
         return Dataset(self.descrition_file_exists, self.data_exists, self.licence_file_exists, \
                 self.path, self.name, self.descr_short, self.descr_long, self.licence, \
-                self.show_on_website, self.folder_name, self.user_defined_columns)
+                self.show_on_website, self.folder_name, self.user_defined_columns, \
+                self.has_log_file)
 
     def check_modification_times(self, file):
         modification_time = os.path.getctime(self.path+"/"+file)
