@@ -16,7 +16,7 @@ class DimacsReader:
         name = filename.strip(".dimacs")
     #     name, source, licence = read_description(self, ...))
         number_of_nodes, number_of_edges = self.read_dimacs_file(filename)
-        sources = ["www.testing.fi"]
+        sources = [("https://www.testing.fi", "www.testing.fi")]
         return name, number_of_nodes, number_of_edges, sources
 
     def read_dimacs_file(self, filename):
