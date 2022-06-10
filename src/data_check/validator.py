@@ -37,9 +37,7 @@ class Validator:
         return True
 
     def check_licence_exists(self, dataset):
-        if (dataset.get_licence()) == 0:
-            return False
-        if (dataset.get_licence()) is None:
+        if len(dataset.get_licence()) == 0:
             return False
         return True
 

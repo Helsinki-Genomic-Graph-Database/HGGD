@@ -109,6 +109,7 @@ doesn't have a long description.\033[0;37;40m")
 
     def process_licence(self, dataset, questions_asked):
         licence_exists = self._validator.check_licence_exists(dataset)
+        print(licence_exists)
         licence = dataset.get_licence()
         if not questions_asked:
             if not licence_exists:
