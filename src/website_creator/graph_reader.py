@@ -47,4 +47,3 @@ class GraphReader:
         """
         source_names = line.split(":")[1].strip()
         return source_names.split(" ")
-        

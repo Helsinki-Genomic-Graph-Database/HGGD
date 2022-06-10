@@ -30,7 +30,7 @@ class UI:
             else:
                 self._io.write(dataset.get_name())
             if self._validator.check_show_on_website(dataset):
-                print("Folder done.")
+                self._io.write("Folder done.")
                 continue
             data_exists = self.process_data(dataset)
             if not data_exists:

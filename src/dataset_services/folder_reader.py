@@ -58,6 +58,21 @@ class FolderReader:
         if ui_run and self.data_exists:
             self.show_on_website = True
 
+        for graph in graphs:
+            has_licence = False
+            if check_file_extension(graph, "graph"):
+                has_licence = True
+            else:
+                if graph in graph_descriptions:
+                    filepath = self.path+"/"+graph+"_description.json"
+                    if os.stat(filepath).st_size > 0:
+                        with open(filepath, encoding='utf-8') as file:
+                            content = json.load(file)
+                            if self.check_field(content, "licence") is not None:
+                                has_licence = True
+
+            self.graph_info.append((graph, has_licence))
+
         return Dataset(self.descrition_file_exists, self.data_exists, self.licence_file_exists, \
                 self.path, self.name, self.descr_short, self.descr_long, self.licence, \
                 self.show_on_website, self.folder_name, self.user_defined_columns, \
