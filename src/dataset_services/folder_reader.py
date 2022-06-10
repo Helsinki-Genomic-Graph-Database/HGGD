@@ -1,6 +1,6 @@
 import os
 import json
-from src.file_ui.file_utils import check_file_extension
+from src.file_ui.file_utils import check_file_extension, check_file_extension_multiple
 from src.entities.dataset import Dataset
 
 class FolderReader:
@@ -37,7 +37,7 @@ class FolderReader:
                 if licence_in_descr:
                     self.licence.append(licence_in_descr)
 
-            if check_file_extension(file, "graph"):
+            if check_file_extension_multiple(file, ["graph", "gfa", "dimacs"]):
                 self.data_exists = True
 
             if check_file_extension(file, "licence"):

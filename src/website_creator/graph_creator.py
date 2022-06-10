@@ -4,6 +4,7 @@ from src.entities.graph import Graph
 from src.file_ui.file_utils import check_file_extension, check_file_extension_multiple
 from src.file_ui.file_utils import list_licence_files, read_licence_files
 from src.website_creator.graph_reader import GraphReader
+from src.website_creator.dimacs_reader import DimacsReader
 
 class GraphCreator:
     """reads graph files and makes graph objects and puts them to a list
@@ -48,6 +49,9 @@ class GraphCreator:
             if check_file_extension(filename, "graph"):
                 graphreader = GraphReader(self.dir)
                 name, nodes, edges, sources = graphreader.read_file(filename)
+            if check_file_extension(filename, "dimacs"):
+                dimacsreader = DimacsReader(self.dir)
+                name, nodes, edges, sources = dimacsreader.read_dimacs_graph(filename)
             if len(self.dataset_licence) > 0:
                 licence = self.dataset_licence[0]
             else:
