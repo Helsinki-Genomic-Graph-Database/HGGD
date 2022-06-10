@@ -6,7 +6,7 @@ class TestGraphCreator(unittest.TestCase):
 
     def setUp(self):
         DIR = "src/tests/testdata"
-        self.graphcreator = GraphCreator(DIR, "MIT", False)
+        self.graphcreator = GraphCreator(DIR, ["MIT"], False)
         self.graphcreator.run()
 
     def test_get_graph_list_should_return_list(self):
@@ -74,7 +74,7 @@ class TestGraphCreatorEmptyDescription(unittest.TestCase):
 
     def setUp(self):
         DIR = "src/tests/testdata_with_empty_description"
-        self.graphcreator = GraphCreator(DIR, "MIT", False)
+        self.graphcreator = GraphCreator(DIR, ["MIT"], False)
         self.graphcreator.run()
 
     def test_get_graph_list_should_return_list_of_only_graph_files(self):
@@ -85,7 +85,7 @@ class TestGraphCreatorWithLicencefile(unittest.TestCase):
 
     def setUp(self):
         DIR = "src/tests/testdata_with_licencefile"
-        self.graphcreator = GraphCreator(DIR, "GNU", True)
+        self.graphcreator = GraphCreator(DIR, ["GNU"], True)
         self.graphcreator.run()
 
     def test_graphs_with_different_licences(self):

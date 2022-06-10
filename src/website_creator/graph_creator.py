@@ -48,7 +48,11 @@ class GraphCreator:
             if check_file_extension(filename, "graph"):
                 graphreader = GraphReader(self.dir)
                 name, nodes, edges, sources = graphreader.read_file(filename)
-            new_graph = Graph(name, nodes, edges, sources, self.dataset_licence)
+            if len(self.dataset_licence) > 0:
+                licence = self.dataset_licence[0]
+            else:
+                licence = None
+            new_graph = Graph(name, nodes, edges, sources, licence)
             self.set_sources.update(sources)
             self.graph_list.append(new_graph)
             if self.has_licence_file:
