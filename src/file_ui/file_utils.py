@@ -4,6 +4,13 @@ import os
 def check_file_extension(filename, extension):
     return filename.strip().split(".")[-1] == extension
 
+def check_file_extension_multiple(filename, extension_list):
+    found = False
+    for extension in extension_list:
+        if filename.strip().split(".")[-1] == extension:
+            found = True
+    return found
+
 def read_description(filepath):
     try:
         file = open(f"{filepath}/description.json", encoding='utf-8')
