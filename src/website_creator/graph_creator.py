@@ -24,7 +24,7 @@ class GraphCreator:
         self.dataset_licence = dataset_licence
         self.has_licence_file = has_licence_file
         self.set_sources = set()
-        self.formats = ["graph", "dimacs"]
+        self.formats = ["graph", "gfa", "dimacs"]
 
     def get_graph_list(self):
         """
@@ -51,10 +51,10 @@ class GraphCreator:
                 graphreader = GraphReader(self.dir)
                 name, nodes, edges, sources = graphreader.read_file(filename)
                 fileformat = "graph"
-            #if check_file_extension(filename, "gfa"):
-            #    graphreader = GfaReader(filename, self.dir)
-            #    name, nodes, edges, sources = graphreader.read_file()
-            #    fileformat = "gfa"
+            if check_file_extension(filename, "gfa"):
+                graphreader = GfaReader(self.dir)
+                name, nodes, edges, sources = graphreader.read_file(filename)
+                fileformat = "gfa"
             if check_file_extension(filename, "dimacs"):
                 dimacsreader = DimacsReader(self.dir)
                 name, nodes, edges, sources = dimacsreader.read_dimacs_graph(filename)
