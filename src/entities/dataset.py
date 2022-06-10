@@ -64,7 +64,9 @@ class Dataset:
         Returns:
             str: description
         """
-        if self.descr_long == None or len(self.descr_long) > 0:
+        if self.descr_long == None:
+            return self.descr_short
+        if len(self.descr_long) > 0:
             return self.descr_long
         return self.descr_short
 
