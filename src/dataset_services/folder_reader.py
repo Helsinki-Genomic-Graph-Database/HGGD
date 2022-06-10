@@ -1,6 +1,6 @@
 import os
 import json
-from src.file_ui.file_utils import check_file_extension
+from src.file_ui.file_utils import check_file_extension, check_file_extension_multiple
 from src.entities.dataset import Dataset
 
 class FolderReader:
@@ -26,19 +26,29 @@ class FolderReader:
         self.highest_modification_time = 0
         self.logtime = 0
         self.has_log_file = False
+        self.graph_info = []
 
     def get_dataset(self):
+        graphs = []
+        graph_descriptions = []
         for file in self.files:
             self.check_modification_times(file)
 
-            if file == "description.json":
-                self.descrition_file_exists = True
-                self.name, self.descr_short, self.descr_long, licence_in_descr, self.user_defined_columns = self.read_description(self.path)
-                if licence_in_descr:
-                    self.licence.append(licence_in_descr)
-
-            if check_file_extension(file, "graph"):
+            if check_file_extension_multiple(file, ["graph", "gfa", "dimacs"]):
                 self.data_exists = True
+                graphs.append(file)
+
+            if check_file_extension(file, "json"):
+                if file == "description.json":
+                    self.descrition_file_exists = True
+                    self.name, self.descr_short, self.descr_long, licence_in_descr, self.user_defined_columns = self.read_description(self.path)
+                    if licence_in_descr:
+                        self.licence.append(licence_in_descr)
+                else:
+                    split_file = file.split(".")[:-1]
+                    if (split_file[-1].split("_")[-1]) == "description":
+                        graph_descriptions.append(file[:-len("_description.json")])
+
 
             if check_file_extension(file, "licence"):
                 self.licence_file_exists = True
@@ -51,7 +61,7 @@ class FolderReader:
         return Dataset(self.descrition_file_exists, self.data_exists, self.licence_file_exists, \
                 self.path, self.name, self.descr_short, self.descr_long, self.licence, \
                 self.show_on_website, self.folder_name, self.user_defined_columns, \
-                self.has_log_file)
+                self.has_log_file, self.graph_info)
 
     def check_modification_times(self, file):
         modification_time = os.path.getctime(self.path+"/"+file)

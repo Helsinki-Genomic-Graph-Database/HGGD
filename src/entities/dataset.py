@@ -2,7 +2,7 @@ class Dataset:
     """This class creates a dataset object that holds all the information on the dataset."""
     def __init__(self, description_file_exists = False, data_exists = False, licence_file_exists = False, \
             path = "", name = "", descr_short = "", descr_long = "", licence = [], show_on_website = False, \
-            folder_name = "", user_defined_columns = None, has_log_file = False):
+            folder_name = "", user_defined_columns = None, has_log_file = False, graph_info =[]):
         """This function initializes the dataset object."""
         self.folder_name = folder_name
         self.description_file_exists = description_file_exists
@@ -24,6 +24,7 @@ class Dataset:
         self.show_on_website = show_on_website
         self.user_defined_columns = user_defined_columns
         self.has_log_file = has_log_file
+        self.graph_info = graph_info
 
     def __eq__(self, other):
         return self.name == other.name
@@ -35,6 +36,9 @@ class Dataset:
 
     def get_folder_name(self):
         return self.folder_name
+    
+    def get_graph_info(self):
+        return self.graph_info
 
     def get_description_file_exists(self):
         return self.description_file_exists
@@ -120,6 +124,9 @@ class Dataset:
 
     def set_path(self, path):
         self.path = path
+
+    def set_graph_info(self, info):
+        self.graph_info = info
 
     def set_name(self, name):
         self.name = name
