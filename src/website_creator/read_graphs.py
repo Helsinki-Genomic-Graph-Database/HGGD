@@ -1,4 +1,4 @@
-from src.website_creator.graph_reader import GraphReader
+from src.website_creator.graph_creator import GraphCreator
 from src.website_creator.calculator import calculator_service
 
 class ReadGraphs:
@@ -15,11 +15,11 @@ class ReadGraphs:
         """
         for dataset in self.dataset_list:
             if dataset.get_show_on_website():
-                graphreader_service = GraphReader(dataset.get_path(), dataset.get_licence(), \
+                graphcreator_service = GraphCreator(dataset.get_path(), dataset.get_licence(), \
                     dataset.get_licence_file_exists())
-                graphreader_service.run()
-                dataset.set_list_of_graphs(graphreader_service.get_graph_list())
-                dataset.set_dataset_source(graphreader_service.get_set_sources())
+                graphcreator_service.run()
+                dataset.set_list_of_graphs(graphcreator_service.get_graph_list())
+                dataset.set_dataset_source(graphcreator_service.get_set_sources())
                 total_nodes, total_edges = calculator_service.get_no_nodes_and_edges(dataset)
                 dataset.set_total_nodes(total_nodes)
                 dataset.set_total_edges(total_edges)

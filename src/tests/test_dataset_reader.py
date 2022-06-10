@@ -14,3 +14,5 @@ class TestDatasetReader(unittest.TestCase):
     def test_list_should_include_path_to_test2_folder(self):
         res = self.dataset_reader.get_paths()
         assert "src/tests/testdata_for_dataset_reader/testdata_with_no_data" in res
+
+    

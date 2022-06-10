@@ -19,7 +19,7 @@ class FolderReader:
         self.name = None
         self.descr_short = None
         self.descr_long = None
-        self.licence = None
+        self.licence = []
         self.user_defined_columns = None
         self.show_on_website = False
         self.folder_name = path.split("/")[-1]
@@ -33,7 +33,9 @@ class FolderReader:
 
             if file == "description.json":
                 self.descrition_file_exists = True
-                self.name, self.descr_short, self.descr_long, self.licence, self.user_defined_columns = self.read_description(self.path)
+                self.name, self.descr_short, self.descr_long, licence_in_descr, self.user_defined_columns = self.read_description(self.path)
+                if licence_in_descr:
+                    self.licence.append(licence_in_descr)
 
             if check_file_extension(file, "graph"):
                 self.data_exists = True

@@ -1,7 +1,7 @@
 class Graph:
     """This class creates a graph object that has the name
     of the graph, the number of nodes and the number of edges."""
-    def __init__(self, name = "", nodes = 0, edges = 0, sources = [], licence = ""):
+    def __init__(self, name = "", nodes = 0, edges = 0, sources = [], licence = "", file_name = "", file_format = ""):
         """This function initializes the graph object.
 
         Args:
@@ -16,6 +16,8 @@ class Graph:
         self.edges = edges
         self.sources = sources
         self.licence = licence
+        self.file_name = file_name
+        self.file_format = file_format
 
     def __eq__(self, other):
         return self.name == other.name
@@ -57,6 +59,12 @@ class Graph:
 
     def get_licence(self):
         return self.licence
+
+    def get_file_name(self):
+        return self.file_name
+
+    def get_file_format(self):
+        return self.file_format
 
     def set_licence(self, new_licence):
         self.licence = new_licence

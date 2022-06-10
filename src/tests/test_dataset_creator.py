@@ -84,7 +84,7 @@ class TestDataSetCreator(unittest.TestCase):
     def test_creator_should_detect_licence_in_description(self):
         creator = DatasetCreator([self.full_descr])
         res = creator.get_datasets()[0]
-        self.assertEqual(res.get_licence(), "test_licence")
+        self.assertEqual(res.get_licence()[0], "test_licence")
 
     def test_creator_should_find_folder_name(self):
         creator = DatasetCreator([self.full_descr])
@@ -138,6 +138,21 @@ class TestDataSetCreator(unittest.TestCase):
         res = creator.get_datasets()[0].get_user_defined_columns()[2][1]
         self.assertIn("test string", res)
         self.assertIn(2, res)
+
+    def test_licence_should_be_list(self):
+        creator = DatasetCreator([self.no_descr])
+        res = creator.get_datasets()[0].get_licence()
+        self.assertIsInstance(res, list)
+
+    def test_licence_list_should_be_empty_with_no_licences(self):
+        creator = DatasetCreator([self.no_descr])
+        res = creator.get_datasets()[0].get_licence()
+        self.assertEqual(len(res), 0)
+
+    def test_licenses_should_be_added_to_list(self):
+        creator = DatasetCreator([self.full_descr])
+        res = creator.get_datasets()[0].get_licence()
+        self.assertEqual(len(res), 1)
 
     
 
