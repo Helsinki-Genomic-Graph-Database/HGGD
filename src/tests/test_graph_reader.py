@@ -63,7 +63,7 @@ class TestGraphCreator(unittest.TestCase):
             if graph.name == "gt20.kmer15.(102000.104000).V75.E104.cyc1000":
                 res = graph.get_sources()
             
-        self.assertEqual(res[1], "GCA_000006665.1_ASM666v1.fna")
+        self.assertEqual(res[1], ("https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/006/665/GCA_000006665.1_ASM666v1/GCA_000006665.1_ASM666v1_genomic.fna.gz", "GCA_000006665.1_ASM666v1.fna"))
 
     def test_graphs_have_correct_licence(self):
         graph_list = self.graphcreator.get_graph_list()

@@ -46,4 +46,27 @@ class GraphReader:
         """ Reads the sources from the file
         """
         source_names = line.split(":")[1].strip()
-        return source_names.split(" ")
+        list_of_names = source_names.split(" ")
+        source_tuple_list = [] 
+        for name in list_of_names:
+            source_tuple_list.append((self.create_link_fo_fna(name), name))
+        return source_tuple_list
+
+    def create_link_fo_fna(self, text):
+
+        link = "https://ftp.ncbi.nlm.nih.gov/genomes/all/"
+
+        text_list = text.strip().split("_")
+
+        link = link+text_list[0]+"/"
+
+        numbers = text_list[1]
+
+        link = link+numbers[:3]+"/"
+        numbers = numbers[3:]
+        link = link+numbers[:3]+"/"
+        numbers = numbers[3:]
+        link = link+numbers[:3]+"/"
+        link = link+text[:-4]+"/"+text[:-4]+"_genomic.fna.gz"
+
+        return link

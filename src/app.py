@@ -3,7 +3,7 @@ from flask import render_template, Flask, send_from_directory
 from src.dataset_services.dataset_creator import DatasetCreator
 from src.dataset_services.dataset_reader import DatasetReader
 from src.website_creator.read_graphs import ReadGraphs
-from src.helper_functions_for_app import find_dataset_by_foldername, get_datapath, create_link_fo_fna
+from src.helper_functions_for_app import find_dataset_by_foldername, get_datapath
 
 
 app = Flask(__name__)
@@ -61,16 +61,13 @@ def render_dataset(dataset):
     nro_of_sources = len(sources)
     if nro_of_sources > 10:
         over_ten_sources = True
-    else:
-        for source in sources:
-            source_tuples.append((create_link_fo_fna(source), source))
     for graph in graphs:
         graph_namelist.append(graph.get_names())
     return render_template("dataset.html", total_graphs=graphs_total, average_nodes=avg_nodes, \
         average_edges=avg_edges, total_edges=total_edges, total_nodes=total_nodes, \
         dataset_name = dataset_name, graph_namelist=graph_namelist, dataset= dataset, \
         zipfile=zipfile, long_description = long_description, licence=licence, \
-        source_tuples = source_tuples, user_defined_columns = user_defined_columns, \
+        source_tuples = sources, user_defined_columns = user_defined_columns, \
         over_ten_sources=over_ten_sources, nro_of_sources=nro_of_sources)
 
 @app.route("/hggd/datasets/<dataset>/<name>", methods=["GET"])
@@ -94,12 +91,9 @@ def render_graph(dataset, name):
     nro_of_sources = len(sources)
     if nro_of_sources > 10:
         over_ten_sources = True
-    else:
-        for source in sources:
-            source_tuples.append((create_link_fo_fna(source), source))
     dataset_folder = current_dataset.get_folder_name()
     return render_template("graph.html",name=name, nodes=nodes, edges=edges, dataset=dataset_folder, \
-        licence=licence, source_tuples=source_tuples, over_ten_sources=over_ten_sources, \
+        licence=licence, source_tuples=sources, over_ten_sources=over_ten_sources, \
         nro_of_sources=nro_of_sources)
 
 @app.route("/hggd/datasets/<dataset>/sources", methods=["GET"])
@@ -115,12 +109,9 @@ def render_dataset_sources(dataset):
     current_dataset = find_dataset_by_foldername(dataset, dataset_list)
     dataset_name = current_dataset.get_name()
     sources = current_dataset.get_dataset_source()
-    source_tuples = []
-    for source in sources:
-        source_tuples.append((create_link_fo_fna(source), source))
     dataset_folder = current_dataset.get_folder_name()
     return render_template("genomelinks.html", name=dataset_name, \
-    dataset=dataset_folder, source_tuples=source_tuples)
+    dataset=dataset_folder, source_tuples=sources)
 
 @app.route("/hggd/datasets/<dataset>/<name>/sources", methods=["GET"])
 def render_graph_sources(dataset, name):
@@ -137,12 +128,9 @@ def render_graph_sources(dataset, name):
     graph = current_dataset.find_graph(name)
     graph_name = graph.get_names()
     sources = graph.get_sources()
-    source_tuples = []
-    for source in sources:
-        source_tuples.append((create_link_fo_fna(source), source))
     dataset_folder = current_dataset.get_folder_name()
     return render_template("genomelinks.html", name=graph_name, \
-    dataset=dataset_folder, source_tuples=source_tuples, graph=graph_name)
+    dataset=dataset_folder, source_tuples=sources, graph=graph_name)
 
 @app.route('/hggd/data/<dataset>/zip/<path:filename>', methods=['GET'])
 def download_zip(dataset, filename):
