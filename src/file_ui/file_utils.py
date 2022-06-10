@@ -67,3 +67,10 @@ def list_licence_files(path):
         if check_file_extension(filename, "licence"):
             file_list.append(filename)
     return file_list
+
+def remove_file_extension(filename, extension):
+    ext_letter_amount = len(extension)
+    filename_letter_amount = len(filename)
+    difference = filename_letter_amount - ext_letter_amount
+    filename = filename[0:difference]
+    return filename
