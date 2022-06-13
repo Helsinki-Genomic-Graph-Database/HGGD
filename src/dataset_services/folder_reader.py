@@ -36,6 +36,8 @@ class FolderReader:
 
             if check_file_extension_multiple(file, ["graph", "gfa", "dimacs"]):
                 self.data_exists = True
+                extension_length = len(file.split(".")[-1])
+                graph_without_extension = file[:-extension_length-1]
                 graphs.append(file)
 
             if check_file_extension(file, "json"):
@@ -45,13 +47,15 @@ class FolderReader:
                     if licence_in_descr:
                         self.licence.append(licence_in_descr)
                 else:
+                    
                     split_file = file.split(".")[:-1]
                     if (split_file[-1].split("_")[-1]) == "description":
                         graph_descriptions.append(file[:-len("_description.json")])
 
-
             if check_file_extension(file, "licence"):
                 self.licence_file_exists = True
+
+        
 
         ui_run = (self.logtime >= self.highest_modification_time)
 
@@ -59,19 +63,23 @@ class FolderReader:
             self.show_on_website = True
 
         for graph in graphs:
+            extension_length = len(graph.split(".")[-1])
+            graph_without_extension = graph[:-extension_length-1]
             has_licence = False
             if check_file_extension(graph, "graph"):
                 has_licence = True
             else:
-                if graph in graph_descriptions:
-                    filepath = self.path+"/"+graph+"_description.json"
+                if graph_without_extension in graph_descriptions:
+                    filepath = self.path+"/"+graph_without_extension+"_description.json"
+                    
                     if os.stat(filepath).st_size > 0:
                         with open(filepath, encoding='utf-8') as file:
                             content = json.load(file)
                             if check_field(content, "licence") is not None:
                                 has_licence = True
 
-            self.graph_info.append((graph, has_licence))
+            self.graph_info.append((graph_without_extension, has_licence))
+            
 
         return Dataset(self.descrition_file_exists, self.data_exists, self.licence_file_exists, \
                 self.path, self.name, self.descr_short, self.descr_long, self.licence, \
@@ -86,35 +94,3 @@ class FolderReader:
         else:
             if modification_time > self.highest_modification_time:
                 self.highest_modification_time = modification_time
-
-    # def read_description(self, path):
-    #     filepath = path+"/description.json"
-    #     name = None
-    #     descr_short = None
-    #     descr_long = None
-    #     licence = None
-    #     user_defined_columns = None
-    #     if os.stat(filepath).st_size > 0:
-    #         with open(filepath, encoding='utf-8') as file:
-    #             content = json.load(file)
-    #             name = self.check_field(content, "name")
-    #             descr_short = self.check_field(content, "descr_short")
-    #             descr_long = self.check_field(content, "descr_long")
-    #             licence = self.check_field(content, "licence")
-    #             user_defined_columns = self.check_field(content, "user_defined_columns")
-
-    #     return name, descr_short, descr_long, licence, user_defined_columns
-
-    # def check_field(self, content, field):
-    #     if field in content and len(content[field]) > 0:
-    #         if field == "user_defined_columns":
-    #             return self.handle_user_defined_columns(content[field])
-    #         return content[field]
-
-    #     return None
-
-    # def handle_user_defined_columns(self, user_defined_columns):
-    #     column_list = []
-    #     for name, content in user_defined_columns.items():
-    #         column_list.append((name, content))
-    #     return column_list
