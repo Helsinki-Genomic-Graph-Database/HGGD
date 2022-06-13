@@ -64,7 +64,6 @@ class GraphCreator:
             else:
                 licence = None
             new_graph = Graph(name, nodes, edges, sources, licence, filename, fileformat)
-            print(sources)
             self.set_sources.update(sources)
             self.graph_list.append(new_graph)
             if self.has_licence_file:
