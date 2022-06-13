@@ -21,7 +21,7 @@ class GfaReader:
         filename (str): filename of the file
 
         Returns:
-            name, nodes, edges, sources: data of the gfa-file
+            name, nodes, edges, sources, licence: data of the gfa-file
         """
 
         name = remove_file_extension(filename, ".gfa")
