@@ -17,8 +17,9 @@ class TestUI(unittest.TestCase):
     def test_folder_should_be_done_with_missing_source_for_graph(self):
         self.assertIn("Folder done.", self.res)
 
-    # def test_ui_should_notify_when_graph_has_no_sources(self):
-    #     self.assertIn("")
+    def test_ui_should_notify_when_graph_has_no_sources(self):
+        self.assertIn("\033[1;33;40mDataset 'testdata with description' in folder 'testdata_with_description_for_graph' has 1 graph(s) with missing source files.\033[0;37;40m", self.res)
+
 
 
 
