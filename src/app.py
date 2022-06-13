@@ -61,9 +61,6 @@ def render_dataset(dataset):
     nro_of_sources = len(sources)
     if nro_of_sources > 10:
         over_ten_sources = True
-    else:
-        for source in sources:
-            source_tuples.append((create_link_fo_fna(source), source))
     for graph in graphs:
         graph_namelist.append(graph.get_names())
     return render_template("dataset.html", total_graphs=graphs_total, average_nodes=avg_nodes, \
@@ -94,9 +91,6 @@ def render_graph(dataset, name):
     nro_of_sources = len(sources)
     if nro_of_sources > 10:
         over_ten_sources = True
-    else:
-        for source in sources:
-            source_tuples.append((create_link_fo_fna(source), source))
     dataset_folder = current_dataset.get_folder_name()
     return render_template("graph.html",name=name, nodes=nodes, edges=edges, dataset=dataset_folder, \
         licence=licence, source_tuples=source_tuples, over_ten_sources=over_ten_sources, \
@@ -116,8 +110,6 @@ def render_dataset_sources(dataset):
     dataset_name = current_dataset.get_name()
     sources = current_dataset.get_dataset_source()
     source_tuples = []
-    for source in sources:
-        source_tuples.append((create_link_fo_fna(source), source))
     dataset_folder = current_dataset.get_folder_name()
     return render_template("genomelinks.html", name=dataset_name, \
     dataset=dataset_folder, source_tuples=source_tuples)
@@ -138,8 +130,6 @@ def render_graph_sources(dataset, name):
     graph_name = graph.get_names()
     sources = graph.get_sources()
     source_tuples = []
-    for source in sources:
-        source_tuples.append((create_link_fo_fna(source), source))
     dataset_folder = current_dataset.get_folder_name()
     return render_template("genomelinks.html", name=graph_name, \
     dataset=dataset_folder, source_tuples=source_tuples, graph=graph_name)
