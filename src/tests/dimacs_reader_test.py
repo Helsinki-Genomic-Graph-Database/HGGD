@@ -13,3 +13,17 @@ class TestDimacsReader(unittest.TestCase):
         self.assertEqual(number_of_edges, 10)
         self.assertEqual(sources, [('www.dimacs.com', 'www.dimacs.com'), ('www.testi.com', 'www.testi.com')])
         self.assertEqual(licence, "Apache Testi")
+
+class TestDimacsReaderWithoutDescription(unittest.TestCase):
+    def setUp(self):
+        DIR = "src/tests/testdata_dimacs_graph/no_description"
+        self.DR = DimacsReader(DIR)
+
+    def test_read_dimacs_graph_without_description(self):
+        name, number_of_nodes, number_of_edges, sources, licence = self.DR.read_dimacs_graph("test_example.dimacs")
+        print(name, number_of_nodes, number_of_edges, sources, licence)
+        self.assertEqual(name, "test_example")
+        self.assertEqual(number_of_nodes, 5)
+        self.assertEqual(number_of_edges, 10)
+        self.assertEqual(sources, [])
+        self.assertEqual(licence, None)
