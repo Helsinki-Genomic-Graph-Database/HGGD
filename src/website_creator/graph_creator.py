@@ -57,12 +57,14 @@ class GraphCreator:
                 fileformat = "graph"
             if check_file_extension(filename, "gfa"):
                 graphreader = GfaReader(self.dir)
-                name, nodes, edges, sources = graphreader.read_file(filename)
+                name, nodes, edges, sources, licence = graphreader.read_file(filename)
                 fileformat = "gfa"
             if check_file_extension(filename, "dimacs"):
                 dimacsreader = DimacsReader(self.dir)
                 name, nodes, edges, sources, licence = dimacsreader.read_dimacs_graph(filename)
                 fileformat = "dimacs"
+            if licence is None:
+                licence = self.dataset_licence[0]
             new_graph = Graph(name, nodes, edges, sources, licence, filename, fileformat)
             self.set_sources.update(sources)
             self.graph_list.append(new_graph)

@@ -1,6 +1,6 @@
 import os
 import json
-from src.file_ui.file_utils import remove_file_extension, check_file_extension
+from src.file_ui.file_utils import remove_file_extension, read_graph_description, check_description_file_exists
 
 class DimacsReader:
     """This class reads graph files in DIMACS format."""
@@ -16,7 +16,10 @@ class DimacsReader:
             filename (_type_): name of the .dimacs file
         """
         name = remove_file_extension(filename, ".dimacs")
-        name, licence, sources = self.read_dimacs_description(name)
+        licence = None
+        sources = []
+        if check_description_file_exists(self.dir, name):
+            name, licence, sources = read_graph_description(self.dir, name)
         number_of_nodes, number_of_edges = self.read_dimacs_file(filename)
         return name, number_of_nodes, number_of_edges, sources, licence
 
@@ -49,18 +52,4 @@ class DimacsReader:
                 # these are edges, no need to read atm
                 continue
         return (number_of_nodes, number_of_edges)
-
-    def read_dimacs_description(self, name):
-        filename = name + "_description.json"
-        filepath = self.dir +"/"+ filename
-        name = None
-        licence = None
-        sources = []
-        if os.stat(filepath).st_size > 0:
-            with open(filepath, encoding='utf-8') as file:
-                content = json.loads(file.read())
-                name = content["name"]
-                licence = content["licence"]
-                sources = [(content["sources"], content["sources"])]
-        return name, licence, sources
 

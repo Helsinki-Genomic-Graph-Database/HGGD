@@ -52,12 +52,12 @@ def remove_file_extension(filename, extension):
     return filename
 
 def check_field(content, field):
-        if field in content and len(content[field]) > 0:
-            if field == "user_defined_columns":
-                return handle_user_defined_columns(content[field])
-            return content[field]
+    if field in content and len(content[field]) > 0:
+        if field == "user_defined_columns":
+            return handle_user_defined_columns(content[field])
+        return content[field]
 
-        return None
+    return None
 
 def handle_user_defined_columns(user_defined_columns):
     column_list = []
@@ -82,3 +82,22 @@ def read_description(path):
                 user_defined_columns = check_field(content, "user_defined_columns")
 
         return name, descr_short, descr_long, licence, user_defined_columns
+
+def read_graph_description(dir, name):
+    filename = name + "_description.json"
+    filepath = dir +"/"+ filename
+    name = None
+    licence = None
+    sources = []
+    if os.stat(filepath).st_size > 0:
+        with open(filepath, encoding='utf-8') as file:
+            content = json.loads(file.read())
+            name = content["name"]
+            licence = content["licence"]
+            for source in content["sources"]:
+                sources.append((source, source))
+    return name, licence, sources
+
+def check_description_file_exists(dir, filename):
+    json_name = filename+"_description.json"
+    return os.path.exists(os.path.join(dir, json_name))
