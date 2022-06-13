@@ -1,4 +1,6 @@
 import os
+import json
+from src.file_ui.file_utils import remove_file_extension, read_graph_description, check_description_file_exists
 
 class DimacsReader:
     """This class reads graph files in DIMACS format."""
@@ -13,11 +15,13 @@ class DimacsReader:
         Args:
             filename (_type_): name of the .dimacs file
         """
-        name = filename.strip(".dimacs")
-    #     name, source, licence = read_description(self, ...))
+        name = remove_file_extension(filename, ".dimacs")
+        licence = None
+        sources = []
+        if check_description_file_exists(self.dir, name):
+            name, licence, sources = read_graph_description(self.dir, name)
         number_of_nodes, number_of_edges = self.read_dimacs_file(filename)
-        sources = [("https://www.testing.fi", "www.testing.fi")]
-        return name, number_of_nodes, number_of_edges, sources
+        return name, number_of_nodes, number_of_edges, sources, licence
 
     def read_dimacs_file(self, filename):
         """ This function reads the .dimacs file and
@@ -48,8 +52,4 @@ class DimacsReader:
                 # these are edges, no need to read atm
                 continue
         return (number_of_nodes, number_of_edges)
-
-    # def read_description(self, ...):
-    #     jotain
-    #     return name, source, licence?
 

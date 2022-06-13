@@ -47,22 +47,24 @@ class GraphCreator:
         for filename in self.files:
             if not check_file_extension_multiple(filename, self.formats):
                 continue
-            if check_file_extension(filename, "graph"):
-                graphreader = GraphReader(self.dir)
-                name, nodes, edges, sources = graphreader.read_file(filename)
-                fileformat = "graph"
-            if check_file_extension(filename, "gfa"):
-                graphreader = GfaReader(self.dir)
-                name, nodes, edges, sources = graphreader.read_file(filename)
-                fileformat = "gfa"
-            if check_file_extension(filename, "dimacs"):
-                dimacsreader = DimacsReader(self.dir)
-                name, nodes, edges, sources = dimacsreader.read_dimacs_graph(filename)
-                fileformat = "dimacs"
             if len(self.dataset_licence) > 0:
                 licence = self.dataset_licence[0]
             else:
                 licence = None
+            if check_file_extension(filename, "graph"):
+                graphreader = GraphReader(self.dir)
+                name, nodes, edges, sources, licence = graphreader.read_file(filename)
+                fileformat = "graph"
+            if check_file_extension(filename, "gfa"):
+                graphreader = GfaReader(self.dir)
+                name, nodes, edges, sources, licence = graphreader.read_file(filename)
+                fileformat = "gfa"
+            if check_file_extension(filename, "dimacs"):
+                dimacsreader = DimacsReader(self.dir)
+                name, nodes, edges, sources, licence = dimacsreader.read_dimacs_graph(filename)
+                fileformat = "dimacs"
+            if licence is None:
+                licence = self.dataset_licence[0]
             new_graph = Graph(name, nodes, edges, sources, licence, filename, fileformat)
             self.set_sources.update(sources)
             self.graph_list.append(new_graph)

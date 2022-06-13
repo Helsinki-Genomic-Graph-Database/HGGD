@@ -56,7 +56,6 @@ def render_dataset(dataset):
     graph_namelist = []
     graphs = current_dataset.get_list_of_graphs()
     sources = current_dataset.get_dataset_source()
-    source_tuples = []
     over_ten_sources = False
     nro_of_sources = len(sources)
     if nro_of_sources > 10:
@@ -86,7 +85,6 @@ def render_graph(dataset, name):
     nodes = graph.get_nodes()
     edges = graph.get_edges()
     sources = graph.get_sources()
-    source_tuples = []
     over_ten_sources = False
     nro_of_sources = len(sources)
     if nro_of_sources > 10:
@@ -157,9 +155,11 @@ def download_graph(dataset, name):
     Returns:
         .graph file
     """
+    current_dataset = find_dataset_by_foldername(dataset, dataset_list)
+    graph = current_dataset.find_graph(name)
+    graph_filename = graph.get_file_name()
     directory=get_datapath(dataset, app)
-    graphfilename = ".".join([name, "graph"])
-    return send_from_directory(directory=directory, path='', filename=graphfilename)
+    return send_from_directory(directory=directory, path='', filename=graph_filename)
 
 
 if __name__ == "__main__":

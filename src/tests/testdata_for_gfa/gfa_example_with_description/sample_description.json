@@ -1,0 +1,5 @@
+{
+    "name": "testgfa",
+    "licence": "gfa licence",
+    "sources": ["gfa source1", "gfa source2"]
+}
