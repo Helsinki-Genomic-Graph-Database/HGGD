@@ -155,9 +155,11 @@ def download_graph(dataset, name):
     Returns:
         .graph file
     """
+    current_dataset = find_dataset_by_foldername(dataset, dataset_list)
+    graph = current_dataset.find_graph(name)
+    graph_filename = graph.get_file_name()
     directory=get_datapath(dataset, app)
-    graphfilename = ".".join([name, "graph"])
-    return send_from_directory(directory=directory, path='', filename=graphfilename)
+    return send_from_directory(directory=directory, path='', filename=graph_filename)
 
 
 if __name__ == "__main__":
