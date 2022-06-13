@@ -56,7 +56,6 @@ def render_dataset(dataset):
     graph_namelist = []
     graphs = current_dataset.get_list_of_graphs()
     sources = current_dataset.get_dataset_source()
-    source_tuples = []
     over_ten_sources = False
     nro_of_sources = len(sources)
     if nro_of_sources > 10:
@@ -86,7 +85,6 @@ def render_graph(dataset, name):
     nodes = graph.get_nodes()
     edges = graph.get_edges()
     sources = graph.get_sources()
-    source_tuples = []
     over_ten_sources = False
     nro_of_sources = len(sources)
     if nro_of_sources > 10:
