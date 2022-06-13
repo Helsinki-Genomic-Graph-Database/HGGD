@@ -1,4 +1,5 @@
 import os
+from src.file_ui.file_utils import remove_file_extension, read_graph_description, check_description_file_exists
 
 class GraphReader:
     """ Reads information from .graph-files
@@ -16,7 +17,7 @@ class GraphReader:
             int, str: number of nodes and edges, names of sources
         """
         
-        name = filename[:-6]
+        name = remove_file_extension(filename, ".graph")
         with open(os.path.join(self.dir, filename), "r", encoding='utf-8') as file:
             line = file.readline()
             sources = []
@@ -27,8 +28,12 @@ class GraphReader:
             data = file.readlines()
             edges = len(data)
             nodes = self._get_number_of_nodes(data)
-
-        return (name, nodes, edges, sources)
+            licence = None
+        if check_description_file_exists(self.dir, name):
+            name, licence, sources_desc = read_graph_description(self.dir, name)
+            if len(sources_desc) > 0:
+                sources = sources_desc
+        return (name, nodes, edges, sources, licence)
 
     def _get_number_of_nodes(self, data):
         """ Read the number of nodes from the file

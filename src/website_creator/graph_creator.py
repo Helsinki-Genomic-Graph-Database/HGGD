@@ -53,7 +53,7 @@ class GraphCreator:
                 licence = None
             if check_file_extension(filename, "graph"):
                 graphreader = GraphReader(self.dir)
-                name, nodes, edges, sources = graphreader.read_file(filename)
+                name, nodes, edges, sources, licence = graphreader.read_file(filename)
                 fileformat = "graph"
             if check_file_extension(filename, "gfa"):
                 graphreader = GfaReader(self.dir)
