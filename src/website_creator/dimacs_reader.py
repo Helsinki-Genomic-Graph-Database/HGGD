@@ -16,7 +16,7 @@ class DimacsReader:
             filename (_type_): name of the .dimacs file
         """
         name = remove_file_extension(filename, ".dimacs")
-        name, sources, licence = self.read_dimacs_description(name)
+        name, licence, sources = self.read_dimacs_description(name)
         number_of_nodes, number_of_edges = self.read_dimacs_file(filename)
         return name, number_of_nodes, number_of_edges, sources, licence
 
@@ -61,6 +61,6 @@ class DimacsReader:
                 content = json.loads(file.read())
                 name = content["name"]
                 licence = content["licence"]
-                sources = (content["sources"], content["sources"])
+                sources = [(content["sources"], content["sources"])]
         return name, licence, sources
 

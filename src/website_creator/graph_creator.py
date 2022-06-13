@@ -47,6 +47,10 @@ class GraphCreator:
         for filename in self.files:
             if not check_file_extension_multiple(filename, self.formats):
                 continue
+            if len(self.dataset_licence) > 0:
+                licence = self.dataset_licence[0]
+            else:
+                licence = None
             if check_file_extension(filename, "graph"):
                 graphreader = GraphReader(self.dir)
                 name, nodes, edges, sources = graphreader.read_file(filename)
@@ -59,10 +63,6 @@ class GraphCreator:
                 dimacsreader = DimacsReader(self.dir)
                 name, nodes, edges, sources, licence = dimacsreader.read_dimacs_graph(filename)
                 fileformat = "dimacs"
-            if len(self.dataset_licence) > 0:
-                licence = self.dataset_licence[0]
-            else:
-                licence = None
             new_graph = Graph(name, nodes, edges, sources, licence, filename, fileformat)
             self.set_sources.update(sources)
             self.graph_list.append(new_graph)
