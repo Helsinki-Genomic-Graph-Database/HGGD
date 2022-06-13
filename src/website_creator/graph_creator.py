@@ -4,6 +4,7 @@ from src.entities.graph import Graph
 from src.file_ui.file_utils import check_file_extension, check_file_extension_multiple
 from src.file_ui.file_utils import list_licence_files, read_licence_files
 from src.website_creator.graph_reader import GraphReader
+from src.website_creator.gfa_reader import GfaReader
 from src.website_creator.dimacs_reader import DimacsReader
 
 class GraphCreator:
@@ -23,7 +24,7 @@ class GraphCreator:
         self.dataset_licence = dataset_licence
         self.has_licence_file = has_licence_file
         self.set_sources = set()
-        self.formats = ["graph", "dfa", "dimacs"]
+        self.formats = ["graph", "gfa", "dimacs"]
 
     def get_graph_list(self):
         """
@@ -49,14 +50,21 @@ class GraphCreator:
             if check_file_extension(filename, "graph"):
                 graphreader = GraphReader(self.dir)
                 name, nodes, edges, sources = graphreader.read_file(filename)
+                fileformat = "graph"
+            if check_file_extension(filename, "gfa"):
+                graphreader = GfaReader(self.dir)
+                name, nodes, edges, sources = graphreader.read_file(filename)
+                fileformat = "gfa"
             if check_file_extension(filename, "dimacs"):
                 dimacsreader = DimacsReader(self.dir)
-                name, nodes, edges, sources = dimacsreader.read_dimacs_graph(filename)
+                name, nodes, edges, sources, licence = dimacsreader.read_dimacs_graph(filename)
+                fileformat = "dimacs"
             if len(self.dataset_licence) > 0:
                 licence = self.dataset_licence[0]
             else:
                 licence = None
-            new_graph = Graph(name, nodes, edges, sources, licence)
+            new_graph = Graph(name, nodes, edges, sources, licence, filename, fileformat)
+            print(sources)
             self.set_sources.update(sources)
             self.graph_list.append(new_graph)
             if self.has_licence_file:

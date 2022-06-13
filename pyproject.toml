@@ -10,6 +10,7 @@ invoke = "^1.7.1"
 Flask = "^2.1.2"
 python-dotenv = "^0.20.0"
 gunicorn = "^20.1.0"
+gfapy = "^1.2.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
