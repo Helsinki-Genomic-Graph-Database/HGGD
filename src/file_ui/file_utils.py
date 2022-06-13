@@ -11,30 +11,6 @@ def check_file_extension_multiple(filename, extension_list):
             found = True
     return found
 
-def read_description(filepath):
-    try:
-        file = open(f"{filepath}/description.json", encoding='utf-8')
-    except:
-        return None, None, None, None
-    content = json.load(file)
-    try:
-        name = content["name"]
-    except:
-        name = "No name (this should never happen)"
-    try:
-        descr_short = content["descr_short"]
-    except:
-        descr_short = "No short description (this should never happen)"
-    try:
-        descr_long = content["descr_long"]
-    except:
-        descr_long = ""
-    try:
-        licence = content["licence"]
-    except:
-        licence = "None"
-    return (name, descr_short, descr_long, licence)
-
 def read_licence_files(filepath, filename, graph):
     try:
         licence_file = open(f"{filepath}/{filename}", encoding='utf-8')
@@ -74,3 +50,35 @@ def remove_file_extension(filename, extension):
     difference = filename_letter_amount - ext_letter_amount
     filename = filename[0:difference]
     return filename
+
+def check_field(content, field):
+        if field in content and len(content[field]) > 0:
+            if field == "user_defined_columns":
+                return handle_user_defined_columns(content[field])
+            return content[field]
+
+        return None
+
+def handle_user_defined_columns(user_defined_columns):
+    column_list = []
+    for name, content in user_defined_columns.items():
+        column_list.append((name, content))
+    return column_list
+
+def read_description(path):
+        filepath = path+"/description.json"
+        name = None
+        descr_short = None
+        descr_long = None
+        licence = None
+        user_defined_columns = None
+        if os.stat(filepath).st_size > 0:
+            with open(filepath, encoding='utf-8') as file:
+                content = json.load(file)
+                name = check_field(content, "name")
+                descr_short = check_field(content, "descr_short")
+                descr_long = check_field(content, "descr_long")
+                licence = check_field(content, "licence")
+                user_defined_columns = check_field(content, "user_defined_columns")
+
+        return name, descr_short, descr_long, licence, user_defined_columns

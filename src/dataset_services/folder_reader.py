@@ -1,6 +1,6 @@
 import os
 import json
-from src.file_ui.file_utils import check_file_extension, check_file_extension_multiple
+from src.file_ui.file_utils import check_file_extension, check_file_extension_multiple, check_field, read_description
 from src.entities.dataset import Dataset
 
 class FolderReader:
@@ -41,7 +41,7 @@ class FolderReader:
             if check_file_extension(file, "json"):
                 if file == "description.json":
                     self.descrition_file_exists = True
-                    self.name, self.descr_short, self.descr_long, licence_in_descr, self.user_defined_columns = self.read_description(self.path)
+                    self.name, self.descr_short, self.descr_long, licence_in_descr, self.user_defined_columns = read_description(self.path)
                     if licence_in_descr:
                         self.licence.append(licence_in_descr)
                 else:
@@ -68,7 +68,7 @@ class FolderReader:
                     if os.stat(filepath).st_size > 0:
                         with open(filepath, encoding='utf-8') as file:
                             content = json.load(file)
-                            if self.check_field(content, "licence") is not None:
+                            if check_field(content, "licence") is not None:
                                 has_licence = True
 
             self.graph_info.append((graph, has_licence))
@@ -87,34 +87,34 @@ class FolderReader:
             if modification_time > self.highest_modification_time:
                 self.highest_modification_time = modification_time
 
-    def read_description(self, path):
-        filepath = path+"/description.json"
-        name = None
-        descr_short = None
-        descr_long = None
-        licence = None
-        user_defined_columns = None
-        if os.stat(filepath).st_size > 0:
-            with open(filepath, encoding='utf-8') as file:
-                content = json.load(file)
-                name = self.check_field(content, "name")
-                descr_short = self.check_field(content, "descr_short")
-                descr_long = self.check_field(content, "descr_long")
-                licence = self.check_field(content, "licence")
-                user_defined_columns = self.check_field(content, "user_defined_columns")
+    # def read_description(self, path):
+    #     filepath = path+"/description.json"
+    #     name = None
+    #     descr_short = None
+    #     descr_long = None
+    #     licence = None
+    #     user_defined_columns = None
+    #     if os.stat(filepath).st_size > 0:
+    #         with open(filepath, encoding='utf-8') as file:
+    #             content = json.load(file)
+    #             name = self.check_field(content, "name")
+    #             descr_short = self.check_field(content, "descr_short")
+    #             descr_long = self.check_field(content, "descr_long")
+    #             licence = self.check_field(content, "licence")
+    #             user_defined_columns = self.check_field(content, "user_defined_columns")
 
-        return name, descr_short, descr_long, licence, user_defined_columns
+    #     return name, descr_short, descr_long, licence, user_defined_columns
 
-    def check_field(self, content, field):
-        if field in content and len(content[field]) > 0:
-            if field == "user_defined_columns":
-                return self.handle_user_defined_columns(content[field])
-            return content[field]
+    # def check_field(self, content, field):
+    #     if field in content and len(content[field]) > 0:
+    #         if field == "user_defined_columns":
+    #             return self.handle_user_defined_columns(content[field])
+    #         return content[field]
 
-        return None
+    #     return None
 
-    def handle_user_defined_columns(self, user_defined_columns):
-        column_list = []
-        for name, content in user_defined_columns.items():
-            column_list.append((name, content))
-        return column_list
+    # def handle_user_defined_columns(self, user_defined_columns):
+    #     column_list = []
+    #     for name, content in user_defined_columns.items():
+    #         column_list.append((name, content))
+    #     return column_list
