@@ -102,10 +102,12 @@ def read_graph_description(dir, name):
     if os.stat(filepath).st_size > 0:
         with open(filepath, encoding='utf-8') as file:
             content = json.loads(file.read())
-            name = content["name"]
-            licence = content["licence"]
-            for source in content["sources"]:
-                sources.append((source, source))
+            name = check_field(content, "name")
+            licence = check_field(content, "licence")
+            source_list = check_field(content, "sources")
+            if source_list is not None:
+                for source in source_list:
+                    sources.append((source, source))
     return name, licence, sources
 
 def check_description_file_exists(dir, filename):
