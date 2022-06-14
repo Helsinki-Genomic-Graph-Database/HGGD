@@ -1,0 +1,5 @@
+{
+    "name": "test graph",
+    "licence": "MIT",
+    "sources": ["test source1"]
+}

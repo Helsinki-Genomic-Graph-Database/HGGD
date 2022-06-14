@@ -11,32 +11,32 @@ class TestGraphDescriptionReadingToDataset(unittest.TestCase):
         self.res = self.dataset.get_graph_info()
 
     def test_dataset_should_have_list_of_tuples_for_graphs(self):
-        self.assertEqual(len(self.res), 8)
+        self.assertEqual(len(self.res), 9)
 
     def test_info_list_should_have_true_for_gfa_for_licence_in_description(self):
         for graph, has_licence in self.res:
-            if graph == "test.gfa":
+            if graph == "test_gfa":
                 res = has_licence
         self.assertEqual(res, True)
 
     def test_info_list_should_have_true_for_graph_licence(self):
         for graph, has_licence in self.res:
-            if graph == "test.graph":
+            if graph == "test_graph":
                 res = has_licence
         self.assertEqual(res, True)
 
     def test_info_list_should_have_false_for_dimacs_when_no_description(self):
         for graph, has_licence in self.res:
-            if graph == "test.dimacs":
+            if graph == "test_dimacs":
                 res = has_licence
         self.assertEqual(res, False)
 
-    def test_info_list_should_have_false_when_having_no_licence_in_description(self):
-        with open(self.dir+"test.dimacs_description.json", "w") as file:
+    def test_info_list_should_have_false_when_having_no_licence_in_description(self):  
+        with open(self.dir+"/test_dimacs_description.json", "w") as file:
             file.write('{"name":"test"}')
         for graph, has_licence in self.res:
-            if graph == "test.dimacs":
+            if graph == "test_dimacs":
                 res = has_licence
-        os.remove(self.dir+"test.dimacs_description.json")
+        os.remove(self.dir+"/test_dimacs_description.json")
         self.assertEqual(res, False)
 

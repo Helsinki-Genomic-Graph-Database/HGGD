@@ -13,6 +13,7 @@ class UI:
         self._validator = Validator()
         self._writer = JsonWriter()
         self.something_updated = False
+        self.missing_sources = []
 
     def start(self):
         """This method goes through all the datasets in
@@ -25,6 +26,7 @@ class UI:
             self._io.write("Folder:")
             self._io.write(dataset.get_folder_name())
             self._io.write("Dataset:")
+            self.process_graph_sources(dataset)
             if dataset.get_name() is None:
                 self._io.write("(The dataset has no name)")
             else:
@@ -43,6 +45,16 @@ class UI:
             self.process_long_description(dataset, questions_asked)
             self.process_licence(dataset, questions_asked)
             self.folder_done(dataset)
+
+        
+        if len(self.missing_sources) > 0:
+            for dataset in self.missing_sources:
+                self._io.write(f"\033[1;33;40mDataset '{dataset[0]}' in folder '{dataset[1]}' has {dataset[2]} graph(s) with missing source files.\033[0;37;40m")
+
+    def process_graph_sources(self, dataset):
+        number_of_missing_sources = self._validator.check_graphs_without_sources(dataset)
+        if number_of_missing_sources > 0:
+            self.missing_sources.append((dataset.get_name(), dataset.get_folder_name(), number_of_missing_sources))
 
     def process_data(self, dataset):
         data_exists = self._validator.check_data_exists(dataset)
