@@ -12,33 +12,64 @@ body {
   width: 20%;
   float: left;
   padding: 20px;
-  
+
 }
 
 .clear:after {
-clear: both;
-content: "";
-display: table;
-}  
+  clear: both;
+  content: "";
+  display: table;
+}
 
 .indextable {
-    table-layout: fixed;
-    width: 100%;  
-    border-collapse: collapse;
-    border: 2px #0e688b solid
-  }
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px #0e688b solid;
+  padding: 3px;
+}
 
-  .indexth {
-    border: 1px #0e688b solid;
-    text-align: center;
-  }
+.indexcaption {
+  text-align: left;
+  padding: 4px;
+}
 
-  .indextdnumber {
-    border: 1px #0e688b solid;
-    text-align: center;
-  }
+.indexth {
+  border: 1px #0e688b solid;
+  text-align: center;
+}
 
-  .indextdtext {
-    border: 1px #0e688b solid;
-    text-align: left;
-  }
+.indextdnumber {
+  border: 1px #0e688b solid;
+  text-align: center;
+}
+
+.indextdtext {
+  border: 1px #0e688b solid;
+  text-align: left;
+}
+
+.indextotal {
+  border: 2px #0e688b solid;
+  text-align: center;
+}
+
+a:link {
+  text-decoration: none;
+  color: #0e688b;
+}
+
+a:visited {
+  text-decoration: none;
+  color: #0e688b;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #0e688b;
+}
+
+a:active {
+  text-decoration: underline;
+  color: #0e688b;
+}

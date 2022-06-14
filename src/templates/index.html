@@ -8,50 +8,62 @@ Helsinki Genomic Graph Database
 <hy-docs-container>
     <hy-paragraph-text>Helsinki Genomic Graph Database is a database for the University of Helsinki researchers to add
         graph datasets of genomic sequences.</hy-paragraph-text>
-    <br>
+    <br><br>
     {% if dataset_info %}
-    <hy-table-container>
+    <hy-heading heading="h3"> Datasets in database </hy-heading>
+    <hy-table-container>   
+        {% for dataset in dataset_info %}
         <table class="indextable">
-            <caption>
-                <hy-heading heading="h5">Datasets in database</hy-heading>
+            <caption class="indexcaption">
+                <hy-heading heading="h4">
+                        <a href="/hggd/datasets/{{ dataset[2] }}">{{ dataset[0] }}</a>
+                </hy-heading>
             </caption>
+            <caption class="indexcaption"><hy-paragraph-text padding="3px">{{ dataset[1] }}</hy-paragraph-text></caption>
             <thead>
                 <tr>
                     <th class="indexth">
-                        <hy-paragraph-text>Name </hy-paragraph-text>
+                        <hy-paragraph-text>Graphs</hy-paragraph-text>
                     </th>
                     <th class="indexth">
-                        <hy-paragraph-text>Description</hy-paragraph-text>
+                        <hy-paragraph-text>Edges</hy-paragraph-text>
                     </th>
                     <th class="indexth">
-                        <hy-paragraph-text>Total edges</hy-paragraph-text>
-                    </th>
-                    <th class="indexth">
-                        <hy-paragraph-text>Total nodes</hy-paragraph-text>
+                        <hy-paragraph-text>Nodes</hy-paragraph-text>
                     </th>
                 </tr>
             </thead>
             <tbody>
-                {% for dataset in dataset_info %}
+                {% for graph in dataset[5] %}
+                    <tr>
+                        <td class="indextdtext">                 
+                                <hy-link variant="within-paragraph" url="/hggd/datasets/{{ dataset[2] }}/{{ graph[0] }}" link-content= "{{ graph[0] }}"
+                                aria-label= "{{ graph[0] }}" is-external="false">
+                            </hy-link>
+                        </td>
+                        <td class="indextdnumber">
+                            <hy-paragraph-text>{{ graph[1] }} </hy-paragraph-text>
+                        </td>
+                        <td class="indextdnumber">
+                            <hy-paragraph-text>{{ graph[2] }} </hy-paragraph-text>
+                        </td>
+                    </tr>
+                {% endfor %}
                 <tr>
-                    <td class="indextdtext">
-                        <hy-link variant="within-paragraph" url="/hggd/datasets/{{ dataset[2] }}" link-content= "{{ dataset[0] }}"
-                            aria-label= "{{ dataset[0] }}" is-external="false">
-                        </hy-link>
+                    <td class="indextotal">
+                        <hy-paragraph-text> <b>Total for dataset </b></hy-paragraph-text>
                     </td>
-                    <td class="indextdtext">
-                        <hy-paragraph-text>{{ dataset[1] }} </hy-paragraph-text>
-                    </td>
-                    <td class="indextdnumber">
+                    <td class="indextotal">
                         <hy-paragraph-text>{{ dataset[3] }} </hy-paragraph-text>
                     </td>
-                    <td class="indextdnumber">
+                    <td class="indextotal">
                         <hy-paragraph-text>{{ dataset[4] }} </hy-paragraph-text>
                     </td>
                 </tr>
-                {% endfor %}
             </tbody>
+            <br><br>
         </table>
+        {% endfor %}
     </hy-table-container>
     {% endif %}
 </hy-docs-container>
