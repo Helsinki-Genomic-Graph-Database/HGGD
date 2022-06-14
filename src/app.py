@@ -1,10 +1,12 @@
 from os import getenv, environ, path
+from dotenv import load_dotenv
 from flask import render_template, Flask, send_from_directory
 from src.dataset_services.dataset_creator import DatasetCreator
 from src.dataset_services.dataset_reader import DatasetReader
 from src.website_creator.read_graphs import ReadGraphs
 from src.helper_functions_for_app import find_dataset_by_foldername, get_datapath
 
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = getenv("SECRET_KEY")
@@ -12,8 +14,8 @@ app.config['DATA_FOLDER']='data'
 
 # Finds dataset info from datafolder and makes a list of all the
 # dataset objects with the info from the folders
-DIR = "data"
-datasetreader_service = DatasetReader(DIR)
+data_directory = getenv("DIR")
+datasetreader_service = DatasetReader(data_directory)
 dir_paths = datasetreader_service.get_paths()
 datasetcreator_service = DatasetCreator(dir_paths)
 dataset_list = datasetcreator_service.get_datasets()
@@ -34,8 +36,13 @@ def render_index():
     """
     dataset_info = []
     for dataset in dataset_list:
+        graphlist = dataset.get_list_of_graphs()
+        graphinfo = []
+        for graph in graphlist:
+            graphinfo.append((graph.get_names(), graph.get_edges(), graph.get_nodes()))
         dataset_info.append((dataset.get_name(), dataset.get_descr_short(), \
-        dataset.get_folder_name(), dataset.get_total_edges(), dataset.get_total_nodes()))
+        dataset.get_folder_name(), dataset.get_total_edges(), dataset.get_total_nodes(), \
+        graphinfo))
     return render_template("index.html", dataset_info=dataset_info)
 
 @app.route("/hggd/datasets/<dataset>", methods=["GET"])

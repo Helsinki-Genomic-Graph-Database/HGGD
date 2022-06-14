@@ -29,14 +29,15 @@ class UI:
             self._io.write("Folder:")
             self._io.write(dataset.get_folder_name())
             self._io.write("Dataset:")
-            self.process_graph_sources(dataset)
-            self.process_graph_licences(dataset)
+            
             if dataset.get_name() is None:
                 self._io.write("(The dataset has no name)")
             else:
                 self._io.write(dataset.get_name())
-            if self._validator.check_show_on_website(dataset):
+            if self._validator.check_show_on_website(dataset):                
                 self._io.write("Folder done.")
+                self.process_graph_sources(dataset)
+                self.process_graph_licences(dataset)
                 continue
             data_exists = self.process_data(dataset)
             if not data_exists:
@@ -49,6 +50,8 @@ class UI:
             self.process_long_description(dataset, questions_asked)
             self.process_licence(dataset, questions_asked)
             self.create_dimacs(dataset)
+            self.process_graph_sources(dataset)
+            self.process_graph_licences(dataset)
             self.folder_done(dataset)
 
         self.print_number_of_missing_sources()
