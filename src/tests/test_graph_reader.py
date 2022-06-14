@@ -9,7 +9,7 @@ class TestGraphReaderWithFullDescription(unittest.TestCase):
         self.graphcreator = GraphReader(DIR)
 
     def test_read_file_full_desc(self):
-        name, nodes, edges, sources, licence = self.graphcreator.read_file("gt1.kmer15.(736000.738000).V22.E29.cyc128.graph")
+        name, nodes, edges, sources, licence, comments_for_conversion, edges_listed = self.graphcreator.read_file("gt1.kmer15.(736000.738000).V22.E29.cyc128.graph")
         self.assertEqual(name, "test graph")
         self.assertEqual(nodes, 22)
         self.assertEqual(edges, 29)
@@ -17,7 +17,7 @@ class TestGraphReaderWithFullDescription(unittest.TestCase):
         self.assertEqual(sources, [("test source1", "test source1")]) 
 
     def test_read_file_no_desc(self):
-        name, nodes, edges, sources, licence = self.graphcreator.read_file("gt1.kmer15.(1268000.1270000).V21.E27.cyc64.graph")
+        name, nodes, edges, sources, licence, comments_for_conversion, edges_listed = self.graphcreator.read_file("gt1.kmer15.(1268000.1270000).V21.E27.cyc64.graph")
         self.assertEqual(name, "gt1.kmer15.(1268000.1270000).V21.E27.cyc64")
         self.assertEqual(nodes, 21)
         self.assertEqual(edges, 27)
@@ -31,7 +31,7 @@ class TestGraphReaderWithInadequateDescription(unittest.TestCase):
         self.graphcreator = GraphReader(DIR)
 
     def test_read_file_full_desc(self):
-        name, nodes, edges, sources, licence = self.graphcreator.read_file("gt1.kmer15.(736000.738000).V22.E29.cyc128.graph")
+        name, nodes, edges, sources, licence, comments_for_conversion, edges_listed = self.graphcreator.read_file("gt1.kmer15.(736000.738000).V22.E29.cyc128.graph")
         self.assertEqual(name, "gt1.kmer15.(736000.738000).V22.E29.cyc128")
         self.assertEqual(nodes, 22)
         self.assertEqual(edges, 29)
