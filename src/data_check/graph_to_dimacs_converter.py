@@ -1,7 +1,7 @@
 import os
 from src.website_creator.graph_reader import GraphReader
 
-class DimacsConverter:
+class GraphToDimacsConverter:
     """This class contains functions for converting a graph
     into DIMACS format, which includes: comment lines starting
     with 'c', problem lines 'p edge {nodes} {edges}', and edge lines
