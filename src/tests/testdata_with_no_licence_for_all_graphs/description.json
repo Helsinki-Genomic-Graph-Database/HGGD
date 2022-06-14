@@ -1,0 +1,7 @@
+{
+    "name":"testdata with description",
+    "descr_long":"testing data",
+    "descr_short":"with full description",
+    "user_defined_columns": {"test column strings": ["test string 1", "test string 2"], "test column numbers": [1, 2], "test column strings and numbers": ["test string", 2]}
+
+}

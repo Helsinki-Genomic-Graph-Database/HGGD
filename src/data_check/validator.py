@@ -51,7 +51,16 @@ class Validator:
         graphs = dataset.get_graph_info()
         number_of_graphs_without_sources = 0
         for graph in graphs:
-            if graph[1] == False:
+            if graph[2] == False:
                 number_of_graphs_without_sources += 1
 
         return number_of_graphs_without_sources
+
+    def check_graphs_without_licence(self, dataset):
+        graphs = dataset.get_graph_info()
+        number_of_graphs_without_licence = 0
+        for graph in graphs:
+            if graph[1] == False:
+                number_of_graphs_without_licence += 1
+
+        return number_of_graphs_without_licence
