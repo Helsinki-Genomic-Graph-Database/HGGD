@@ -14,6 +14,7 @@ class UI:
         self._writer = JsonWriter()
         self.something_updated = False
         self.missing_sources = []
+        self.missing_licences = []
 
     def start(self):
         """This method goes through all the datasets in
@@ -27,6 +28,7 @@ class UI:
             self._io.write(dataset.get_folder_name())
             self._io.write("Dataset:")
             self.process_graph_sources(dataset)
+            self.process_graph_licences(dataset)
             if dataset.get_name() is None:
                 self._io.write("(The dataset has no name)")
             else:
@@ -46,15 +48,30 @@ class UI:
             self.process_licence(dataset, questions_asked)
             self.folder_done(dataset)
 
-        
-        if len(self.missing_sources) > 0:
-            for dataset in self.missing_sources:
-                self._io.write(f"\033[1;33;40mDataset '{dataset[0]}' in folder '{dataset[1]}' has {dataset[2]} graph(s) with missing source files.\033[0;37;40m")
-
+        self.print_number_of_missing_sources()
+        self.print_number_of_missing_licences()
+       
     def process_graph_sources(self, dataset):
         number_of_missing_sources = self._validator.check_graphs_without_sources(dataset)
         if number_of_missing_sources > 0:
             self.missing_sources.append((dataset.get_name(), dataset.get_folder_name(), number_of_missing_sources))
+
+    def print_number_of_missing_sources(self):
+        if len(self.missing_sources) > 0:
+            for dataset in self.missing_sources:
+                self._io.write(f"\033[1;33;40mDataset '{dataset[0]}' in folder '{dataset[1]}' has {dataset[2]} graph(s) with missing source files.\033[0;37;40m")
+
+    def process_graph_licences(self, dataset):
+        if self._validator.check_licence_exists(dataset):
+            pass
+        number_of_missing_licences = self._validator.check_graphs_without_licence(dataset)
+        if number_of_missing_licences > 0:
+            self.missing_licences.append((dataset.get_name(), dataset.get_folder_name(), number_of_missing_licences))
+
+    def print_number_of_missing_licences(self):
+        if len(self.missing_licences) > 0:
+            for dataset in self.missing_licences:
+                self._io.write(f"\033[1;33;40mDataset '{dataset[0]}' in folder '{dataset[1]}' has {dataset[2]} graph(s) with no licence given.\033[0;37;40m")
 
     def process_data(self, dataset):
         data_exists = self._validator.check_data_exists(dataset)
@@ -135,6 +152,7 @@ doesn't have a long description.\033[0;37;40m")
 doesn't have a licence.\033[0;37;40m")
         else:
             self._io.write("\033[1;32;40mLicence exists.\033[0;37;40m")
+
 
     def ask_name(self):
         name = ""

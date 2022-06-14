@@ -26,7 +26,7 @@ class FolderReader:
         self.highest_modification_time = 0
         self.logtime = 0
         self.has_log_file = False
-        self.graph_info = []
+        self.graph_info = [] # list of tuples, format: (graph filename, has licences, has sources)
 
     def get_dataset(self):
         graphs = []
@@ -36,8 +36,6 @@ class FolderReader:
 
             if check_file_extension_multiple(file, ["graph", "gfa", "dimacs"]):
                 self.data_exists = True
-                extension_length = len(file.split(".")[-1])
-                graph_without_extension = file[:-extension_length-1]
                 graphs.append(file)
 
             if check_file_extension(file, "json"):
@@ -62,25 +60,8 @@ class FolderReader:
         if ui_run and self.data_exists:
             self.show_on_website = True
 
-        for graph in graphs:
-            extension_length = len(graph.split(".")[-1])
-            graph_without_extension = graph[:-extension_length-1]
-            has_licence = False
-            if check_file_extension(graph, "graph"):
-                has_licence = True
-            else:
-                if graph_without_extension in graph_descriptions:
-                    filepath = self.path+"/"+graph_without_extension+"_description.json"
-                    
-                    if os.stat(filepath).st_size > 0:
-                        with open(filepath, encoding='utf-8') as file:
-                            content = json.load(file)
-                            if check_field(content, "licence") is not None:
-                                has_licence = True
-
-            self.graph_info.append((graph_without_extension, has_licence))
-            
-
+        self.process_graphs(graphs, graph_descriptions)
+        
         return Dataset(self.descrition_file_exists, self.data_exists, self.licence_file_exists, \
                 self.path, self.name, self.descr_short, self.descr_long, self.licence, \
                 self.show_on_website, self.folder_name, self.user_defined_columns, \
@@ -94,3 +75,24 @@ class FolderReader:
         else:
             if modification_time > self.highest_modification_time:
                 self.highest_modification_time = modification_time
+
+    def process_graphs(self, graphs, graph_descriptions):
+        for graph in graphs:
+            extension_length = len(graph.split(".")[-1])
+            graph_without_extension = graph[:-extension_length-1]
+            has_licence = False
+            has_sources = False
+            if check_file_extension(graph, "graph"):
+                has_sources = True
+            if graph_without_extension in graph_descriptions:
+                filepath = self.path+"/"+graph_without_extension+"_description.json"
+                    
+                if os.stat(filepath).st_size > 0:
+                    with open(filepath, encoding='utf-8') as file:
+                        content = json.load(file)
+                        if check_field(content, "licence") is not None:
+                            has_licence = True
+                        if check_field(content, "sources") is not None:
+                            has_sources = True
+
+            self.graph_info.append((graph, has_licence, has_sources))
