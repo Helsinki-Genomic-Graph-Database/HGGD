@@ -2,6 +2,8 @@ from datetime import datetime
 from src.data_check.json_writer import JsonWriter
 from src.data_check.validator import Validator
 from src.data_check.zip_creator import ZipCreator
+from src.data_check.dimacs_converter import DimacsConverter
+from src.file_ui.file_utils import remove_file_extension
 
 class UI:
     """This is a text-based user interface for processing
@@ -49,6 +51,7 @@ class UI:
             self.process_short_desc(dataset)
             self.process_long_description(dataset, questions_asked)
             self.process_licence(dataset, questions_asked)
+            self.create_dimacs(dataset)
             self.process_graph_sources(dataset)
             self.process_graph_licences(dataset)
             self.process_issues(dataset)
@@ -223,3 +226,11 @@ have a short description.\033[0;37;40m")
             log.write(f"ui run on: {logstamp}")
         zip_c = ZipCreator()
         zip_c.create_zip(name, path)
+
+    def create_dimacs(self, dataset):
+        graph_info = dataset.get_graph_info()
+        dimacs_converter = DimacsConverter(dataset.get_path())
+        for item in graph_info:
+            if item[0] is "dimacs":
+                continue
+            dimacs_converter.convert_graph_to_dimacs(item[0])
