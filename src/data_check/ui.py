@@ -15,6 +15,7 @@ class UI:
         self.something_updated = False
         self.missing_sources = []
         self.missing_licences = []
+        self.issues = {}
 
     def start(self):
         """This method goes through all the datasets in
@@ -36,6 +37,7 @@ class UI:
                 self._io.write("Folder done.")
                 self.process_graph_sources(dataset)
                 self.process_graph_licences(dataset)
+                self.process_issues(dataset)
                 continue
             data_exists = self.process_data(dataset)
             if not data_exists:
@@ -49,10 +51,28 @@ class UI:
             self.process_licence(dataset, questions_asked)
             self.process_graph_sources(dataset)
             self.process_graph_licences(dataset)
+            self.process_issues(dataset)
             self.folder_done(dataset)
 
+        self.print_number_of_issues()
         self.print_number_of_missing_sources()
         self.print_number_of_missing_licences()
+
+    def print_number_of_issues(self):
+        number_of_issues = len(self.issues) + len(self.missing_licences) + len(self.missing_sources)
+        if number_of_issues > 0:
+            self._io.write(f"\033[1;33;40m{number_of_issues} issue(s) found in datasets\033[0;37;40m")
+
+    def process_issues(self, dataset):
+        issues = []
+        if not self._validator.check_data_exists(dataset):
+            issues.append("has no data")
+        
+        if not self._validator.check_descr_long_exists(dataset):
+            issues.append("has no long description")
+
+        if len(issues) > 0:
+            self.issues[dataset.get_folder_name()] = (dataset.get_name(), issues)
        
     def process_graph_sources(self, dataset):
         number_of_missing_sources = self._validator.check_graphs_without_sources(dataset)

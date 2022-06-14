@@ -30,9 +30,10 @@ class Validator:
         return True
 
     def check_descr_long_exists(self, dataset):
-        if (dataset.get_descr_long()) == 0:
-            return False
+        
         if (dataset.get_descr_long()) is None:
+            return False
+        if len(dataset.get_descr_long()) == 0:
             return False
         return True
 
