@@ -37,7 +37,8 @@ class DimacsConverter:
             edge_line_list (list): list of edge lines as strings
         """
         path = self.dir + "/dimacs/"
-        os.mkdir(path)
+        if not os.path.isdir(path):
+            os.mkdir(path)
         with open(os.path.join(path, name), "w", encoding='utf-8') as file:
             for item in comments:
                 file.write(item)
