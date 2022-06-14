@@ -4,8 +4,8 @@ from src.file_ui.file_utils import remove_file_extension, read_graph_description
 class GraphReader:
     """ Reads information from .graph-files
     """
-    def __init__(self, dir):
-        self.dir = dir
+    def __init__(self, directory):
+        self.dir = directory
 
     def read_file(self, filename):
         """ Reads the files and returns the data for it
@@ -21,13 +21,16 @@ class GraphReader:
         with open(os.path.join(self.dir, filename), "r", encoding='utf-8') as file:
             line = file.readline()
             sources = []
+            comments_for_conversion = []
             while line[0] == "#":
+                comments_for_conversion.append(line)
                 if "genomes" in line:
                     sources = self._get_sources(line)
                 line = file.readline()
             data = file.readlines()
-            edges = len(data)
-            nodes = self._get_number_of_nodes(data)
+            edges = data
+            no_of_edges = len(data)
+            no_of_nodes = self._get_number_of_nodes(data)
             licence = None
         if check_description_file_exists(self.dir, name):
             name, licence, sources_desc = read_graph_description(self.dir, name)
@@ -35,7 +38,7 @@ class GraphReader:
                 sources = sources_desc
         if name is None:
             name = remove_file_extension(filename, ".graph")
-        return (name, nodes, edges, sources, licence)
+        return (name, no_of_nodes, no_of_edges, sources, licence, comments_for_conversion, edges)
 
     def _get_number_of_nodes(self, data):
         """ Read the number of nodes from the file
