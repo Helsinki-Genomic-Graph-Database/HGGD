@@ -45,6 +45,8 @@ class GraphCreator:
         """
         self.files = os.listdir(self.dir)
         for filename in self.files:
+            if os.path.isdir(os.path.join(self.dir, filename)):
+                continue
             if not check_file_extension_multiple(filename, self.formats):
                 continue
             if len(self.dataset_licence) > 0:
