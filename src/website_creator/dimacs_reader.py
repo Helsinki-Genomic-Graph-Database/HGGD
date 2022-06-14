@@ -1,5 +1,4 @@
 import os
-import json
 from src.file_ui.file_utils import remove_file_extension, read_graph_description, check_description_file_exists
 
 class DimacsReader:
