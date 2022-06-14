@@ -36,3 +36,10 @@ class TestUIGraphLicences(unittest.TestCase):
 
     def test_ui_should_notify_when_graphs_have_no_licence(self):
         self.assertIn("\033[1;33;40mDataset 'testdata with description' in folder 'testdata_with_no_licence_for_all_graphs' has 7 graph(s) with no licence given.\033[0;37;40m", self.res)
+
+class TestUIGraphLicencesWithLiceneGivenInUI(unittest.TestCase):
+
+    def setUp(self):
+        creator = DatasetCreator(["src/tests/testdata"])
+        dataset_list = creator.get_datasets()
+        
