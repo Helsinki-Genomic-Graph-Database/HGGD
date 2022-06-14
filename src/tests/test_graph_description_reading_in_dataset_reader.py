@@ -15,13 +15,13 @@ class TestGraphDescriptionReadingToDataset(unittest.TestCase):
 
     def test_info_list_should_have_true_for_gfa_for_licence_in_description(self):
         for graph, has_licence, has_sources in self.res:
-            if graph == "test_gfa":
+            if graph == "test_gfa.gfa":
                 res = has_licence
         self.assertEqual(res, True)
 
     def test_info_list_should_have_false_for_dimacs_when_no_description(self):
         for graph, has_licence, has_sources in self.res:
-            if graph == "test_dimacs":
+            if graph == "test_dimacs.dimacs":
                 res = has_licence
         self.assertEqual(res, False)
 
@@ -29,7 +29,7 @@ class TestGraphDescriptionReadingToDataset(unittest.TestCase):
         with open(self.dir+"/test_dimacs_description.json", "w") as file:
             file.write('{"name":"test"}')
         for graph, has_licence, has_sources in self.res:
-            if graph == "test_dimacs":
+            if graph == "test_dimacs.dimacs":
                 res = has_licence
         os.remove(self.dir+"/test_dimacs_description.json")
         self.assertEqual(res, False)

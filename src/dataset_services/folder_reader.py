@@ -36,8 +36,6 @@ class FolderReader:
 
             if check_file_extension_multiple(file, ["graph", "gfa", "dimacs"]):
                 self.data_exists = True
-                extension_length = len(file.split(".")[-1])
-                graph_without_extension = file[:-extension_length-1]
                 graphs.append(file)
 
             if check_file_extension(file, "json"):
@@ -62,6 +60,23 @@ class FolderReader:
         if ui_run and self.data_exists:
             self.show_on_website = True
 
+        self.process_graphs(graphs, graph_descriptions)
+        
+        return Dataset(self.descrition_file_exists, self.data_exists, self.licence_file_exists, \
+                self.path, self.name, self.descr_short, self.descr_long, self.licence, \
+                self.show_on_website, self.folder_name, self.user_defined_columns, \
+                self.has_log_file, self.graph_info)
+
+    def check_modification_times(self, file):
+        modification_time = os.path.getctime(self.path+"/"+file)
+        if file == "log.txt":
+            self.logtime = modification_time
+            self.has_log_file = True
+        else:
+            if modification_time > self.highest_modification_time:
+                self.highest_modification_time = modification_time
+
+    def process_graphs(self, graphs, graph_descriptions):
         for graph in graphs:
             extension_length = len(graph.split(".")[-1])
             graph_without_extension = graph[:-extension_length-1]
@@ -81,19 +96,4 @@ class FolderReader:
                             if check_field(content, "sources") is not None:
                                 has_sources = True
 
-            self.graph_info.append((graph_without_extension, has_licence, has_sources))
-            
-
-        return Dataset(self.descrition_file_exists, self.data_exists, self.licence_file_exists, \
-                self.path, self.name, self.descr_short, self.descr_long, self.licence, \
-                self.show_on_website, self.folder_name, self.user_defined_columns, \
-                self.has_log_file, self.graph_info)
-
-    def check_modification_times(self, file):
-        modification_time = os.path.getctime(self.path+"/"+file)
-        if file == "log.txt":
-            self.logtime = modification_time
-            self.has_log_file = True
-        else:
-            if modification_time > self.highest_modification_time:
-                self.highest_modification_time = modification_time
+            self.graph_info.append((graph, has_licence, has_sources))
