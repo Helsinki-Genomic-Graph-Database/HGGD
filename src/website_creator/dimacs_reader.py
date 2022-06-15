@@ -44,11 +44,10 @@ class DimacsReader:
             if line[0] == "p":
                 # recognise number of nodes and edges
                 # line format is: p FORMAT NODES EDGES
-                p, format, number_of_nodes, number_of_edges = line.split()
+                letter_p, edge_format, number_of_nodes, number_of_edges = line.split()
                 number_of_nodes = int(number_of_nodes)
                 number_of_edges = int(number_of_edges)
             if line[0] == "e":
                 # these are edges, no need to read atm
                 continue
         return (number_of_nodes, number_of_edges)
-

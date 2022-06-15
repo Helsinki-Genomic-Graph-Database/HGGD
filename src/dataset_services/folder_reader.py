@@ -45,15 +45,13 @@ class FolderReader:
                     if licence_in_descr:
                         self.licence.append(licence_in_descr)
                 else:
-                    
+
                     split_file = file.split(".")[:-1]
                     if (split_file[-1].split("_")[-1]) == "description":
                         graph_descriptions.append(file[:-len("_description.json")])
 
             if check_file_extension(file, "licence"):
                 self.licence_file_exists = True
-
-        
 
         ui_run = (self.logtime >= self.highest_modification_time)
 
@@ -86,7 +84,7 @@ class FolderReader:
                 has_sources = True
             if graph_without_extension in graph_descriptions:
                 filepath = self.path+"/"+graph_without_extension+"_description.json"
-                    
+
                 if os.stat(filepath).st_size > 0:
                     with open(filepath, encoding='utf-8') as file:
                         content = json.load(file)

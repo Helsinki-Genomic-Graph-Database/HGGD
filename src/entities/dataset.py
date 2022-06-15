@@ -36,7 +36,7 @@ class Dataset:
 
     def get_folder_name(self):
         return self.folder_name
-    
+
     def get_graph_info(self):
         return self.graph_info
 

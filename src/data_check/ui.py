@@ -30,7 +30,7 @@ class UI:
             self._io.write("Folder:")
             self._io.write(dataset.get_folder_name())
             self._io.write("Dataset:")
-            
+
             if dataset.get_name() is None:
                 self._io.write("(The dataset has no name)")
             else:
@@ -70,13 +70,13 @@ class UI:
         issues = []
         if not self._validator.check_data_exists(dataset):
             issues.append("has no data")
-        
+
         if not self._validator.check_descr_long_exists(dataset):
             issues.append("has no long description")
 
         if len(issues) > 0:
             self.issues[dataset.get_folder_name()] = (dataset.get_name(), issues)
-       
+
     def process_graph_sources(self, dataset):
         number_of_missing_sources = self._validator.check_graphs_without_sources(dataset)
         if number_of_missing_sources > 0:
@@ -176,7 +176,6 @@ doesn't have a long description.\033[0;37;40m")
 doesn't have a licence.\033[0;37;40m")
         else:
             self._io.write("\033[1;32;40mLicence exists.\033[0;37;40m")
-
 
     def ask_name(self):
         name = ""
