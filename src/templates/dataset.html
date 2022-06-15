@@ -64,25 +64,25 @@
                         <td>
                             <hy-link
                                 variant="within-paragraph"
-                                url="/hggd/datasets/{{ dataset }}/{{ name }}"
-                                link-content="{{ name }} "
-                                aria-label="{{ name }} "
+                                url="/hggd/datasets/{{ dataset }}/{{ name[0] }}"
+                                link-content="{{ name[0] }} "
+                                aria-label="{{ name[0] }} "
                                 is-external="false"
                                 >
                             </hy-link>
                         </td>
                         <td> 
                             <hy-link 
-                                url="/hggd/data/{{ dataset }}/{{ name }}"
-                                link-content=".graph file "
-                                aria-label=".graph file"
+                                url="/hggd/data/{{ dataset }}/{{ name[0] }}"
+                                link-content="{{ name[1] }} file "
+                                aria-label="{{ name[1] }} file"
                                 is-external="false"
                                 >
                             </hy-link>
                         </td>
                         <td> 
                             <hy-link 
-                                url="/hggd/data/{{ dataset }}/dimacs/{{ name }}"
+                                url="/hggd/data/{{ dataset }}/dimacs/{{ name[0] }}"
                                 link-content=".dimacs file "
                                 aria-label=".dimacs file"
                                 is-external="false"

@@ -69,7 +69,7 @@ def render_dataset(dataset):
     if nro_of_sources > 10:
         over_ten_sources = True
     for graph in graphs:
-        graph_namelist.append(graph.get_names())
+        graph_namelist.append((graph.get_names(), graph.get_file_format()))
     return render_template("dataset.html", total_graphs=graphs_total, average_nodes=avg_nodes, \
         average_edges=avg_edges, total_edges=total_edges, total_nodes=total_nodes, \
         dataset_name = dataset_name, graph_namelist=graph_namelist, dataset= dataset, \
@@ -93,6 +93,7 @@ def render_graph(dataset, name):
     nodes = graph.get_nodes()
     edges = graph.get_edges()
     sources = graph.get_sources()
+    fileformat = graph.get_file_format()
     over_ten_sources = False
     nro_of_sources = len(sources)
     if nro_of_sources > 10:
@@ -100,7 +101,7 @@ def render_graph(dataset, name):
     dataset_folder = current_dataset.get_folder_name()
     return render_template("graph.html",name=name, nodes=nodes, edges=edges, dataset=dataset_folder, \
         licence=licence, source_tuples=sources, over_ten_sources=over_ten_sources, \
-        nro_of_sources=nro_of_sources)
+        nro_of_sources=nro_of_sources, fileformat=fileformat)
 
 @app.route("/hggd/datasets/<dataset>/sources", methods=["GET"])
 def render_dataset_sources(dataset):
