@@ -7,3 +7,4 @@ log.txt
 **/tests/**/log.txt
 /src/tests/testdata_with_full_description/log.txt
 /src/tests/**/zip
+/src/tests/**/dimacs
