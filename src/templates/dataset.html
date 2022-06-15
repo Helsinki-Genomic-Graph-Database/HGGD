@@ -52,17 +52,17 @@
         <hy-table-container>
             <table>
                 <caption><hy-heading heading="h5"> Graphs in the dataset</hy-heading></caption>
-                <thead>      
-                    <tr>            
+                <thead>
+                    <tr>
                         <th><hy-paragraph-text> Name </hy-paragraph-text></th>
-                        <th> <hy-paragraph-text>Download link</hy-paragraph-text> </th>
-                    </tr>            
+                        <th> <hy-paragraph-text>Download links</hy-paragraph-text> </th>
+                    </tr>
                 </thead>
-                <tbody>               
+                <tbody>
                     {% for name in graph_namelist %}   
                     <tr>
-                        <td>         
-                            <hy-link 
+                        <td>
+                            <hy-link
                                 variant="within-paragraph"
                                 url="/hggd/datasets/{{ dataset }}/{{ name }}"
                                 link-content="{{ name }} "
@@ -78,7 +78,16 @@
                                 aria-label=".graph file"
                                 is-external="false"
                                 >
-                            </hy-link>   
+                            </hy-link>
+                        </td>
+                        <td> 
+                            <hy-link 
+                                url="/hggd/data/{{ dataset }}/dimacs/{{ name }}"
+                                link-content=".dimacs file "
+                                aria-label=".dimacs file"
+                                is-external="false"
+                                >
+                            </hy-link>
                         </td>
                     </tr>
                     {% endfor %}

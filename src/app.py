@@ -5,6 +5,7 @@ from src.dataset_services.dataset_creator import DatasetCreator
 from src.dataset_services.dataset_reader import DatasetReader
 from src.website_creator.read_graphs import ReadGraphs
 from src.helper_functions_for_app import find_dataset_by_foldername, get_datapath
+from src.file_ui.file_utils import remove_file_extension
 
 load_dotenv()
 
@@ -167,6 +168,26 @@ def download_graph(dataset, name):
     graph_filename = graph.get_file_name()
     directory=get_datapath(dataset, app)
     return send_from_directory(directory=directory, path='', filename=graph_filename)
+
+
+@app.route('/hggd/data/<dataset>/dimacs/<path:name>', methods=['GET'])
+def download_dimacs(dataset, name):
+    """ Downloads a DIMACS file of the dataset
+
+    Args:
+        dataset (string): name of dataset
+        file (string): name of the DIMACS file
+
+    Returns:
+        DIMACS file
+    """
+    current_dataset = find_dataset_by_foldername(dataset, dataset_list)
+    graph = current_dataset.find_graph(name)
+    graph_filename = graph.get_file_name()
+    filename = remove_file_extension(graph_filename, ".graph")
+    dimacs_filename = filename+".dimacs"
+    directory = path.join(get_datapath(dataset, app), 'dimacs')
+    return send_from_directory(directory=directory, path='', filename=dimacs_filename)
 
 
 if __name__ == "__main__":
