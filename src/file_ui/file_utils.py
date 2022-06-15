@@ -87,7 +87,7 @@ def read_description(path):
 
     return name, descr_short, descr_long, licence, user_defined_columns
 
-def read_graph_description(dir, name):
+def read_graph_description(directory, name):
     """ Reads graph description files
 
     Args:
@@ -98,7 +98,7 @@ def read_graph_description(dir, name):
         name, licence, sources: information of the graph
     """
     filename = name + "_description.json"
-    filepath = dir +"/"+ filename
+    filepath = directory +"/"+ filename
     name = None
     licence = None
     sources = []
@@ -113,7 +113,7 @@ def read_graph_description(dir, name):
                     sources.append((source, source))
     return name, licence, sources
 
-def check_description_file_exists(dir, filename):
+def check_description_file_exists(directory, filename):
     """ Checks if there is a description file
     for the graph
 
@@ -125,4 +125,4 @@ def check_description_file_exists(dir, filename):
         boolean: if the file exists
     """
     json_name = filename+"_description.json"
-    return os.path.exists(os.path.join(dir, json_name))
+    return os.path.exists(os.path.join(directory, json_name))

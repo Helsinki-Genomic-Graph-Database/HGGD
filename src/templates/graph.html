@@ -46,8 +46,11 @@
         </table>
     </hy-table-container>
     <br>
-    <hy-link url="/hggd/data/{{ dataset }}/{{ name }}" link-content="Download graph file"
-        aria-label="Download graph file" is-external="false">
+    <hy-link url="/hggd/data/{{ dataset }}/{{ name }}" link-content="Download {{ fileformat }} file"
+        aria-label="Download {{ fileformat }} file" is-external="false">
+    </hy-link>
+    <hy-link url="/hggd/data/{{ dataset }}/dimacs/{{ name }}" link-content="Download DIMACS file"
+        aria-label="Download DIMACS file" is-external="false">
     </hy-link>
     <br>
     {% if over_ten_sources %}

@@ -5,6 +5,7 @@ from src.dataset_services.dataset_creator import DatasetCreator
 from src.dataset_services.dataset_reader import DatasetReader
 from src.website_creator.read_graphs import ReadGraphs
 from src.helper_functions_for_app import find_dataset_by_foldername, get_datapath
+from src.file_ui.file_utils import remove_file_extension
 
 load_dotenv()
 
@@ -68,7 +69,7 @@ def render_dataset(dataset):
     if nro_of_sources > 10:
         over_ten_sources = True
     for graph in graphs:
-        graph_namelist.append(graph.get_names())
+        graph_namelist.append((graph.get_names(), graph.get_file_format()))
     return render_template("dataset.html", total_graphs=graphs_total, average_nodes=avg_nodes, \
         average_edges=avg_edges, total_edges=total_edges, total_nodes=total_nodes, \
         dataset_name = dataset_name, graph_namelist=graph_namelist, dataset= dataset, \
@@ -92,6 +93,7 @@ def render_graph(dataset, name):
     nodes = graph.get_nodes()
     edges = graph.get_edges()
     sources = graph.get_sources()
+    fileformat = graph.get_file_format()
     over_ten_sources = False
     nro_of_sources = len(sources)
     if nro_of_sources > 10:
@@ -99,7 +101,7 @@ def render_graph(dataset, name):
     dataset_folder = current_dataset.get_folder_name()
     return render_template("graph.html",name=name, nodes=nodes, edges=edges, dataset=dataset_folder, \
         licence=licence, source_tuples=sources, over_ten_sources=over_ten_sources, \
-        nro_of_sources=nro_of_sources)
+        nro_of_sources=nro_of_sources, fileformat=fileformat)
 
 @app.route("/hggd/datasets/<dataset>/sources", methods=["GET"])
 def render_dataset_sources(dataset):
@@ -167,6 +169,26 @@ def download_graph(dataset, name):
     graph_filename = graph.get_file_name()
     directory=get_datapath(dataset, app)
     return send_from_directory(directory=directory, path='', filename=graph_filename)
+
+
+@app.route('/hggd/data/<dataset>/dimacs/<path:name>', methods=['GET'])
+def download_dimacs(dataset, name):
+    """ Downloads a DIMACS file of the dataset
+
+    Args:
+        dataset (string): name of dataset
+        file (string): name of the DIMACS file
+
+    Returns:
+        DIMACS file
+    """
+    current_dataset = find_dataset_by_foldername(dataset, dataset_list)
+    graph = current_dataset.find_graph(name)
+    graph_filename = graph.get_file_name()
+    filename = remove_file_extension(graph_filename, ".graph")
+    dimacs_filename = filename+".dimacs"
+    directory = path.join(get_datapath(dataset, app), 'dimacs')
+    return send_from_directory(directory=directory, path='', filename=dimacs_filename)
 
 
 if __name__ == "__main__":
