@@ -38,10 +38,13 @@ class Validator:
         return True
 
     def check_licence_exists(self, dataset):
+        if dataset.get_licence() == "None":
+            return False
         if dataset.get_licence() is None:
             return False
         if len(dataset.get_licence()) == 0:
             return False
+
         return True
 
     def check_show_on_website(self, dataset):

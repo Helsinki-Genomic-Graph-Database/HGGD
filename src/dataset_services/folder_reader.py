@@ -61,7 +61,7 @@ class FolderReader:
             self.show_on_website = True
 
         self.process_graphs(graphs, graph_descriptions)
-        
+
         return Dataset(self.descrition_file_exists, self.data_exists, self.licence_file_exists, \
                 self.path, self.name, self.descr_short, self.descr_long, self.licence, \
                 self.show_on_website, self.folder_name, self.user_defined_columns, \

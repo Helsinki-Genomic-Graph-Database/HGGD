@@ -88,10 +88,8 @@ class UI:
                 self._io.write(f"\033[1;33;40mDataset '{dataset[0]}' in folder '{dataset[1]}' has {dataset[2]} graph(s) with missing source files.\033[0;37;40m")
 
     def process_graph_licences(self, dataset):
-        if self._validator.check_licence_exists(dataset):
-            pass
         number_of_missing_licences = self._validator.check_graphs_without_licence(dataset)
-        if number_of_missing_licences > 0:
+        if number_of_missing_licences > 0 and not self._validator.check_licence_exists(dataset):
             self.missing_licences.append((dataset.get_name(), dataset.get_folder_name(), number_of_missing_licences))
 
     def print_number_of_missing_licences(self):

@@ -1,6 +1,6 @@
 import unittest
 import os
-import shutil
+import time
 from src.tests.stub_io import StubIO
 from src.dataset_services.dataset_creator import DatasetCreator
 from src.data_check.ui import UI
@@ -45,7 +45,6 @@ class TestUIGraphLicencesWithLiceneGivenInUI(unittest.TestCase):
         self.dataset_list = creator.get_datasets()
 
     def tearDown(self):
-        shutil.rmtree("src/tests/testdata/dimacs")
         os.remove("src/tests/testdata/description.json")
         os.remove("src/tests/testdata/log.txt")
 
@@ -63,9 +62,48 @@ class TestUIGraphLicencesWithLiceneGivenInUI(unittest.TestCase):
         res = stubio.outputs
         self.assertIn("\033[1;33;40mDataset 'test name' in folder 'testdata' has 5 graph(s) with no licence given.\033[0;37;40m", res)
 
-    def test_ui_should_tell_there_are_three_issues_when_long_descr_and_licence_not_given_when_graphs_dont_have_licences(self):
+    def test_ui_should_tell_there_are_two_issues_when_long_descr_and_licence_not_given_when_graphs_dont_have_licences(self):
         stubio = StubIO(["test name", "short", "", ""])
         ui = UI(self.dataset_list, stubio)
         ui.start()
         res = stubio.outputs
         self.assertIn("\033[1;33;40m2 issue(s) found in datasets\033[0;37;40m", res)
+
+class TestUINotificationsWithLogOrNot(unittest.TestCase):
+
+    def setUp(self):
+        self.dir = "src/tests/testdata_with_no_licences_for_graphs_and_no_log"
+        #folder has on of each graph format, licence.json and test_gfa_descrpition.json
+        creator = DatasetCreator([self.dir])
+        self.dataset_list = creator.get_datasets()
+
+    def test_ui_should_notify_correctly_with_no_log_in_folder(self):
+        stubio = StubIO(["test name", "short", "long", "licence"])
+        ui = UI(self.dataset_list, stubio)
+        ui.start()
+        res = stubio.outputs
+        os.remove(self.dir+"/log.txt")
+        self.assertIn("\033[1;33;40m1 issue(s) found in datasets\033[0;37;40m", res)
+
+    def test_ui_should_notify_correctly_with_log_in_folder(self):
+        with open(self.dir+"/log.txt", "w") as file:
+            file.write("test")
+        time.sleep(0.05)
+        stubio = StubIO(["test name", "short", "long", "licence"])
+        ui = UI(self.dataset_list, stubio)
+        ui.start()
+        res = stubio.outputs
+        os.remove(self.dir+"/log.txt")
+        self.assertIn("\033[1;33;40m1 issue(s) found in datasets\033[0;37;40m", res)
+
+    def test_ui_should_notify_correctly_with_no_log_and_no_description(self):
+        os.rename(self.dir+"/description.json", self.dir+"/!description.json")
+        creator = DatasetCreator([self.dir])
+        self.dataset_list = creator.get_datasets()
+        stubio = StubIO(["test name", "short", "long", "licence"])
+        ui = UI(self.dataset_list, stubio)
+        ui.start()
+        res = stubio.outputs
+        os.remove(self.dir+"/log.txt")
+        os.rename(self.dir+"/!description.json", self.dir+"/description.json")
+        self.assertIn("\033[1;33;40m1 issue(s) found in datasets\033[0;37;40m", res)
