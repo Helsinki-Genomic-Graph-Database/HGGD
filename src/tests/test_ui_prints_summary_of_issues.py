@@ -107,3 +107,64 @@ class TestUINotificationsWithLogOrNot(unittest.TestCase):
         os.remove(self.dir+"/log.txt")
         os.rename(self.dir+"/!description.json", self.dir+"/description.json")
         self.assertIn("\033[1;33;40m1 issue(s) found in datasets\033[0;37;40m", res)
+
+    def test_ui_should_notify_correctly_with_no_description_and_no_optional_info_in_description_file(self):
+        os.rename(self.dir+"/description.json", self.dir+"/!description.json")
+        creator = DatasetCreator([self.dir])
+        self.dataset_list = creator.get_datasets()
+        stubio = StubIO(["test name", "short", "", ""])
+        ui = UI(self.dataset_list, stubio)
+        ui.start()
+        res = stubio.outputs
+        os.remove(self.dir+"/log.txt")
+        os.rename(self.dir+"/!description.json", self.dir+"/description.json")
+        self.assertIn("\033[1;33;40m3 issue(s) found in datasets\033[0;37;40m", res)
+
+    def test_ui_should_not_notify_issues_if_here_are_no_issues(self):
+        os.rename(self.dir+"/test_dimacs.dimacs", self.dir+"/test_dimacs.!dimacs")
+        creator = DatasetCreator([self.dir])
+        self.dataset_list = creator.get_datasets()
+        stubio = StubIO(["test name", "short", "long", "licence"])
+        ui = UI(self.dataset_list, stubio)
+        ui.start()
+        res = stubio.outputs
+        os.remove(self.dir+"/log.txt")
+        os.rename(self.dir+"/test_dimacs.!dimacs", self.dir+"/test_dimacs.dimacs")
+        print(res)
+        self.assertEqual(len(res), 13)
+
+    def test_ui_should_ask_if_issues_should_be_listed(self):
+        os.rename(self.dir+"/description.json", self.dir+"/!description.json")
+        creator = DatasetCreator([self.dir])
+        self.dataset_list = creator.get_datasets()
+        stubio = StubIO(["test name", "short", "", ""])
+        ui = UI(self.dataset_list, stubio)
+        ui.start()
+        res = stubio.outputs
+        os.remove(self.dir+"/log.txt")
+        os.rename(self.dir+"/!description.json", self.dir+"/description.json")
+        self.assertIn("\033[1;33;40mShow issues in detail?(y/n)\033[0;37;40m", res)
+
+    def test_ui_should_list_details_of_issues_if_asked(self):
+        os.rename(self.dir+"/description.json", self.dir+"/!description.json")
+        creator = DatasetCreator([self.dir])
+        self.dataset_list = creator.get_datasets()
+        stubio = StubIO(["test name", "short", "", ""])
+        ui = UI(self.dataset_list, stubio)
+        ui.start()
+        res = stubio.outputs
+        os.remove(self.dir+"/log.txt")
+        os.rename(self.dir+"/!description.json", self.dir+"/description.json")
+        self.assertIn(f"\033[1;33;40m'test name' in folder 'testdata_with_no_licences_for_graphs_and_no_log' has no long description\033[0;37;40m", res)
+
+    def test_ui_should_not_list_details_of_issues_if_not_asked(self):
+        os.rename(self.dir+"/description.json", self.dir+"/!description.json")
+        creator = DatasetCreator([self.dir])
+        self.dataset_list = creator.get_datasets()
+        stubio = StubIO(["test name", "short", "", "", "n"])
+        ui = UI(self.dataset_list, stubio)
+        ui.start()
+        res = stubio.outputs
+        os.remove(self.dir+"/log.txt")
+        os.rename(self.dir+"/!description.json", self.dir+"/description.json")
+        self.assertNotIn(f"\033[1;33;40m'test name' in folder 'testdata_with_no_licences_for_graphs_and_no_log' has no long description\033[0;37;40m", res)

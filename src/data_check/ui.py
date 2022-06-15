@@ -58,13 +58,25 @@ class UI:
             self.folder_done(dataset)
 
         self.print_number_of_issues()
-        self.print_number_of_missing_sources()
-        self.print_number_of_missing_licences()
+        
 
     def print_number_of_issues(self):
         number_of_issues = len(self.issues) + len(self.missing_licences) + len(self.missing_sources)
         if number_of_issues > 0:
             self._io.write(f"\033[1;33;40m{number_of_issues} issue(s) found in datasets\033[0;37;40m")
+            self._io.write(f"\033[1;33;40mShow issues in detail?(y/n)\033[0;37;40m")
+            command = self._io.read("")
+            if command.lower() != "n":
+                self.print_issues()
+
+    def print_issues(self):
+        for folder in self.issues:
+            name, issues = self.issues[folder]
+            
+            self._io.write(f"\033[1;33;40m'{name}' in folder '{folder}' {issues[0]}\033[0;37;40m")
+            
+        self.print_missing_sources()
+        self.print_missing_licences()
 
     def process_issues(self, dataset):
         issues = []
@@ -82,7 +94,7 @@ class UI:
         if number_of_missing_sources > 0:
             self.missing_sources.append((dataset.get_name(), dataset.get_folder_name(), number_of_missing_sources))
 
-    def print_number_of_missing_sources(self):
+    def print_missing_sources(self):
         if len(self.missing_sources) > 0:
             for dataset in self.missing_sources:
                 self._io.write(f"\033[1;33;40mDataset '{dataset[0]}' in folder '{dataset[1]}' has {dataset[2]} graph(s) with missing source files.\033[0;37;40m")
@@ -92,7 +104,7 @@ class UI:
         if number_of_missing_licences > 0 and not self._validator.check_licence_exists(dataset):
             self.missing_licences.append((dataset.get_name(), dataset.get_folder_name(), number_of_missing_licences))
 
-    def print_number_of_missing_licences(self):
+    def print_missing_licences(self):
         if len(self.missing_licences) > 0:
             for dataset in self.missing_licences:
                 self._io.write(f"\033[1;33;40mDataset '{dataset[0]}' in folder '{dataset[1]}' has {dataset[2]} graph(s) with no licence given.\033[0;37;40m")

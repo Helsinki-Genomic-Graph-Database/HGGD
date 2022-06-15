@@ -97,6 +97,7 @@ class GraphToDimacsConverter:
             edges with weights as a single string
         """
         all_edges = []
+        return_edges = []
         edge_string = ""
         for item in edges:
             item = item.rstrip("\n")
@@ -106,8 +107,9 @@ class GraphToDimacsConverter:
             if not edge in all_edges:
                 # one edge can appear in a DIMACS file only once
                 all_edges.append(edge)
+                return_edges.append((node1, node2))
         edge_string = edge_string[0:-2]
-        return all_edges, edge_string
+        return return_edges, edge_string
 
     def _create_edge_line_list(self, processed_edges):
         """This function creates the edges lines for the DIMACS file.
