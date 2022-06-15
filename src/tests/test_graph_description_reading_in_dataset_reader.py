@@ -11,6 +11,7 @@ class TestGraphDescriptionReadingToDataset(unittest.TestCase):
         self.res = self.dataset.get_graph_info()
 
     def test_dataset_should_have_list_of_tuples_for_graphs(self):
+        print(self.res)
         self.assertEqual(len(self.res), 9)
 
     def test_info_list_should_have_true_for_gfa_for_licence_in_description(self):

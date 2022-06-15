@@ -1,5 +1,6 @@
 import unittest
 import os
+import shutil
 from src.tests.stub_io import StubIO
 from src.dataset_services.dataset_creator import DatasetCreator
 from src.data_check.ui import UI
@@ -44,6 +45,7 @@ class TestUIGraphLicencesWithLiceneGivenInUI(unittest.TestCase):
         self.dataset_list = creator.get_datasets()
 
     def tearDown(self):
+        shutil.rmtree("src/tests/testdata/dimacs")
         os.remove("src/tests/testdata/description.json")
         os.remove("src/tests/testdata/log.txt")
 

@@ -16,16 +16,16 @@ class Validator:
         return dataset.get_licence_file_exists()
 
     def check_name_exists(self, dataset):
-        if (dataset.get_name()) == 0:
-            return False
         if (dataset.get_name()) is None:
+            return False
+        if len(dataset.get_name()) == 0:
             return False
         return True
 
     def check_descr_short_exists(self, dataset):
-        if (dataset.get_descr_short()) == 0:
-            return False
         if (dataset.get_descr_short()) is None:
+            return False
+        if len(dataset.get_descr_short()) == 0:
             return False
         return True
 
@@ -38,6 +38,8 @@ class Validator:
         return True
 
     def check_licence_exists(self, dataset):
+        if dataset.get_licence() is None:
+            return False
         if len(dataset.get_licence()) == 0:
             return False
         return True

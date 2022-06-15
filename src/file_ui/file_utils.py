@@ -2,12 +2,15 @@ import json
 import os
 
 def check_file_extension(filename, extension):
-    return filename.strip().split(".")[-1] == extension
+    res = filename.strip().split(".")[-1]
+    if len(res) < 2:
+        return False
+    return res == extension
 
 def check_file_extension_multiple(filename, extension_list):
     found = False
     for extension in extension_list:
-        if filename.strip().split(".")[-1] == extension:
+        if check_file_extension(filename, extension):
             found = True
     return found
 
