@@ -97,6 +97,9 @@ def render_graph(dataset, name):
     edges = graph.get_edges()
     sources = graph.get_sources()
     fileformat = graph.get_file_format()
+    is_dimacs = False
+    if fileformat == "dimacs":
+        is_dimacs = True
     over_ten_sources = False
     nro_of_sources = len(sources)
     if nro_of_sources > 10:
@@ -104,7 +107,7 @@ def render_graph(dataset, name):
     dataset_folder = current_dataset.get_folder_name()
     return render_template("graph.html",name=name, nodes=nodes, edges=edges, dataset=dataset_folder, \
         licence=licence, source_tuples=sources, over_ten_sources=over_ten_sources, \
-        nro_of_sources=nro_of_sources, fileformat=fileformat)
+        nro_of_sources=nro_of_sources, fileformat=fileformat, is_dimacs=is_dimacs)
 
 @app.route("/hggd/datasets/<dataset>/sources", methods=["GET"])
 def render_dataset_sources(dataset):

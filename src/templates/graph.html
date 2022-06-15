@@ -49,9 +49,11 @@
     <hy-link url="/hggd/data/{{ dataset }}/{{ name }}" link-content="Download {{ fileformat }} file"
         aria-label="Download {{ fileformat }} file" is-external="false">
     </hy-link>
+    {% if not is_dimacs %}
     <hy-link url="/hggd/data/{{ dataset }}/dimacs/{{ name }}" link-content="Download DIMACS file"
         aria-label="Download DIMACS file" is-external="false">
     </hy-link>
+    {% endif %}
     <br>
     {% if over_ten_sources %}
     <hy-heading heading="h5">Source files for the graph </hy-heading>
