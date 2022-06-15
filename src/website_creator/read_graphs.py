@@ -15,8 +15,7 @@ class ReadGraphs:
         """
         for dataset in self.dataset_list:
             if dataset.get_show_on_website():
-                graphcreator_service = GraphCreator(dataset.get_path(), dataset.get_licence(), \
-                    dataset.get_licence_file_exists())
+                graphcreator_service = GraphCreator(dataset.get_path(), dataset.get_licence(), dataset.get_graph_info())
                 graphcreator_service.run()
                 dataset.set_list_of_graphs(graphcreator_service.get_graph_list())
                 dataset.set_dataset_source(graphcreator_service.get_set_sources())

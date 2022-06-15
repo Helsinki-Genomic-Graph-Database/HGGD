@@ -10,7 +10,7 @@ from src.website_creator.dimacs_reader import DimacsReader
 class GraphCreator:
     """reads graph files and makes graph objects and puts them to a list
     """
-    def __init__(self, directory, dataset_licence, has_licence_file):
+    def __init__(self, directory, dataset_licence, graph_info = []):
         """
 
         Args:
@@ -22,9 +22,10 @@ class GraphCreator:
         self.graph_list = []
         self.dir = directory
         self.dataset_licence = dataset_licence
-        self.has_licence_file = has_licence_file
+        self.graph_info = graph_info
         self.set_sources = set()
         self.formats = ["graph", "gfa", "dimacs"]
+        
 
     def get_graph_list(self):
         """
@@ -65,23 +66,15 @@ class GraphCreator:
                 dimacsreader = DimacsReader(self.dir)
                 name, nodes, edges, sources, licence = dimacsreader.read_dimacs_graph(filename)
                 fileformat = "dimacs"
+            for graph in self.graph_info:
+                if graph[0] == filename:
+                    licence = graph[1]
             if licence is None:
                 licence = self.dataset_licence[0]
             new_graph = Graph(name, nodes, edges, sources, licence, filename, fileformat)
             self.set_sources.update(sources)
             self.graph_list.append(new_graph)
-            if self.has_licence_file:
-                self._add_licence(new_graph)
+            
 
 
-    def _add_licence(self, new_graph):
-        """ Adds a licence from the licence file from the graph
-
-        Args:
-            new_graph (graph)
-        """
-        licence_file_list = list_licence_files(self.dir)
-        for licence_file in licence_file_list:
-            licence_in_file = read_licence_files(self.dir, licence_file, new_graph)
-            if licence_in_file:
-                new_graph.set_licence(licence_file.strip(".licence"))
+    

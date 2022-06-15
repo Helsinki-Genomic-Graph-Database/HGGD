@@ -7,7 +7,6 @@ class Dataset:
         self.folder_name = folder_name
         self.description_file_exists = description_file_exists
         self.data_exists = data_exists
-        self.licence_file_exists = licence_file_exists
         self.path = path
         self.name = name
         self.descr_short = descr_short
@@ -45,9 +44,6 @@ class Dataset:
 
     def get_data_exists(self):
         return self.data_exists
-
-    def get_licence_file_exists(self):
-        return self.licence_file_exists
 
     def get_path(self):
         return self.path
@@ -118,9 +114,6 @@ class Dataset:
 
     def set_data_exists(self, data_exists):
         self.data_exists = data_exists
-
-    def set_licence_file_exists(self, licence_file_exists):
-        self.licence_file_exists = licence_file_exists
 
     def set_path(self, path):
         self.path = path
