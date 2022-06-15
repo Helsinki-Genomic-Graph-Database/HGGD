@@ -3,6 +3,7 @@ from src.data_check.json_writer import JsonWriter
 from src.data_check.validator import Validator
 from src.data_check.zip_creator import ZipCreator
 from src.data_check.graph_to_dimacs_converter import GraphToDimacsConverter
+from src.data_check.gfa_to_dimacs_converter import GfaToDimacsConverter
 from src.file_ui.file_utils import check_file_extension
 
 class UI:
@@ -239,6 +240,10 @@ have a short description.\033[0;37;40m")
     def create_dimacs(self, dataset):
         graph_info = dataset.get_graph_info()
         dimacs_converter = GraphToDimacsConverter(dataset.get_path())
+        gfa_to_dimacs_converter = GfaToDimacsConverter(dataset.get_path())
         for item in graph_info:
             if check_file_extension(item[0], "graph"):
                 dimacs_converter.convert_graph_to_dimacs(item[0])
+            elif check_file_extension(item[0], "gfa"):
+                gfa_to_dimacs_converter.convert_gfa_to_dimacs(item[0])
+

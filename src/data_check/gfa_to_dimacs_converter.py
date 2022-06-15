@@ -58,6 +58,7 @@ class GfaToDimacsConverter:
             int, list: number of edges, list of edge-strings in .dimacs form
         """
         edge_line_list = []
+        edge_duplicate_check = []
         if gfa_object.version == 'gfa1':
             nro_edges = len(gfa_object._gfa1_links)
             for line in gfa_object._gfa1_links:
@@ -65,8 +66,11 @@ class GfaToDimacsConverter:
                 if line[0] == "L":
                     new_line = line.lstrip("L")
                     splits = re.split(r"[+|-]", new_line)
-                    string_line = "e "+splits[0].strip()+" "+splits[1].strip()+"\n"
-                    edge_line_list.append(string_line)
+                    edges = {splits[0].strip(), splits[1].strip()}
+                    if edges not in edge_duplicate_check:
+                        string_line = "e "+splits[0].strip()+" "+splits[1].strip()+"\n"
+                        edge_duplicate_check.append(edges)
+                        edge_line_list.append(string_line)
         elif gfa_object.version == 'gfa2':
             nro_edges = len(gfa_object._gfa2_edges)
             for line in gfa_object._gfa2_edges:
