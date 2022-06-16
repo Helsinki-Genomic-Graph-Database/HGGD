@@ -3,3 +3,4 @@ docker-compose.staging.yml
 docker-compose.caddy.yml
 docker-compose.watchtower.yml
 Dockerfile
+Caddyfile
