@@ -75,10 +75,12 @@ class GraphCreator:
                     licence = graph[1]
                     
             if licence is None:
-                licence = self.dataset_licence[0]
+                if len(self.dataset_licence) > 0:
+                    licence = self.dataset_licence[0]
             new_graph = Graph(name, nodes, edges, sources, licence, filename, fileformat)
             self.set_sources.update(sources)
-            self.set_licences.update([licence])
+            if licence is not None:
+                self.set_licences.update([licence])
             self.graph_list.append(new_graph)
             
 

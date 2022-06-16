@@ -74,7 +74,6 @@ class FolderReader:
         for graph in graphs:
             extension_length = len(graph.split(".")[-1])
             graph_without_extension = graph[:-extension_length-1]
-            #has_licence = False
             has_sources = False
             licence = None
             if check_file_extension(graph, "graph"):

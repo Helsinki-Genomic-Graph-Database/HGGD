@@ -23,7 +23,7 @@ class Dataset:
         self.show_on_website = show_on_website
         self.user_defined_columns = user_defined_columns
         self.has_log_file = has_log_file
-        self.graph_info = graph_info # list of tuples, format: (graph filename, has licences, has sources)
+        self.graph_info = graph_info # list of tuples, format: (graph filename, licence, has sources)
 
     def __eq__(self, other):
         return self.name == other.name
