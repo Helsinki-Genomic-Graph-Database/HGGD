@@ -26,7 +26,7 @@ class FolderReader:
         self.highest_modification_time = 0
         self.logtime = 0
         self.has_log_file = False
-        self.graph_info = [] # list of tuples, format: (graph filename, has licences, has sources)
+        self.graph_info = [] # list of tuples, format: (graph filename, has licences, has sources, licence)
 
     def get_dataset(self):
         graphs = []
@@ -45,13 +45,9 @@ class FolderReader:
                     if licence_in_descr:
                         self.licence.append(licence_in_descr)
                 else:
-
                     split_file = file.split(".")[:-1]
                     if (split_file[-1].split("_")[-1]) == "description":
                         graph_descriptions.append(file[:-len("_description.json")])
-
-            if check_file_extension(file, "licence"):
-                self.licence_file_exists = True
 
         ui_run = (self.logtime >= self.highest_modification_time)
 
@@ -78,8 +74,9 @@ class FolderReader:
         for graph in graphs:
             extension_length = len(graph.split(".")[-1])
             graph_without_extension = graph[:-extension_length-1]
-            has_licence = False
+            #has_licence = False
             has_sources = False
+            licence = None
             if check_file_extension(graph, "graph"):
                 has_sources = True
             if graph_without_extension in graph_descriptions:
@@ -88,9 +85,9 @@ class FolderReader:
                 if os.stat(filepath).st_size > 0:
                     with open(filepath, encoding='utf-8') as file:
                         content = json.load(file)
-                        if check_field(content, "licence") is not None:
-                            has_licence = True
+                        licence = check_field(content, "licence")
+                        
                         if check_field(content, "sources") is not None:
                             has_sources = True
 
-            self.graph_info.append((graph, has_licence, has_sources))
+            self.graph_info.append((graph, licence, has_sources))

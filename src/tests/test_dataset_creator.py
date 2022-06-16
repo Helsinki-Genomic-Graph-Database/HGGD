@@ -41,16 +41,6 @@ class TestDataSetCreator(unittest.TestCase):
         res = creator.get_datasets()[0]
         self.assertEqual(res.get_data_exists(), False)
 
-    def test_creator_should_detect_licence_file_existing(self):
-        creator = DatasetCreator([self.full_descr])
-        res = creator.get_datasets()[0]
-        self.assertEqual(res.get_licence_file_exists(), True)
-
-    def test_creator_should_detect_licence_file_missing(self):
-        creator = DatasetCreator([self.no_name_descr])
-        res = creator.get_datasets()[0]
-        self.assertEqual(res.get_licence_file_exists(), False)
-
     def test_dataset_should_have_correct_path(self):
         creator = DatasetCreator([self.full_descr])
         res = creator.get_datasets()[0]

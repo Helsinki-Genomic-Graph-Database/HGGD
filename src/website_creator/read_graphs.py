@@ -15,11 +15,11 @@ class ReadGraphs:
         """
         for dataset in self.dataset_list:
             if dataset.get_show_on_website():
-                graphcreator_service = GraphCreator(dataset.get_path(), dataset.get_licence(), \
-                    dataset.get_licence_file_exists())
+                graphcreator_service = GraphCreator(dataset.get_path(), dataset.get_licence(), dataset.get_graph_info())
                 graphcreator_service.run()
                 dataset.set_list_of_graphs(graphcreator_service.get_graph_list())
                 dataset.set_dataset_source(graphcreator_service.get_set_sources())
+                dataset.set_licence(graphcreator_service.get_set_licences())
                 total_nodes, total_edges = calculator_service.get_no_nodes_and_edges(dataset)
                 dataset.set_total_nodes(total_nodes)
                 dataset.set_total_edges(total_edges)
