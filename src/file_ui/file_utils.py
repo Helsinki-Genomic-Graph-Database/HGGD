@@ -48,11 +48,7 @@ def list_licence_files(path):
     return file_list
 
 def remove_file_extension(filename, extension):
-    ext_letter_amount = len(extension)
-    filename_letter_amount = len(filename)
-    difference = filename_letter_amount - ext_letter_amount
-    filename = filename[0:difference]
-    return filename
+    return filename.rstrip(extension)
 
 def check_field(content, field):
     if field in content and len(content[field]) > 0:
@@ -101,6 +97,7 @@ def read_graph_description(directory, name):
     filepath = directory +"/"+ filename
     name = None
     licence = None
+    short_desc = None
     sources = []
     if os.stat(filepath).st_size > 0:
         with open(filepath, encoding='utf-8') as file:
@@ -108,10 +105,11 @@ def read_graph_description(directory, name):
             name = check_field(content, "name")
             licence = check_field(content, "licence")
             source_list = check_field(content, "sources")
+            short_desc = check_field(content, "descr_short")
             if source_list is not None:
                 for source in source_list:
                     sources.append((source, source))
-    return name, licence, sources
+    return name, licence, sources, short_desc
 
 def check_description_file_exists(directory, filename):
     """ Checks if there is a description file

@@ -60,15 +60,15 @@ class GraphCreator:
                 licence = None
             if check_file_extension(filename, "graph"):
                 graphreader = GraphReader(self.dir)
-                name, nodes, edges, sources, licence, comments_for_conversion, edges_listed = graphreader.read_file(filename)
+                name, nodes, edges, sources, licence, comments_for_conversion, edges_listed, short_desc = graphreader.read_file(filename)
                 fileformat = "graph"
             if check_file_extension(filename, "gfa"):
                 graphreader = GfaReader(self.dir)
-                name, nodes, edges, sources, licence = graphreader.read_file(filename)
+                name, nodes, edges, sources, licence, short_desc = graphreader.read_file(filename)
                 fileformat = "gfa"
             if check_file_extension(filename, "dimacs"):
                 dimacsreader = DimacsReader(self.dir)
-                name, nodes, edges, sources, licence = dimacsreader.read_dimacs_graph(filename)
+                name, nodes, edges, sources, licence, short_desc = dimacsreader.read_dimacs_graph(filename)
                 fileformat = "dimacs"
             for graph in self.graph_info:
                 if graph[0] == filename:
@@ -77,7 +77,7 @@ class GraphCreator:
             if licence is None:
                 if len(self.dataset_licence) > 0:
                     licence = self.dataset_licence[0]
-            new_graph = Graph(name, nodes, edges, sources, licence, filename, fileformat)
+            new_graph = Graph(name, nodes, edges, sources, licence, filename, fileformat, short_desc)
             self.set_sources.update(sources)
             if licence is not None:
                 self.set_licences.update([licence])

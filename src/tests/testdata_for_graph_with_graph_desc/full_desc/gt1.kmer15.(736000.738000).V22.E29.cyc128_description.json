@@ -1,5 +1,6 @@
 {
     "name": "test graph",
     "licence": "MIT",
-    "sources": ["test source1"]
+    "sources": ["test source1"],
+    "descr_short": "short"
 }

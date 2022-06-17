@@ -52,6 +52,12 @@ class Validator:
     def check_description_file_empty(self, json_path):
         return os.stat(json_path).st_size == 0
 
+    def check_graph_short_description(self, graph):
+        return graph[3]
+
+    def check_graph_description_file_exists(self, graph):
+        return graph[4]
+
     def check_graphs_without_sources(self, dataset):
         graphs = dataset.get_graph_info()
         number_of_graphs_without_sources = 0

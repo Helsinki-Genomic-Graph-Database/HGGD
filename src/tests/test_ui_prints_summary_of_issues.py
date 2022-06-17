@@ -19,7 +19,7 @@ class TestUI(unittest.TestCase):
         self.assertIn("Folder done.", self.res)
 
     def test_ui_should_notify_when_graph_has_no_sources(self):
-        self.assertIn("\033[1;33;40mDataset 'testdata with description' in folder 'testdata_with_description_for_graph' has 1 graph(s) with missing source files.\033[0;37;40m", self.res)
+        self.assertIn("\033[1;33;40mDataset 'testdata with description' in folder 'testdata_with_description_for_graph' has 2 graph(s) with missing source files.\033[0;37;40m", self.res)
 
 
 class TestUIGraphLicences(unittest.TestCase):
@@ -131,7 +131,7 @@ class TestUINotificationsWithLogOrNot(unittest.TestCase):
         os.remove(self.dir+"/log.txt")
         os.rename(self.dir+"/test_dimacs.!dimacs", self.dir+"/test_dimacs.dimacs")
         print(res)
-        self.assertEqual(len(res), 13)
+        self.assertEqual(len(res), 14)
 
     def test_ui_should_ask_if_issues_should_be_listed(self):
         os.rename(self.dir+"/description.json", self.dir+"/!description.json")

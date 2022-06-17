@@ -52,6 +52,7 @@ class UI:
             self.process_short_desc(dataset)
             self.process_long_description(dataset, questions_asked)
             self.process_licence(dataset, questions_asked)
+            self.process_graph_description(dataset)
             self.process_graph_sources(dataset)
             self.process_graph_licences(dataset)
             self.process_issues(dataset)
@@ -99,6 +100,20 @@ class UI:
         if len(self.missing_sources) > 0:
             for dataset in self.missing_sources:
                 self._io.write(f"\033[1;33;40mDataset '{dataset[0]}' in folder '{dataset[1]}' has {dataset[2]} graph(s) with missing source files.\033[0;37;40m")
+
+    def process_graph_description(self, dataset):
+        graph_info = dataset.get_graph_info()
+        for graph in graph_info:
+            if not self._validator.check_graph_short_description(graph):
+                short_desc = self.ask_sh_desc_graph(graph[0])
+                if self._validator.check_graph_description_file_exists(graph):
+                    self._writer.update_graph_description(dataset, graph[0], short_desc)
+                    self._io.write("\033[1;32;40mGraph description-file updated.\033[0;37;40m")
+                else:
+                    self._writer.create_graph_description(dataset, graph[0], short_desc)
+                    self._io.write("\033[1;32;40mGraph description-file created.\033[0;37;40m")
+        self._io.write("\033[1;32;40mAll graphs in dataset have a description.\033[0;37;40m")
+
 
     def process_graph_licences(self, dataset):
         number_of_missing_licences = self._validator.check_graphs_without_licence(dataset)
@@ -214,6 +229,14 @@ have a short description.\033[0;37;40m")
         self._io.write("\033[1;31;40mThe dataset has no licence.\033[0;37;40m")
         licence = self._io.read("Which licence is the dataset under? (Leave empty if no licence.) ")
         return licence
+
+    def ask_sh_desc_graph(self, graph):
+        sh_desc = ""
+        while sh_desc == "":
+            self._io.write(f"\033[1;31;40mThe {str(graph)} -graphfile doesn't \
+have a short description.\033[0;37;40m")
+            sh_desc = self._io.read("Please give a short description: ")
+        return sh_desc
 
     def folder_done(self, dataset):
         """

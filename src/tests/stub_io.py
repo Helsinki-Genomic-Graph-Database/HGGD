@@ -1,7 +1,8 @@
 class StubIO:
     def __init__(self, inputs = []):
         self.inputs = inputs
-        self.inputs.append("")
+        self.inputs.append("short")
+        self.inputs.append("short")
         self.outputs = []
 
     def read(self, text):

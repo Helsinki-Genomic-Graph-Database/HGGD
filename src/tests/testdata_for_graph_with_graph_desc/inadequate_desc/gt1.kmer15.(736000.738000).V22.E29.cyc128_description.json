@@ -1,3 +1,4 @@
 {
-    "sources": ["graph source1", "graph source2"]
+    "sources": ["graph source1", "graph source2"],
+    "descr_short": "sh"
 }

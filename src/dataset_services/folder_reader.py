@@ -26,7 +26,8 @@ class FolderReader:
         self.highest_modification_time = 0
         self.logtime = 0
         self.has_log_file = False
-        self.graph_info = [] # list of tuples, format: (graph filename, has licences, has sources, licence)
+        self.graph_info = [] # list of tuples, format: (graph filename, licence, \
+                            # has sources (bool), has_short_desc(bool), desc_file_exists(bool))
 
     def get_dataset(self):
         graphs = []
@@ -76,6 +77,8 @@ class FolderReader:
             graph_without_extension = graph[:-extension_length-1]
             has_sources = False
             licence = None
+            has_short_desc = False
+            desc_file_exists = False
             if check_file_extension(graph, "graph"):
                 has_sources = True
             if graph_without_extension in graph_descriptions:
@@ -85,8 +88,10 @@ class FolderReader:
                     with open(filepath, encoding='utf-8') as file:
                         content = json.load(file)
                         licence = check_field(content, "licence")
-                        
+                        desc_file_exists = True
+                        if check_field(content, "descr_short") is not None:
+                            has_short_desc = True
                         if check_field(content, "sources") is not None:
                             has_sources = True
 
-            self.graph_info.append((graph, licence, has_sources))
+            self.graph_info.append((graph, licence, has_sources, has_short_desc, desc_file_exists))

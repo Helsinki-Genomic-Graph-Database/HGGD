@@ -1,5 +1,6 @@
 {
     "name": "testgfa",
     "licence": "gfa licence",
-    "sources": ["gfa source1", "gfa source2"]
+    "sources": ["gfa source1", "gfa source2"],
+    "descr_short": "short"
 }

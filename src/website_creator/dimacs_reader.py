@@ -17,10 +17,13 @@ class DimacsReader:
         name = remove_file_extension(filename, ".dimacs")
         licence = None
         sources = []
+        short_desc = None
         if check_description_file_exists(self.dir, name):
-            name, licence, sources = read_graph_description(self.dir, name)
+            name, licence, sources, short_desc = read_graph_description(self.dir, name)
         number_of_nodes, number_of_edges = self.read_dimacs_file(filename)
-        return name, number_of_nodes, number_of_edges, sources, licence
+        if name is None:
+            name = remove_file_extension(filename, ".dimacs")
+        return name, number_of_nodes, number_of_edges, sources, licence, short_desc
 
     def read_dimacs_file(self, filename):
         """ This function reads the .dimacs file and
