@@ -1,7 +1,7 @@
 body {
   margin: 0 auto;
-  max-width: 50em;
-  background-color: #f8f8f8;
+  max-width: 80em;
+  background-color: #fff;
 }
 
 .float-container {
@@ -72,4 +72,40 @@ a:hover {
 a:active {
   text-decoration: underline;
   color: #0e688b;
+}
+
+ /* The sidebar menu */
+ .sidenav {
+  height: 100%; /* Full-height: remove this if you want "auto" height */
+  width: 200px; /* Set the width of the sidebar */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  background-color: #f8f8f8;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 20px;
+}
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 0px 5px 10px 40px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #0e688b;
+  display: block;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: #003146;
+}
+
+.main {
+  margin-left: 200px; /* Same as the width of the sidebar */
+  padding: 0px 10px;
+}
+
+IMG.displayed {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
