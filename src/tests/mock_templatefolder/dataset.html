@@ -1,0 +1,176 @@
+{% extends "layout.html" %}
+
+{% if dataset %}
+    {% block title %} {{ dataset }} {% endblock %}
+
+    {% block body %}
+    <hy-docs-container>
+        <hy-baseline>
+            <hy-heading heading="h2"> {{ dataset_name }} </hy-heading>
+        </hy-baseline>
+        <br>
+        <hy-heading heading="h4"> {{ long_description }}</hy-heading>
+        <br>
+        {% if licence|length > 0 %} 
+        <hy-paragraph-text>Licence: {% for l in licence %} {{ l }} {% endfor %}</hy-paragraph-text>     
+        {% else %}
+        <hy-paragraph-text>Licence not provided </hy-paragraph-text>
+        {% endif %}
+        <br>
+        <hy-table-container>
+            <table>
+                <thead>
+                    <tr> 
+                        <th colspan="2"><hy-heading heading="h5"> Statistics for {{ dataset_name }}</hy-heading> </th>
+                    </tr> 
+                </thead>
+                <tbody>
+                    <tr> 
+                        <td><hy-paragraph-text>Total number of graphs in dataset:</hy-paragraph-text> </td>
+                        <td><hy-paragraph-text>{{ total_graphs }}</hy-paragraph-text> </td>
+                    </tr>
+                    <tr>
+                        <td> <hy-paragraph-text>Total nodes in dataset:</hy-paragraph-text>  </td>
+                        <td> <hy-paragraph-text>{{ total_nodes }} </hy-paragraph-text></td>
+                    </tr>
+                    <tr>        
+                        <td> <hy-paragraph-text>Total edges in dataset:</hy-paragraph-text> </td>
+                        <td> <hy-paragraph-text>{{ total_edges }} </hy-paragraph-text></td>
+                    </tr>
+                    <tr>            
+                        <td> <hy-paragraph-text>Nodes per graph average: </hy-paragraph-text> </td>
+                        <td> <hy-paragraph-text>{{ average_nodes }} </hy-paragraph-text> </td>
+                    </tr>
+                    <tr>    
+                        <td> <hy-paragraph-text>Edges per graph average:</hy-paragraph-text>  </td>
+                        <td> <hy-paragraph-text>{{ average_edges }} </hy-paragraph-text> </td>
+                    </tr>
+                </tbody>
+            </table>
+        </hy-table-container>
+        <br>
+        <hy-table-container>
+            <table>
+                <caption><hy-heading heading="h5"> Graphs in the dataset</hy-heading></caption>
+                <thead>
+                    <tr>
+                        <th><hy-paragraph-text> Name </hy-paragraph-text></th>
+                        <th> <hy-paragraph-text>Download links</hy-paragraph-text> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for name in graph_namelist %}   
+                    <tr>
+                        <td>
+                            <hy-link
+                                variant="within-paragraph"
+                                url="/hggd/datasets/{{ dataset }}/{{ name[0] }}"
+                                link-content="{{ name[0] }} "
+                                aria-label="{{ name[0] }} "
+                                is-external="false"
+                                >
+                            </hy-link>
+                        </td>
+                        <td> 
+                            <hy-link 
+                                url="/hggd/data/{{ dataset }}/{{ name[0] }}"
+                                link-content="{{ name[1] }} file "
+                                aria-label="{{ name[1] }} file"
+                                is-external="false"
+                                >
+                            </hy-link>
+                        </td>
+                        <td> 
+                            {% if not name[2] %}
+                            <hy-link 
+                                url="/hggd/data/{{ dataset }}/dimacs/{{ name[0] }}"
+                                link-content="dimacs file "
+                                aria-label="dimacs file"
+                                is-external="false"
+                                >
+                            </hy-link>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </hy-table-container>
+        <br>
+        
+        {% if user_defined_columns %}
+        <div class ="float-container clear">
+                <caption><hy-heading heading="h5"> Other information</hy-heading></caption>
+                <br>
+                
+                {% for name, content in user_defined_columns %}
+                <div class="float-child">
+                    <tr><th><hy-heading heading="h6">{{ name }}</hy-heading></th></tr>
+                    <br>
+                    {% for item in content %}
+                    <tr><td><hy-paragraph-text>{{ item }}</hy-paragraph-text></td></tr>
+                    {% endfor %}
+                    <br>
+                </div>
+                {% endfor %}
+
+        </div>
+            
+        {% endif %}
+        <br>
+            <hy-link 
+                url="/hggd/data/{{ dataset }}/zip/{{ zipfile }}"
+                link-content="Download all graph files in a zip-file"
+                aria-label="Download all graph files in a zip-file"
+                is-external="false"
+                >
+            </hy-link>
+            <br>
+            {% if over_ten_sources %}
+                <hy-heading heading="h5">Source files in the dataset</hy-heading>
+                <hy-link 
+                    url="/hggd/datasets/{{ dataset }}/sources"
+                    link-content="List of links to the {{ nro_of_sources }} source files"
+                    aria-label="List of links to the {{ nro_of_sources }} source files"
+                    is-external="false"
+                    >
+                </hy-link>
+            {% else %}
+
+            <hy-table-container>
+                <table>
+                    <thead> 
+                        <tr>
+                            <th colspan="2"><hy-heading heading="h5">Source files in the dataset</hy-heading></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for link, source in source_tuples %}
+                            <tr>
+                                <td> 
+                                    <hy-link 
+                                        url="{{link}}"
+                                        link-content="{{ source }}"
+                                        aria-label="{{ source }}"
+                                        is-external="false"
+                                        >
+                                    </hy-link>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </hy-table-container>
+            {% endif %}      
+        <br>
+        <hy-link 
+            variant="within-paragraph"
+            url="/hggd/index"
+            link-content="Back to main page"
+            aria-label="Back to main page"
+            is-external="false"
+            >
+        </hy-link>
+    </hy-docs-container>
+    {% endblock %}
+{% endif %}

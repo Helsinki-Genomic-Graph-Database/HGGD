@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %} {{ name }} {% endblock %}
+
+{% block body %}
+<hy-docs-container>
+    <hy-baseline>
+        <hy-heading heading="h2"> Source links for {{ name }}</hy-heading>
+    </hy-baseline>
+    <br>
+    <hy-table-container>
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2">
+                        <hy-heading heading="h5">Source files </hy-heading>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for link, source in source_tuples %}
+                <tr>
+                    <td>
+                        <hy-link url="{{link}}" link-content="{{ source }}" aria-label="{{ source }}"
+                            is-external="false">
+                        </hy-link>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </hy-table-container>
+    <br>
+    {% if graph %}
+    <hy-link variant="within-paragraph" url="/hggd/datasets/{{ dataset }}/{{ graph }}" link-content="Back to graph page"
+        aria-label="Back to dataset page" is-external="false">
+    </hy-link>
+    {% endif %}
+    <hy-link variant="within-paragraph" url="/hggd/datasets/{{ dataset }}" link-content="Back to dataset page"
+        aria-label="Back to dataset page" is-external="false">
+    </hy-link>
+    <hy-link variant="within-paragraph" url="/hggd/index" link-content="Back to main page"
+        aria-label="Back to main page" is-external="false">
+    </hy-link>
+</hy-docs-container>
+{% endblock %}
