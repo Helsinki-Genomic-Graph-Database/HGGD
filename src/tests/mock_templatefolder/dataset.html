@@ -11,8 +11,10 @@
         <br>
         <hy-heading heading="h4"> {{ long_description }}</hy-heading>
         <br>
-        {% if licence|length > 0 %} 
+        {% if licence|length == 1 %} 
         <hy-paragraph-text>Licence: {% for l in licence %} {{ l }} {% endfor %}</hy-paragraph-text>     
+        {% elif licence|length > 1 %}
+        <hy-paragraph-text>Various licences ({% for l in licence %} {{ l }} {% endfor %})</hy-paragraph-text>
         {% else %}
         <hy-paragraph-text>Licence not provided </hy-paragraph-text>
         {% endif %}
