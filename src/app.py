@@ -6,6 +6,7 @@ from src.dataset_services.dataset_reader import DatasetReader
 from src.website_creator.read_graphs import ReadGraphs
 from src.helper_functions_for_app import find_dataset_by_foldername, get_datapath
 from src.file_ui.file_utils import remove_file_extension
+from src.website_creator.user_defined_page_creator import UserDefinedPageCreator
 
 load_dotenv()
 
@@ -23,11 +24,16 @@ dataset_list = datasetcreator_service.get_datasets()
 graph_update_service = ReadGraphs(dataset_list)
 graph_update_service.run()
 dataset_list = graph_update_service.get_dataset_list_with_graphs()
+user_generated_pages = UserDefinedPageCreator(getenv("USER_GENERATED_PAGE_DIR"))
 
 def get_app():
     """ For tests
     """
     return app
+
+@app.route("/hggd/pages/<page>")
+def render_user_generated_page(page):
+    pass
 
 @app.route("/hggd/index", methods=["GET"])
 def render_index():
