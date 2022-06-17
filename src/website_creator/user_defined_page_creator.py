@@ -19,7 +19,7 @@ class UserDefinedPageCreator:
                     page_content = check_field(content, "content")
                     file_wo_extension = remove_file_extension(file, "json")[:-1]
                     path = self.user_defined_page_dir+"/pages/"+file_wo_extension+".html"
-                self.write_html(path, page_content)
+                self.write_html(path, page_content, name)
                 file_wo_extension = remove_file_extension(file, "json")[:-1]
                 self.created_pages[file_wo_extension] = name
                 
@@ -28,6 +28,10 @@ class UserDefinedPageCreator:
     def get_pages(self):
         return self.created_pages
 
-    def write_html(self, url, page_content):
+    def write_html(self, url, page_content, name):
         with open(url, "w") as html:
-                html.write(page_content)
+            html.write('{% extends "layout.html" %}')
+            html.write('{% block title %}'+name+'{% endblock %}')
+            html.write('{% block body %}')
+            html.write(page_content)
+            html.write('{% endblock %}')
