@@ -191,7 +191,8 @@ def download_dimacs(dataset, name):
     current_dataset = find_dataset_by_foldername(dataset, dataset_list)
     graph = current_dataset.find_graph(name)
     graph_filename = graph.get_file_name()
-    filename = remove_file_extension(graph_filename, ".graph")
+    filename = graph_filename.rstrip(".graph")
+    filename = graph_filename.rstrip(".gfa")
     dimacs_filename = filename+".dimacs"
     directory = path.join(get_datapath(dataset, app), 'dimacs')
     return send_from_directory(directory=directory, path='', filename=dimacs_filename)
