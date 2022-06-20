@@ -1,0 +1,9 @@
+{
+    "name": "Dimacs file",
+    "licence": "Apache",
+    "sources": [
+        "https://lcs.ios.ac.cn/~caisw/Resource/about_DIMACS_graph_format.txt",
+        "https://www.helsinki.fi/fi"
+    ],
+    "descr_short": "short story"
+}

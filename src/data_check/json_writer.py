@@ -22,7 +22,7 @@ class JsonWriter:
             "licence" : licence
         }
         with open (self.get_json_path(dataset), "w", encoding='utf-8') as file:
-            json.dump(dataset_dict, file)
+            json.dump(dataset_dict, file, indent=4)
 
     def update_json_file(self, dataset, key, value):
         """This method add information to an existing json file.
@@ -38,7 +38,7 @@ class JsonWriter:
             data = json.load(file)
             data.update(new_info)
             file.seek(0)
-            json.dump(data, file)
+            json.dump(data, file, indent=4)
 
     def get_json_path(self, dataset):
         path = dataset.get_path()
@@ -55,7 +55,7 @@ class JsonWriter:
             "descr_short" : short_desc
         }
         with open (self.get_graph_json_path(dataset, graph), "w", encoding='utf-8') as file:
-            json.dump(dataset_dict, file)
+            json.dump(dataset_dict, file, indent=4)
 
     def update_graph_description(self, dataset, graph, short_desc):
         json_path = self.get_graph_json_path(dataset, graph)
@@ -64,4 +64,4 @@ class JsonWriter:
             data = json.load(file)
             data.update(new_info)
             file.seek(0)
-            json.dump(data, file)
+            json.dump(data, file, indent=4)

@@ -1,8 +1,23 @@
 {
-    "name":"testdata with description",
-    "descr_long":"testing data",
-    "descr_short":"with full description",
+    "name": "Example dataset",
+    "descr_long": "testing data",
+    "descr_short": "with full description",
     "licence": "test_licence",
-    "user_defined_columns": {"test column strings": ["test string 1", "test string 2"], "test column numbers": [1, 2], "test column strings and numbers": ["test string", 2]}
-
+    "sources": [
+        "https://github.com/alexandrutomescu/create-flow-graphs"
+    ],
+    "user_defined_columns": {
+        "test column strings": [
+            "test string 1",
+            "test string 2"
+        ],
+        "test column numbers": [
+            1,
+            2
+        ],
+        "test column strings and numbers": [
+            "test string",
+            2
+        ]
+    }
 }
