@@ -57,6 +57,7 @@
                 <thead>
                     <tr>
                         <th><hy-paragraph-text> Name </hy-paragraph-text></th>
+                        <th> <hy-paragraph-text>Description</hy-paragraph-text> </th>
                         <th> <hy-paragraph-text>Download links</hy-paragraph-text> </th>
                     </tr>
                 </thead>
@@ -73,6 +74,7 @@
                                 >
                             </hy-link>
                         </td>
+                        <td><hy-paragraph-text>{{ name[3] }}</hy-paragraph-text></td>
                         <td> 
                             <hy-link 
                                 url="/hggd/data/{{ dataset }}/{{ name[0] }}"

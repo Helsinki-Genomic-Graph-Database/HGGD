@@ -31,6 +31,9 @@ Helsinki Genomic Graph Database
                     <th class="indexth">
                         <hy-paragraph-text>Nodes</hy-paragraph-text>
                     </th>
+                    <th class="indexth">
+                        <hy-paragraph-text>Description</hy-paragraph-text>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -47,6 +50,9 @@ Helsinki Genomic Graph Database
                         <td class="indextdnumber">
                             <hy-paragraph-text>{{ graph[2] }} </hy-paragraph-text>
                         </td>
+                        <td class="indextdtext">                 
+                            <hy-paragraph-text>{{ graph[3] }} </hy-paragraph-text>
+                        </td>
                     </tr>
                 {% endfor %}
                 <tr>
@@ -58,6 +64,9 @@ Helsinki Genomic Graph Database
                     </td>
                     <td class="indextotal">
                         <hy-paragraph-text>{{ dataset[4] }} </hy-paragraph-text>
+                    </td>                    
+                    <td class="indextotal">
+                        <hy-paragraph-text> </hy-paragraph-text>
                     </td>
                 </tr>
             </tbody>

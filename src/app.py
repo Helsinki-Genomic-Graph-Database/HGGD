@@ -45,7 +45,7 @@ def render_index():
         graphlist = dataset.get_list_of_graphs()
         graphinfo = []
         for graph in graphlist:
-            graphinfo.append((graph.get_names(), graph.get_edges(), graph.get_nodes()))
+            graphinfo.append((graph.get_names(), graph.get_edges(), graph.get_nodes(), graph.get_short_desc()))
         dataset_info.append((dataset.get_name(), dataset.get_descr_short(), \
         dataset.get_folder_name(), dataset.get_total_edges(), dataset.get_total_nodes(), \
         graphinfo))
@@ -77,7 +77,7 @@ def render_dataset(dataset):
         is_dimacs = False
         if graph.get_file_format() == "dimacs":
             is_dimacs = True
-        graph_namelist.append((graph.get_names(), graph.get_file_format(), is_dimacs))
+        graph_namelist.append((graph.get_names(), graph.get_file_format(), is_dimacs, graph.get_short_desc()))
     return render_template("dataset.html", total_graphs=graphs_total, average_nodes=avg_nodes, \
         average_edges=avg_edges, total_edges=total_edges, total_nodes=total_nodes, \
         dataset_name = dataset_name, graph_namelist=graph_namelist, dataset= dataset, \
