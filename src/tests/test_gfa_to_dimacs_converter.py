@@ -18,7 +18,7 @@ class TestGraphToDimacsConverter(unittest.TestCase):
         self.converter.convert_gfa_to_dimacs(self.filename_gfa)
         with open(os.path.join(f"{self.directory}/dimacs", self.filename_dimacs), "r") as file:
             information = file.read().split("\n")
-            self.assertEqual("p edge 6 5", str(information[0]))
+            self.assertEqual("p edge 10 10", str(information[0]))
             self.assertEqual("e 1 3", str(information[1]))
             self.assertEqual("e 4 2", str(information[2]))
             self.assertEqual("e 3 1", str(information[3]))
