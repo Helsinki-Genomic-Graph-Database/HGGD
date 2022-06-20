@@ -51,6 +51,14 @@ class TestUI(unittest.TestCase):
 
         self.assertEqual(response, "test_licence")
 
+    def test_ash_sh_desc_graph(self):
+        inputs = ["graph_description"]
+        io = StubIO(inputs)
+        ui = UI(self.dataset_list, io)
+        response = ui.ask_sh_desc_graph("graph.graph")
+
+        self.assertEqual(response, "graph_description")
+
     def test_process_name_when_doesnt_exist(self):
         inputs = ["test_name"]
         io = StubIO(inputs)
@@ -330,3 +338,59 @@ doesn't have a long description.\033[0;37;40m"
         string_done = "Folder done."
         os.remove("src/tests/ui_test_full_data/testdata_with_full_description/log.txt")
         self.assertEqual(io.outputs[5], string_done)
+
+    def test_process_graph_desc_exists(self):
+        inputs = [""]
+        io = StubIO(inputs)
+        ui = UI(self.dataset_list, io)
+        dataset = self.dataset_dict["testdata_with_description_for_graph"]
+        ui.process_graph_description(dataset)
+        strings_name = "\033[1;32;40mAll graphs in dataset have a description.\033[0;37;40m"
+        self.assertEqual(io.outputs[0], strings_name)
+
+    def test_process_graph_desc_updated(self):
+        inputs = ["test_desc"]
+        io = StubIO(inputs)
+        ui = UI(self.dataset_list, io)
+        with open("src/tests/testdata_ui_graph_desc/sample_description.json", "r+") as file:
+            original = json.load(file)
+        dataset = self.dataset_dict["testdata_ui_graph_desc"]
+        ui.process_graph_description(dataset)
+        with open("src/tests/testdata_ui_graph_desc/sample_description.json", "r+") as file:
+            content = json.load(file)
+        strings_file = "\033[1;31;40mThe sample.gfa -graphfile doesn't have a short description.\033[0;37;40m"
+        strings_updated = "\033[1;32;40mGraph description-file updated.\033[0;37;40m"
+        strings_name = "\033[1;32;40mAll graphs in dataset have a description.\033[0;37;40m"
+        self.assertEqual(io.outputs[0], strings_file)
+        self.assertEqual(io.outputs[1], strings_updated)
+        self.assertEqual(io.outputs[2], strings_name)
+        sh_desc_exists = False
+        if "descr_short" in content:
+            sh_desc_exists = True
+        self.assertEqual(True, sh_desc_exists)
+        self.assertEqual(content["descr_short"], "test_desc")
+        with open("src/tests/testdata_ui_graph_desc/sample_description.json", "w+") as file:
+            json.dump(original, file)
+
+    def test_process_graph_desc_created(self):
+        inputs = ["test_desc"]
+        io = StubIO(inputs)
+        ui = UI(self.dataset_list, io)
+        dataset = self.dataset_dict["testdata_for_graph_to_dimacs_converter"]
+        ui.process_graph_description(dataset)
+        with open("src/tests/testdata_for_graph_to_dimacs_converter/gt1.kmer15.(736000.738000).V22.E29.cyc128_description.json", "r+") as file:
+            content = json.load(file)
+        strings_file = "\033[1;31;40mThe gt1.kmer15.(736000.738000).V22.E29.cyc128.graph -graphfile doesn't have a short description.\033[0;37;40m"
+        strings_updated = "\033[1;32;40mGraph description-file created.\033[0;37;40m"
+        strings_name = "\033[1;32;40mAll graphs in dataset have a description.\033[0;37;40m"
+        self.assertEqual(io.outputs[0], strings_file)
+        self.assertEqual(io.outputs[1], strings_updated)
+        self.assertEqual(io.outputs[2], strings_name)
+        sh_desc_exists = False
+        if "descr_short" in content:
+            sh_desc_exists = True
+        self.assertEqual(True, sh_desc_exists)
+        self.assertEqual(content["descr_short"], "test_desc")
+
+        if os.path.exists("src/tests/testdata_for_graph_to_dimacs_converter/gt1.kmer15.(736000.738000).V22.E29.cyc128_description.json"):
+            os.remove("src/tests/testdata_for_graph_to_dimacs_converter/gt1.kmer15.(736000.738000).V22.E29.cyc128_description.json")

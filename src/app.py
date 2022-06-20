@@ -46,7 +46,7 @@ def render_index():
         graphlist = dataset.get_list_of_graphs()
         graphinfo = []
         for graph in graphlist:
-            graphinfo.append((graph.get_names(), graph.get_edges(), graph.get_nodes()))
+            graphinfo.append((graph.get_names(), graph.get_edges(), graph.get_nodes(), graph.get_short_desc()))
         dataset_info.append((dataset.get_name(), dataset.get_descr_short(), \
         dataset.get_folder_name(), dataset.get_total_edges(), dataset.get_total_nodes(), \
         graphinfo))
@@ -68,6 +68,10 @@ def render_dataset(dataset):
     dataset_name = current_dataset.get_name()
     long_description = current_dataset.get_descr_long_for_dataset_html()
     licence = current_dataset.get_licence()
+    various_licences = False
+    if len(licence) > 1:
+        various_licences = True
+    licencelist = ", ".join(licence)
     user_defined_columns = current_dataset.get_user_defined_columns()
     graph_namelist = []
     graphs = current_dataset.get_list_of_graphs()
@@ -80,14 +84,16 @@ def render_dataset(dataset):
         is_dimacs = False
         if graph.get_file_format() == "dimacs":
             is_dimacs = True
-        graph_namelist.append((graph.get_names(), graph.get_file_format(), is_dimacs))
+        graph_namelist.append((graph.get_names(), graph.get_file_format(), is_dimacs, graph.get_short_desc(), \
+            graph.get_licence()))
     return render_template("dataset.html", total_graphs=graphs_total, average_nodes=avg_nodes, \
         average_edges=avg_edges, total_edges=total_edges, total_nodes=total_nodes, \
         dataset_name = dataset_name, graph_namelist=graph_namelist, dataset= dataset, \
-        zipfile=zipfile, long_description = long_description, licence=licence, \
+        zipfile=zipfile, long_description = long_description, licencelist=licencelist, \
         source_tuples = sources, user_defined_columns = user_defined_columns, \
         over_ten_sources=over_ten_sources, nro_of_sources=nro_of_sources, \
-        pages = user_generated_pages.get_page_names())
+        pages = user_generated_pages.get_page_names(), \
+        various_licences=various_licences)
 
 @app.route("/hggd/datasets/<dataset>/<name>", methods=["GET"])
 def render_graph(dataset, name):
