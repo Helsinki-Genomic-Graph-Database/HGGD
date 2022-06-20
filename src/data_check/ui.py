@@ -36,7 +36,7 @@ class UI:
                 self._io.write("(The dataset has no name)")
             else:
                 self._io.write(dataset.get_name())
-            if self._validator.check_show_on_website(dataset):                
+            if self._validator.check_show_on_website(dataset):
                 self._io.write("Folder done.")
                 self.process_graph_sources(dataset)
                 self.process_graph_licences(dataset)
@@ -60,13 +60,13 @@ class UI:
             self.folder_done(dataset)
 
         self.print_number_of_issues()
-        
+
 
     def print_number_of_issues(self):
         number_of_issues = len(self.issues) + len(self.missing_licences) + len(self.missing_sources)
         if number_of_issues > 0:
             self._io.write(f"\033[1;33;40m{number_of_issues} issue(s) found in datasets\033[0;37;40m")
-            self._io.write(f"\033[1;33;40mShow issues in detail?(y/n)\033[0;37;40m")
+            self._io.write("\033[1;33;40mShow issues in detail?(y/n)\033[0;37;40m")
             command = self._io.read("")
             if command.lower() != "n":
                 self.print_issues()
@@ -74,9 +74,9 @@ class UI:
     def print_issues(self):
         for folder in self.issues:
             name, issues = self.issues[folder]
-            
+
             self._io.write(f"\033[1;33;40m'{name}' in folder '{folder}' {issues[0]}\033[0;37;40m")
-            
+
         self.print_missing_sources()
         self.print_missing_licences()
 
@@ -94,12 +94,14 @@ class UI:
     def process_graph_sources(self, dataset):
         number_of_missing_sources = self._validator.check_graphs_without_sources(dataset)
         if number_of_missing_sources > 0:
-            self.missing_sources.append((dataset.get_name(), dataset.get_folder_name(), number_of_missing_sources))
+            self.missing_sources.append((dataset.get_name(), dataset.get_folder_name(), \
+                number_of_missing_sources))
 
     def print_missing_sources(self):
         if len(self.missing_sources) > 0:
             for dataset in self.missing_sources:
-                self._io.write(f"\033[1;33;40mDataset '{dataset[0]}' in folder '{dataset[1]}' has {dataset[2]} graph(s) with missing source files.\033[0;37;40m")
+                self._io.write(f"\033[1;33;40mDataset '{dataset[0]}' in folder '{dataset[1]}' has \
+{dataset[2]} graph(s) with missing source files.\033[0;37;40m")
 
     def process_graph_description(self, dataset):
         graph_info = dataset.get_graph_info()
@@ -118,12 +120,14 @@ class UI:
     def process_graph_licences(self, dataset):
         number_of_missing_licences = self._validator.check_graphs_without_licence(dataset)
         if number_of_missing_licences > 0 and not self._validator.check_licence_exists(dataset):
-            self.missing_licences.append((dataset.get_name(), dataset.get_folder_name(), number_of_missing_licences))
+            self.missing_licences.append((dataset.get_name(), dataset.get_folder_name(), \
+                number_of_missing_licences))
 
     def print_missing_licences(self):
         if len(self.missing_licences) > 0:
             for dataset in self.missing_licences:
-                self._io.write(f"\033[1;33;40mDataset '{dataset[0]}' in folder '{dataset[1]}' has {dataset[2]} graph(s) with no licence given.\033[0;37;40m")
+                self._io.write(f"\033[1;33;40mDataset '{dataset[0]}' in folder '{dataset[1]}' has \
+{dataset[2]} graph(s) with no licence given.\033[0;37;40m")
 
     def process_data(self, dataset):
         data_exists = self._validator.check_data_exists(dataset)
@@ -269,4 +273,3 @@ have a short description.\033[0;37;40m")
                 dimacs_converter.convert_graph_to_dimacs(item[0])
             elif check_file_extension(item[0], "gfa"):
                 gfa_to_dimacs_converter.convert_gfa_to_dimacs(item[0])
-

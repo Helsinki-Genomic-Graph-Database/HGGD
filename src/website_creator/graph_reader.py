@@ -16,7 +16,7 @@ class GraphReader:
         Returns:
             int, str: number of nodes and edges, names of sources
         """
-        
+
         name = remove_file_extension(filename, ".graph")
         with open(os.path.join(self.dir, filename), "r", encoding='utf-8') as file:
             line = file.readline()
@@ -39,7 +39,8 @@ class GraphReader:
                 sources = sources_desc
         if name is None:
             name = remove_file_extension(filename, ".graph")
-        return (name, no_of_nodes, no_of_edges, sources, licence, comments_for_conversion, edges, short_desc)
+        return (name, no_of_nodes, no_of_edges, sources, licence, comments_for_conversion, \
+            edges, short_desc)
 
     def _get_number_of_nodes(self, data):
         """ Read the number of nodes from the file
@@ -58,7 +59,7 @@ class GraphReader:
         """
         source_names = line.split(":")[1].strip()
         list_of_names = source_names.split(" ")
-        source_tuple_list = [] 
+        source_tuple_list = []
         for name in list_of_names:
             source_tuple_list.append((self.create_link_fo_fna(name), name))
         return source_tuple_list
