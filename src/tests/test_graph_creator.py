@@ -70,6 +70,12 @@ class TestGraphCreator(unittest.TestCase):
         for graph in graph_list:
             self.assertEqual("MIT", graph.get_licence())
 
+    def test_graphs_have_correct_description(self):
+        graph_list = self.graphcreator.get_graph_list()
+        for graph in graph_list:
+            self.assertEqual("short", graph.get_short_desc())
+
+
 class TestGraphCreatorEmptyDescription(unittest.TestCase):
 
     def setUp(self):
@@ -80,6 +86,11 @@ class TestGraphCreatorEmptyDescription(unittest.TestCase):
     def test_get_graph_list_should_return_list_of_only_graph_files(self):
         res = self.graphcreator.get_graph_list()
         self.assertEqual(len(res), 5)
+
+    def test_graphs_have_correct_description_None(self):
+        graph_list = self.graphcreator.get_graph_list()
+        for graph in graph_list:
+            self.assertEqual(None, graph.get_short_desc())
 
 class TestGraphCreatorWithLicencefile(unittest.TestCase):
 

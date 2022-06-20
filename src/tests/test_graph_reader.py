@@ -25,6 +25,7 @@ class TestGraphReaderWithFullDescription(unittest.TestCase):
         self.assertEqual(licence, None)
         self.assertEqual(sources, [('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/005/845/GCA_000005845.2_ASM584v2/GCA_000005845.2_ASM584v2_genomic.fna.gz', 'GCA_000005845.2_ASM584v2.fna')])
         self.assertEqual(licence, None)
+        self.assertEqual(short_desc, None)
 
 class TestGraphReaderWithInadequateDescription(unittest.TestCase):
 

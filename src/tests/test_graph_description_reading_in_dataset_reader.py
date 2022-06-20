@@ -32,3 +32,20 @@ class TestGraphDescriptionReadingToDataset(unittest.TestCase):
                 res = has_licence
         self.assertEqual(res, None)
 
+    def test_info_list_true_for_description(self):
+        for graph, has_licence, has_sources, has_short_desc, has_desc_file in self.res:
+            self.assertEqual(True, has_short_desc)
+            self.assertEqual(True, has_desc_file)
+
+class TestGraphDescriptionReadingNoDescFile(unittest.TestCase):
+
+    def setUp(self):
+        self.dir = "src/tests/testdata_with_empty_description"
+        self.creator = DatasetCreator([self.dir])
+        self.dataset = self.creator.get_datasets()[0]
+        self.res = self.dataset.get_graph_info()
+
+    def test_info_list_false_for_description(self):
+        for graph, has_licence, has_sources, has_short_desc, has_desc_file in self.res:
+            self.assertEqual(False, has_short_desc)
+            self.assertEqual(False, has_desc_file)

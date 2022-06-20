@@ -55,4 +55,4 @@ class TestGfaReaderWithNoNameDescription(unittest.TestCase):
         self.assertEqual(edges, 2)
         self.assertEqual(sources, [])
         self.assertEqual(licence, "gfa licence")
-        self.assertEqual(short_desc, "short")
+        self.assertEqual(short_desc, None)
