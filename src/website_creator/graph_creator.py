@@ -1,7 +1,7 @@
 """Reads graph files from a directory"""
 import os
 from src.entities.graph import Graph
-from src.file_ui.file_utils import check_file_extension, check_file_extension_multiple
+from src.file_ui.file_utils import check_file_extension, check_file_extension_multiple, read_graph_description, check_description_file_exists
 from src.website_creator.graph_reader import GraphReader
 from src.website_creator.gfa_reader import GfaReader
 from src.website_creator.dimacs_reader import DimacsReader
@@ -53,6 +53,12 @@ class GraphCreator:
                 continue
             if not check_file_extension_multiple(filename, self.formats):
                 continue
+
+            name = None
+            licence = None
+            sources = []
+            short_desc = None
+
             if len(self.dataset_licence) > 0:
                 licence = self.dataset_licence[0]
             else:
@@ -75,10 +81,24 @@ class GraphCreator:
                 if graph[0] == filename:
                     licence = graph[1]
 
+            
+
+            extension_length = len(filename.split(".")[-1])+1
+            filename_without_extension = filename[:-extension_length]
+
+            if check_description_file_exists(self.dir, filename_without_extension):
+                name, licence, sources_desc, short_desc = read_graph_description(self.dir, filename_without_extension)
+                if len(sources_desc) > 0:
+                    sources = sources_desc
+
+            if name is None:
+                name = filename_without_extension
+
             if licence is None:
                 if len(self.dataset_licence) > 0:
                     licence = self.dataset_licence[0]
             new_graph = Graph(name, nodes, edges, sources, licence, filename, fileformat, \
+            
                 short_desc)
             self.set_sources.update(sources)
             if licence is not None:
