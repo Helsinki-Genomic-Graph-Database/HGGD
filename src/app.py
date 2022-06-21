@@ -210,16 +210,25 @@ def download_dimacs(dataset, name):
     """
     current_dataset = find_dataset_by_foldername(dataset, dataset_list)
     graph = current_dataset.find_graph(name)
-    graph_filename = graph.get_file_name()
-    graph_fileformat = graph.get_file_format()
-    if graph_fileformat == "graph":
-        filename = graph_filename.rstrip(".graph")
-    if graph_fileformat == "gfa":
-        filename = graph_filename.rstrip(".gfa")
-    dimacs_filename = filename+".dimacs"
+    filename = remove_file_extension(graph.get_file_name(), graph.get_file_format())
+    dimacs_filename = filename+"dimacs"
     directory = path.join(get_datapath(dataset, app), 'dimacs')
     return send_from_directory(directory=directory, path='', filename=dimacs_filename)
 
+@app.route('/hggd/data/<dataset>/sourcetxt/<path:name>', methods=['GET'])
+def download_dataset_source_txt(dataset, name):
+    directory = path.join(get_datapath(dataset, app), 'sourcetxt')
+    filename = name+".txt"
+    return send_from_directory(directory=directory, path='', filename=filename)
+
+@app.route('/hggd/data/<dataset>/sourcetxt/graphs/<path:name>', methods=['GET'])
+def download_graph_source_txt(dataset, name):
+    current_dataset = find_dataset_by_foldername(dataset, dataset_list)
+    graph = current_dataset.find_graph(name)
+    filename = remove_file_extension(graph.get_file_name(), graph.get_file_format())
+    filename = filename+"txt"
+    directory = path.join(get_datapath(dataset, app), 'sourcetxt/graphs')
+    return send_from_directory(directory=directory, path='', filename=filename)
 
 if __name__ == "__main__":
     port = int(environ.get('PORT', 5000))

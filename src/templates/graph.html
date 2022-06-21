@@ -75,6 +75,7 @@
     </hy-link>
     {% endif %}
     <br>
+    {% if nro_of_sources > 0 %}
     {% if over_ten_sources %}
     <hy-heading heading="h5">Source files for the graph </hy-heading>
     <hy-link url="/hggd/datasets/{{ dataset }}/{{ name }}/sources"
@@ -106,6 +107,15 @@
     </hy-table-container>
     {% endif %}
     <br>
+    <b>
+        <a href="/hggd/data/{{ dataset }}/sourcetxt/graphs/{{ name }}"
+        target="_blank"
+        download
+        > Download all source file links in a txt-file</a></b>
+    {% else %}
+    <hy-paragraph-text><b>No source files provided for the graph</b></hy-paragraph-text>
+    {% endif %}
+    <br><br>
     <hy-link variant="within-paragraph" url="/hggd/datasets/{{ dataset }}" link-content="Back to dataset page"
         aria-label="Back to dataset page" is-external="false">
     </hy-link>
