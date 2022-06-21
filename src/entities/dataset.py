@@ -14,7 +14,7 @@ class Dataset:
         self.licence = licence
         self.zipfile_path = f"{self.folder_name}.zip"
         self.list_of_graphs = None
-        self.dataset_source = None
+        self.dataset_source = set()
         self.total_edges = None
         self.total_nodes = None
         self.average_edges = None
@@ -81,7 +81,7 @@ class Dataset:
         return self.list_of_graphs
 
     def get_dataset_source(self):
-        return self.dataset_source
+        return sorted(self.dataset_source)
 
     def get_total_edges(self):
         return self.total_edges
@@ -141,7 +141,7 @@ class Dataset:
         self.list_of_graphs = list_of_graphs
 
     def set_dataset_source(self, dataset_source):
-        self.dataset_source = dataset_source
+        self.dataset_source.update(dataset_source)
 
     def set_total_edges(self, total_edges):
         self.total_edges = total_edges

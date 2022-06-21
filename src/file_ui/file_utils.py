@@ -72,6 +72,7 @@ def read_description(path):
     descr_long = None
     licence = None
     user_defined_columns = None
+    sources = []
     if os.stat(filepath).st_size > 0:
         with open(filepath, encoding='utf-8') as file:
             content = json.load(file)
@@ -80,8 +81,12 @@ def read_description(path):
             descr_long = check_field(content, "descr_long")
             licence = check_field(content, "licence")
             user_defined_columns = check_field(content, "user_defined_columns")
+            source_list = check_field(content, "sources")
+            if source_list is not None:
+                for source in source_list:
+                    sources.append((source, source))
 
-    return name, descr_short, descr_long, licence, user_defined_columns
+    return name, descr_short, descr_long, licence, user_defined_columns, sources
 
 def read_graph_description(directory, name):
     """ Reads graph description files
