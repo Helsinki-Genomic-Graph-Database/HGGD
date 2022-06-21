@@ -1,6 +1,7 @@
 import unittest
 from src.file_ui.file_utils import read_graph_description
 from src.website_creator.graph_creator import GraphCreator
+from src.app import get_app
 
 class TestGraphDescrpitionReadsUserDefinedColumns(unittest.TestCase):
 
@@ -64,4 +65,23 @@ class TestGraphCreatorAddsUserDefinedColumnsToGraphObject(unittest.TestCase):
         for graph in res:
             if graph.get_names() == "test_graph":
                 self.assertEqual(len(graph.get_user_defined_columns()), 3)
-    
+
+class TestGraphPageShowsUserDefinedColumns(unittest.TestCase):
+
+    def setUp(self):
+        self.dir = "src/tests/mock_datafolder/testdata_with_full_description"
+        self.graph = "gt1.kmer15.(736000.738000).V22.E29.cyc128"
+
+    def test_works(self):
+        app = get_app().test_client()
+        res = app.get("hggd/datasets/testdata_with_full_description/"+self.graph)
+        self.assertEqual(res.status_code, 200)
+
+    def test_user_defined_columns_show_on_graph_page(self):
+        with open(self.dir+"/"+self.graph+"_description.json", "w") as desc:
+            desc.write('{"descr_short": "s", "user_defined_columns": {"test column strings": ["test string 1", "test string 2"], "test column numbers": [1, 2], "test column strings and numbers": ["test string", 2]}}')
+            desc.close()
+
+        app = get_app().test_client()
+        res = app.get("hggd/datasets/testdata_with_full_description/gt1.kmer15.(736000.738000).V22.E29.cyc128")
+        self.assertIn(b"test column strings", res.data)
