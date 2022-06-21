@@ -58,6 +58,7 @@ class GraphCreator:
             licence = None
             sources = []
             short_desc = None
+            user_defined_columns = None
 
             if len(self.dataset_licence) > 0:
                 licence = self.dataset_licence[0]
@@ -87,7 +88,8 @@ class GraphCreator:
             filename_without_extension = filename[:-extension_length]
 
             if check_description_file_exists(self.dir, filename_without_extension):
-                name, licence, sources_desc, short_desc = read_graph_description(self.dir, filename_without_extension)
+                
+                name, licence, sources_desc, short_desc, user_defined_columns = read_graph_description(self.dir, filename_without_extension)
                 if len(sources_desc) > 0:
                     sources = sources_desc
 
@@ -98,8 +100,8 @@ class GraphCreator:
                 if len(self.dataset_licence) > 0:
                     licence = self.dataset_licence[0]
             new_graph = Graph(name, nodes, edges, sources, licence, filename, fileformat, \
-            
-                short_desc)
+                short_desc, user_defined_columns)
+
             self.set_sources.update(sources)
             if licence is not None:
                 self.set_licences.update([licence])

@@ -33,12 +33,12 @@ class GraphReader:
             no_of_nodes = self._get_number_of_nodes(data)
             licence = None
             short_desc = None
-        if check_description_file_exists(self.dir, name):
-            name, licence, sources_desc, short_desc = read_graph_description(self.dir, name)
-            if len(sources_desc) > 0:
-                sources = sources_desc
-        if name is None:
-            name = remove_file_extension(filename, ".graph")
+        # if check_description_file_exists(self.dir, name):
+        #     name, licence, sources_desc, short_desc = read_graph_description(self.dir, name)
+        #     if len(sources_desc) > 0:
+        #         sources = sources_desc
+        # if name is None:
+        #     name = remove_file_extension(filename, ".graph")
         return (name, no_of_nodes, no_of_edges, sources, licence, comments_for_conversion, \
             edges, short_desc)
 

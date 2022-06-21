@@ -1,7 +1,7 @@
 class Graph:
     """This class creates a graph object that has the name
     of the graph, the number of nodes and the number of edges."""
-    def __init__(self, name = "", nodes = 0, edges = 0, sources = [], licence = None, file_name = "", file_format = "", short_desc = ""):
+    def __init__(self, name = "", nodes = 0, edges = 0, sources = [], licence = None, file_name = "", file_format = "", short_desc = "", user_defined_columns = None):
         """This function initializes the graph object.
 
         Args:
@@ -19,6 +19,8 @@ class Graph:
         self.file_name = file_name
         self.file_format = file_format
         self.short_desc = short_desc
+        self.user_defined_columns = user_defined_columns
+        
 
     def __eq__(self, other):
         return self.name == other.name
@@ -38,6 +40,9 @@ class Graph:
             string: name
         """
         return self.name
+
+    def get_user_defined_columns(self):
+        return self.user_defined_columns
 
     def get_nodes(self):
         """This function returns the number of nodes in the graph.

@@ -35,8 +35,8 @@ class GfaReader:
             edges = len(gfa_object._gfa1_links)
         elif gfa_object.version == 'gfa2':
             edges = len(gfa_object._gfa2_edges)
-        if check_description_file_exists(self.dir, name):
-            name, licence, sources, short_desc = read_graph_description(self.dir, name)
-        if name is None:
-            name = remove_file_extension(filename, ".gfa")
+        # if check_description_file_exists(self.dir, name):
+        #     name, licence, sources, short_desc = read_graph_description(self.dir, name)
+        # if name is None:
+        #     name = remove_file_extension(filename, ".gfa")
         return name, nodes, edges, sources, licence, short_desc

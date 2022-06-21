@@ -99,6 +99,7 @@ def read_graph_description(directory, name):
     licence = None
     short_desc = None
     sources = []
+    user_defined_columns = None
     if os.stat(filepath).st_size > 0:
         with open(filepath, encoding='utf-8') as file:
             content = json.loads(file.read())
@@ -106,10 +107,11 @@ def read_graph_description(directory, name):
             licence = check_field(content, "licence")
             source_list = check_field(content, "sources")
             short_desc = check_field(content, "descr_short")
+            user_defined_columns = check_field(content, "user_defined_columns")
             if source_list is not None:
                 for source in source_list:
                     sources.append((source, source))
-    return name, licence, sources, short_desc
+    return name, licence, sources, short_desc, user_defined_columns
 
 def check_description_file_exists(directory, filename):
     """ Checks if there is a description file
