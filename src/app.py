@@ -85,7 +85,7 @@ def render_dataset(dataset):
         if graph.get_file_format() == "dimacs":
             is_dimacs = True
         graph_namelist.append((graph.get_names(), graph.get_file_format(), is_dimacs, graph.get_short_desc(), \
-            graph.get_licence()))
+            graph.get_licence(), graph.get_user_defined_columns()))
     return render_template("dataset.html", total_graphs=graphs_total, average_nodes=avg_nodes, \
         average_edges=avg_edges, total_edges=total_edges, total_nodes=total_nodes, \
         dataset_name = dataset_name, graph_namelist=graph_namelist, dataset= dataset, \

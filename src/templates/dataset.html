@@ -103,6 +103,17 @@
                             </hy-link>
                             {% endif %}
                         </td>
+                        {% if name[5] %}
+                        <td>
+                            <table>
+                            
+                                {% for column, content in name[5] %}
+                                    <td><hy-heading heading="h6">{{column}}:</hy-heading> {% for item in content %} <hy.paragraph-text>{{item}},</hy.paragraph-text>{% endfor %}</td>
+                                {% endfor %}
+                           
+                            </table>
+                        </td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>
