@@ -66,7 +66,7 @@
                 </thead>
                 <tbody>
                     {% for name in graph_namelist %}   
-                    <tr>
+                    <tr valign=top>
                         <td>
                             <hy-link
                                 variant="within-paragraph"
@@ -108,7 +108,7 @@
                             <table>
                             
                                 {% for column, content in name[5] %}
-                                    <td><hy-heading heading="h6">{{column}}:</hy-heading> {% for item in content %} <hy.paragraph-text>{{item}},</hy.paragraph-text>{% endfor %}</td>
+                                    <td valign=top><hy-heading heading="h6">{{column}}:<br></hy-heading> {% for item in content %} <hy-paragraph-text>{{item}}<br></hy-paragraph-text>{% endfor %}</td>
                                 {% endfor %}
                            
                             </table>
