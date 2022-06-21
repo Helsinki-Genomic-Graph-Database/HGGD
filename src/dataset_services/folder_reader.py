@@ -28,6 +28,7 @@ class FolderReader:
         self.has_log_file = False
         self.graph_info = [] # list of tuples, format: (graph filename, licence, \
                             # has sources (bool), has_short_desc(bool), desc_file_exists(bool))
+        self.sources = []
 
     def get_dataset(self):
         graphs = []
@@ -42,7 +43,8 @@ class FolderReader:
             if check_file_extension(file, "json"):
                 if file == "description.json":
                     self.descrition_file_exists = True
-                    self.name, self.descr_short, self.descr_long, licence_in_descr, self.user_defined_columns = read_description(self.path)
+                    self.name, self.descr_short, self.descr_long, licence_in_descr, self.user_defined_columns, \
+                        self.sources = read_description(self.path)
                     if licence_in_descr:
                         self.licence.append(licence_in_descr)
                 else:
@@ -57,10 +59,12 @@ class FolderReader:
 
         self.process_graphs(graphs, graph_descriptions)
 
-        return Dataset(self.descrition_file_exists, self.data_exists, self.licence_file_exists, \
+        new_dataset = Dataset(self.descrition_file_exists, self.data_exists, self.licence_file_exists, \
                 self.path, self.name, self.descr_short, self.descr_long, self.licence, \
                 self.show_on_website, self.folder_name, self.user_defined_columns, \
                 self.has_log_file, self.graph_info)
+        new_dataset.set_dataset_source(self.sources)
+        return new_dataset
 
     def check_modification_times(self, file):
         modification_time = os.path.getctime(self.path+"/"+file)

@@ -37,6 +37,7 @@ class TestReadGraphs(unittest.TestCase):
 
     def test_sources(self):
         self.assertEqual(len(self.updated_list[0].get_dataset_source()), 20)
+        self.assertEqual(self.updated_list[0].get_dataset_source()[0], ('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/005/845/GCA_000005845.2_ASM584v2/GCA_000005845.2_ASM584v2_genomic.fna.gz', 'GCA_000005845.2_ASM584v2.fna'))
         self.assertListEqual(self.updated_list[1].get_dataset_source(), [])
 
 class TestReadGraphsNotVisible(unittest.TestCase):
