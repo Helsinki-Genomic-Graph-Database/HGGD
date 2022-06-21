@@ -27,8 +27,8 @@ class GfaToDimacsConverter:
         name = name+".dimacs"
         filepath = os.path.join(self.dir, gfa_filename)
         gfa_object = gfapy.Gfa.from_file(filepath)
-        nro_edges, edge_line_list = self.process_edges(gfa_object)
-        problem_line = "p edge "+str(len(gfa_object.segments))+" "+str(nro_edges)+"\n"
+        nro_nodes, nro_edges, edge_line_list = self.process_edges(gfa_object)
+        problem_line = "p edge "+str(nro_nodes)+" "+str(nro_edges)+"\n"
         self.write_dimacs_file(name,  problem_line, edge_line_list)
 
     def write_dimacs_file(self, name, problem_line, edge_line_list):
@@ -61,7 +61,6 @@ class GfaToDimacsConverter:
         node_dict = {}
         new_node_name = 1
         if gfa_object.version == 'gfa1':
-            nro_edges = len(gfa_object._gfa1_links)
             for line in gfa_object._gfa1_links:
                 line = str(line)
                 if line[0] == "L":
@@ -81,7 +80,7 @@ class GfaToDimacsConverter:
                     string_line = "e "+node_dict[node2b_str]+" "+node_dict[node1b_str]+"\n"
                     edge_line_list.append(string_line)
         elif gfa_object.version == 'gfa2':
-            nro_edges = len(gfa_object._gfa2_edges)
+            # THERE ARE NO TEST FOR THIS BECAUSE WE DIDN'T FIND SUITABLE FILES
             for line in gfa_object._gfa2_edges:
                 line = str(line)
                 if line[0] == "E":
@@ -107,7 +106,9 @@ class GfaToDimacsConverter:
                     edge_line_list.append(string_line)
                     string_line = "e "+node_dict[node2b]+" "+node_dict[node1b]+"\n"
                     edge_line_list.append(string_line)
-        return nro_edges, edge_line_list
+        nro_edges = len(edge_line_list)
+        nro_nodes = new_node_name-1
+        return nro_nodes, nro_edges, edge_line_list
 
     def change_orientation(self, orientation):
         if orientation == "-":

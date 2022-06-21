@@ -35,8 +35,10 @@
         <div class="sidenav">
             <img class="displayed" src="/static/HY__LD01_LogoFP_EN_B3____BW.png" alt="HY logo" height="125" width="153"/>
             <br>
-            <a href="#">About</a>
-            <a href="#">How to</a>
+                <a href="/hggd/index"> Main </a>
+            {% for link, name in pages %}
+                <a href="/hggd/pages/{{ link }}"> {{ name }} </a>
+            {% endfor %}
             <a href="https://www.helsinki.fi/en/researchgroups/algorithmic-bioinformatics/teams/graph-algorithms">Team</a>
         </div>
     </hy-heading>

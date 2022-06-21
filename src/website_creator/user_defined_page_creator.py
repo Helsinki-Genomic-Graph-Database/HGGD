@@ -22,16 +22,25 @@ class UserDefinedPageCreator:
                 self.write_html(path, page_content, name)
                 file_wo_extension = remove_file_extension(file, "json")[:-1]
                 self.created_pages[file_wo_extension] = name
-                
-                
 
     def get_pages(self):
         return self.created_pages
 
     def write_html(self, url, page_content, name):
         with open(url, "w") as html:
-            html.write('{% extends "layout.html" %}')
-            html.write('{% block title %}'+name+'{% endblock %}')
-            html.write('{% block body %}')
+            html.write('{% extends "layout.html" %}\n\n')
+            html.write('{% block title %}\n'+name+'\n{% endblock %}\n\n')
+            html.write('{% block body %}\n')
+            html.write('<hy-docs-container>\n')
+            html.write('<hy-paragraph-text>\n')
             html.write(page_content)
-            html.write('{% endblock %}')
+            html.write('\n</hy-paragraph-text>')
+            html.write('\n</hy-docs-container>')
+            html.write('\n{% endblock %}')
+
+    def get_page_names(self):
+        # create list of tuples: (link ending, page name)
+        names = []
+        for key in sorted(self.created_pages.keys()):
+            names.append((key, self.created_pages[key]))
+        return names

@@ -32,7 +32,8 @@ def get_app():
 
 @app.route("/hggd/pages/<page>")
 def render_user_generated_page(page):
-    return render_template(f"/user_templates/pages/{page}.html")
+    return render_template(f"/user_templates/pages/{page}.html", \
+        pages = user_generated_pages.get_page_names())
 
 @app.route("/hggd/index", methods=["GET"])
 def render_index():
@@ -49,7 +50,9 @@ def render_index():
         dataset_info.append((dataset.get_name(), dataset.get_descr_short(), \
         dataset.get_folder_name(), dataset.get_total_edges(), dataset.get_total_nodes(), \
         graphinfo))
-    return render_template("index.html", dataset_info=dataset_info)
+        user_generated_pages.get_page_names()
+    return render_template("index.html", dataset_info=dataset_info, \
+        pages = user_generated_pages.get_page_names())
 
 @app.route("/hggd/datasets/<dataset>", methods=["GET"])
 def render_dataset(dataset):
@@ -89,6 +92,7 @@ def render_dataset(dataset):
         zipfile=zipfile, long_description = long_description, licencelist=licencelist, \
         source_tuples = sources, user_defined_columns = user_defined_columns, \
         over_ten_sources=over_ten_sources, nro_of_sources=nro_of_sources, \
+        pages = user_generated_pages.get_page_names(), \
         various_licences=various_licences)
 
 @app.route("/hggd/datasets/<dataset>/<name>", methods=["GET"])
@@ -120,7 +124,7 @@ def render_graph(dataset, name):
     return render_template("graph.html",name=name, nodes=nodes, edges=edges, dataset=dataset_folder, \
         licence=licence, source_tuples=sources, over_ten_sources=over_ten_sources, \
         nro_of_sources=nro_of_sources, fileformat=fileformat, is_dimacs=is_dimacs, \
-        short_desc=short_desc)
+        short_desc=short_desc, pages = user_generated_pages.get_page_names())
 
 @app.route("/hggd/datasets/<dataset>/sources", methods=["GET"])
 def render_dataset_sources(dataset):
@@ -137,7 +141,8 @@ def render_dataset_sources(dataset):
     sources = current_dataset.get_dataset_source()
     dataset_folder = current_dataset.get_folder_name()
     return render_template("genomelinks.html", name=dataset_name, \
-    dataset=dataset_folder, source_tuples=sources)
+        dataset=dataset_folder, source_tuples=sources, \
+        pages = user_generated_pages.get_page_names())
 
 @app.route("/hggd/datasets/<dataset>/<name>/sources", methods=["GET"])
 def render_graph_sources(dataset, name):
@@ -156,7 +161,8 @@ def render_graph_sources(dataset, name):
     sources = graph.get_sources()
     dataset_folder = current_dataset.get_folder_name()
     return render_template("genomelinks.html", name=graph_name, \
-    dataset=dataset_folder, source_tuples=sources, graph=graph_name)
+        dataset=dataset_folder, source_tuples=sources, graph=graph_name, \
+        pages = user_generated_pages.get_page_names())
 
 @app.route('/hggd/data/<dataset>/zip/<path:filename>', methods=['GET'])
 def download_zip(dataset, filename):

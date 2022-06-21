@@ -1,4 +1,4 @@
 {
     "name": "About",
-    "content": "<h1>about tests</h1>"
+    "content": "<h1>about tests</h1>\nThis text tells me about the page."
 }

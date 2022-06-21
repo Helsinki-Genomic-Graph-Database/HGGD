@@ -8,7 +8,13 @@ Add datafiles as a separate folder into the data folder, for example `/data/new_
 
 ### Description file
 
-The folder can also contain `description.json` that contains the info about the dataset. The file must contain [these fields](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/description.json). The required fields are `name` and `descr_short`, others are optional. The UI will still ask whether you want to add the other fields, apart from the `user defined fields` that will only be shown if added manually to the file. If the `description.json` file does not exists upon running the UI, the UI will ask for all information for all the fields and create the file. Otherwise it will only ask for information on the missing fields.
+#### Dataset description
+
+The folder can also contain `description.json` that contains the info about the dataset. The file must contain [these fields](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/description.json). The required fields are `name` and `descr_short`, others are optional. The UI will still ask whether you want to add the other fields, apart from the `user defined fields` that will only be shown if added manually to the file. If the `description.json` file does not exists upon running the UI, the UI will ask for all information for all the fields and create the file. Otherwise it will only ask for information on the missing fields. The sources in the file will be displayed as www-links, so they should refer to web-pages and start with `https://`.
+
+#### Graph description
+
+Each graph can also have a similar `graph_description.json` file. The `graph`-part in the filename should be similar to the graph in question without the file extension. For example `sample.graph` should have a description file called `sample_description.json`. The description file should contain [these fields](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/graph_description.json). The only required field is `descr_short`, others are optional. In this case the UI will not ask for any other information than the short description. It will tell how many graphs in each dataset are without licences and sources in the end so missing information can be noticed. The sources will be displayed as www-links here similarly to the dataset descriptions.
 
 ### Licence file
 
