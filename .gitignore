@@ -9,3 +9,4 @@ log.txt
 /src/tests/**/zip
 /src/tests/**/dimacs
 .dimacs
+/src/tests/**/sourcetxt

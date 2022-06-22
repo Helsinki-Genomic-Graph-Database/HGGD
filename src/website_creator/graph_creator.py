@@ -1,7 +1,7 @@
 """Reads graph files from a directory"""
 import os
 from src.entities.graph import Graph
-from src.file_ui.file_utils import check_file_extension, check_file_extension_multiple, read_graph_description, check_description_file_exists
+from src.file_ui.file_utils import check_file_extension, check_file_extension_multiple, read_graph_description, check_description_file_exists, create_source_txt_file
 from src.website_creator.graph_reader import GraphReader
 from src.website_creator.gfa_reader import GfaReader
 from src.website_creator.dimacs_reader import DimacsReader
@@ -102,6 +102,8 @@ class GraphCreator:
             new_graph = Graph(name, nodes, edges, sources, licence, filename, fileformat, \
                 short_desc, user_defined_columns)
 
+            if len(sources) > 0:
+                create_source_txt_file(self.dir, filename_without_extension, sources)
             self.set_sources.update(sources)
             if licence is not None:
                 self.set_licences.update([licence])

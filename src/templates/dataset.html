@@ -149,43 +149,54 @@
                 >
             </hy-link>
             <br>
-            {% if over_ten_sources %}
-                <hy-heading heading="h5">Source files in the dataset</hy-heading>
-                <hy-link 
-                    url="/hggd/datasets/{{ dataset }}/sources"
-                    link-content="List of links to the {{ nro_of_sources }} source files"
-                    aria-label="List of links to the {{ nro_of_sources }} source files"
-                    is-external="false"
-                    >
-                </hy-link>
-            {% else %}
+            {% if nro_of_sources > 0 %}
+                {% if over_ten_sources %}
+                    <hy-heading heading="h5">Source files in the dataset</hy-heading>
+                    <hy-link 
+                        url="/hggd/datasets/{{ dataset }}/sources"
+                        link-content="List of links to the {{ nro_of_sources }} source files"
+                        aria-label="List of links to the {{ nro_of_sources }} source files"
+                        is-external="false"
+                        >
+                    </hy-link>
+                {% else %}
 
-            <hy-table-container>
-                <table>
-                    <thead> 
-                        <tr>
-                            <th colspan="2"><hy-heading heading="h5">Source files in the dataset</hy-heading></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for link, source in source_tuples %}
+                <hy-table-container>
+                    <table>
+                        <thead> 
                             <tr>
-                                <td> 
-                                    <hy-link 
-                                        url="{{link}}"
-                                        link-content="{{ source }}"
-                                        aria-label="{{ source }}"
-                                        is-external="false"
-                                        >
-                                    </hy-link>
-                                </td>
+                                <th colspan="2"><hy-heading heading="h5">Source files in the dataset</hy-heading></th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </hy-table-container>
-            {% endif %}      
-        <br>
+                        </thead>
+                        <tbody>
+                            {% for link, source in source_tuples %}
+                                <tr>
+                                    <td> 
+                                        <hy-link 
+                                            url="{{link}}"
+                                            link-content="{{ source }}"
+                                            aria-label="{{ source }}"
+                                            is-external="false"
+                                            >
+                                        </hy-link>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </hy-table-container>
+                {% endif %}
+            <br>
+            <b>
+                <a href="/hggd/data/{{ dataset }}/sourcetxt/{{ dataset }}"
+                target="_blank"
+                download
+                > Download all source file links in a txt-file</a></b>
+            {% else %}
+            <hy-paragraph-text><b>No source files provided for the dataset</hy-paragraph-text>
+            
+            {% endif %}
+        <br><br>
         <hy-link 
             variant="within-paragraph"
             url="/hggd/index"
