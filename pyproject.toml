@@ -11,6 +11,8 @@ Flask = "^2.1.2"
 python-dotenv = "^0.20.0"
 gunicorn = "^20.1.0"
 gfapy = "^1.2.3"
+beautifulsoup4 = "^4.11.1"
+requests = "^2.28.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
