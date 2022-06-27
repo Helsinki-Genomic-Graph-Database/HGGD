@@ -15,6 +15,8 @@ Test environment is running on [staging server](https://ohtup-staging.cs.helsink
 
 [Sprint Backlog](https://docs.google.com/spreadsheets/d/1jQ1yPn0-mzYhNJW9QTR2Ywo7aS68i67zV4ff8tXcJfQ/edit#gid=0)
 
+[Presentation videos](https://www.youtube.com/watch?v=prDzgknSgZ0)
+
 ## Documentation
 
 [User manual](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/user_manual.md)

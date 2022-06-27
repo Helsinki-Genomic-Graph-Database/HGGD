@@ -47,6 +47,25 @@
         </table>
     </hy-table-container>
     <br>
+    {% if user_defined_columns %}
+    <div class ="float-container clear">
+            <caption><hy-heading heading="h5"> Other information</hy-heading></caption>
+            <br>
+            
+            {% for name, content in user_defined_columns %}
+            <div class="float-child">
+                <tr><th><hy-heading heading="h6">{{ name }}</hy-heading></th></tr>
+                <br>
+                {% for item in content %}
+                <tr><td><hy-paragraph-text>{{ item }}</hy-paragraph-text></td></tr>
+                {% endfor %}
+                <br>
+            </div>
+            {% endfor %}
+
+    </div>
+        
+    {% endif %}
     <hy-link url="/hggd/data/{{ dataset }}/{{ name }}" link-content="Download {{ fileformat }} file"
         aria-label="Download {{ fileformat }} file" is-external="false">
     </hy-link>
@@ -56,6 +75,7 @@
     </hy-link>
     {% endif %}
     <br>
+    {% if nro_of_sources > 0 %}
     {% if over_ten_sources %}
     <hy-heading heading="h5">Source files for the graph </hy-heading>
     <hy-link url="/hggd/datasets/{{ dataset }}/{{ name }}/sources"
@@ -87,6 +107,15 @@
     </hy-table-container>
     {% endif %}
     <br>
+    <div class="linktext">
+        <a href="/hggd/data/{{ dataset }}/sourcetxt/graphs/{{ name }}"
+        target="_blank"
+        download
+        > Download all source file links in a txt-file</a></div>
+    {% else %}
+    <hy-paragraph-text><b>No source files provided for the graph</b></hy-paragraph-text>
+    {% endif %}
+    <br><br>
     <hy-link variant="within-paragraph" url="/hggd/datasets/{{ dataset }}" link-content="Back to dataset page"
         aria-label="Back to dataset page" is-external="false">
     </hy-link>

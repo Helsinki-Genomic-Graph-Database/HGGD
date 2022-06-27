@@ -87,7 +87,7 @@ def render_dataset(dataset):
         if graph.get_file_format() == "dimacs":
             is_dimacs = True
         graph_namelist.append((graph.get_names(), graph.get_file_format(), is_dimacs, graph.get_short_desc(), \
-            graph.get_licence()))
+            graph.get_licence(), graph.get_user_defined_columns()))
     return render_template("dataset.html", total_graphs=graphs_total, average_nodes=avg_nodes, \
         average_edges=avg_edges, total_edges=total_edges, total_nodes=total_nodes, \
         dataset_name = dataset_name, graph_namelist=graph_namelist, dataset= dataset, \
@@ -116,6 +116,7 @@ def render_graph(dataset, name):
     fileformat = graph.get_file_format()
     short_desc = graph.get_short_desc()
     is_dimacs = False
+    user_defined_columns = graph.get_user_defined_columns()
     if fileformat == "dimacs":
         is_dimacs = True
     over_ten_sources = False
@@ -126,7 +127,7 @@ def render_graph(dataset, name):
     return render_template("graph.html",name=name, nodes=nodes, edges=edges, dataset=dataset_folder, \
         licence=licence, source_tuples=sources, over_ten_sources=over_ten_sources, \
         nro_of_sources=nro_of_sources, fileformat=fileformat, is_dimacs=is_dimacs, \
-        short_desc=short_desc, pages = user_generated_pages.get_page_names())
+        short_desc=short_desc, pages = user_generated_pages.get_page_names(), user_defined_columns = user_defined_columns)
 
 @app.route("/hggd/datasets/<dataset>/sources", methods=["GET"])
 def render_dataset_sources(dataset):
@@ -211,13 +212,25 @@ def download_dimacs(dataset, name):
     """
     current_dataset = find_dataset_by_foldername(dataset, dataset_list)
     graph = current_dataset.find_graph(name)
-    graph_filename = graph.get_file_name()
-    filename = graph_filename.rstrip(".graph")
-    filename = graph_filename.rstrip(".gfa")
-    dimacs_filename = filename+".dimacs"
+    filename = remove_file_extension(graph.get_file_name(), graph.get_file_format())
+    dimacs_filename = filename+"dimacs"
     directory = path.join(get_datapath(dataset, app), 'dimacs')
     return send_from_directory(directory=directory, path='', filename=dimacs_filename)
 
+@app.route('/hggd/data/<dataset>/sourcetxt/<path:name>', methods=['GET'])
+def download_dataset_source_txt(dataset, name):
+    directory = path.join(get_datapath(dataset, app), 'sourcetxt')
+    filename = name+".txt"
+    return send_from_directory(directory=directory, path='', filename=filename)
+
+@app.route('/hggd/data/<dataset>/sourcetxt/graphs/<path:name>', methods=['GET'])
+def download_graph_source_txt(dataset, name):
+    current_dataset = find_dataset_by_foldername(dataset, dataset_list)
+    graph = current_dataset.find_graph(name)
+    filename = remove_file_extension(graph.get_file_name(), graph.get_file_format())
+    filename = filename+"txt"
+    directory = path.join(get_datapath(dataset, app), 'sourcetxt/graphs')
+    return send_from_directory(directory=directory, path='', filename=filename)
 
 if __name__ == "__main__":
     port = int(environ.get('PORT', 5000))

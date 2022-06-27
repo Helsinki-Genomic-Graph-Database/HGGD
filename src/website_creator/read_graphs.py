@@ -1,5 +1,6 @@
 from src.website_creator.graph_creator import GraphCreator
 from src.website_creator.calculator import calculator_service
+from src.file_ui.file_utils import create_source_txt_file
 
 class ReadGraphs:
     """ Updates the dataset list with graphs, sources
@@ -28,6 +29,9 @@ class ReadGraphs:
                 dataset.set_average_nodes(avg_nodes)
                 dataset.set_average_edges(avg_edges)
                 self.updated_dataset_list.append(dataset)
+                dataset_sources = dataset.get_dataset_source()
+                if len(dataset_sources) > 0:
+                    create_source_txt_file(dataset.get_path(), dataset.get_folder_name(), dataset_sources, False)
 
     def get_dataset_list_with_graphs(self):
         """ Returns the updated dataset list

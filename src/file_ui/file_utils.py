@@ -1,5 +1,7 @@
 import json
 import os
+from types import new_class
+from xxlimited import new
 
 def check_file_extension(filename, extension):
     res = filename.strip().split(".")
@@ -72,6 +74,7 @@ def read_description(path):
     descr_long = None
     licence = None
     user_defined_columns = None
+    sources = []
     if os.stat(filepath).st_size > 0:
         with open(filepath, encoding='utf-8') as file:
             content = json.load(file)
@@ -80,8 +83,12 @@ def read_description(path):
             descr_long = check_field(content, "descr_long")
             licence = check_field(content, "licence")
             user_defined_columns = check_field(content, "user_defined_columns")
+            source_list = check_field(content, "sources")
+            if source_list is not None:
+                for source in source_list:
+                    sources.append((source, source))
 
-    return name, descr_short, descr_long, licence, user_defined_columns
+    return name, descr_short, descr_long, licence, user_defined_columns, sources
 
 def read_graph_description(directory, name):
     """ Reads graph description files
@@ -126,3 +133,18 @@ def check_description_file_exists(directory, filename):
     """
     json_name = filename+"_description.json"
     return os.path.exists(os.path.join(directory, json_name))
+
+def create_source_txt_file(directory, filename_without_extension, sourcelist, graph=True):
+    target_directory = f"{directory}/sourcetxt"
+    if not os.path.exists(target_directory):
+        os.mkdir(target_directory)
+    if graph:
+        target_directory = f"{target_directory}/graphs"
+        if not os.path.exists(target_directory):    
+            os.mkdir(target_directory)        
+    txt_filename = filename_without_extension+".txt"
+    new_sourcelist = []
+    for source in sourcelist:
+        new_sourcelist.append(source[0])
+    with open (f"{target_directory}/{txt_filename}", "w", encoding='utf-8') as file:
+        file.write("\n".join(new_sourcelist))
