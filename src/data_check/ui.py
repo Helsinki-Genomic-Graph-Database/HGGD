@@ -10,14 +10,16 @@ class UI:
     """This is a text-based user interface for processing
     the dataset so they're ready for the website.
     """
-    def __init__(self, dataset_list, input_output):
+    def __init__(self, dataset_list, input_output, spdx_service):
         self.dataset_list = dataset_list
         self._io = input_output
+        self.spdx_service = spdx_service
         self._validator = Validator()
         self._writer = JsonWriter()
         self.something_updated = False
         self.missing_sources = []
         self.missing_licences = []
+        self.licences_not_SPDX = set()
         self.issues = {}
 
     def start(self):
@@ -61,7 +63,6 @@ class UI:
 
         self.print_number_of_issues()
 
-
     def print_number_of_issues(self):
         number_of_issues = len(self.issues) + len(self.missing_licences) + len(self.missing_sources)
         if number_of_issues > 0:
@@ -79,6 +80,7 @@ class UI:
 
         self.print_missing_sources()
         self.print_missing_licences()
+        self.print_non_spdx_licences()
 
     def process_issues(self, dataset):
         issues = []
@@ -87,6 +89,11 @@ class UI:
 
         if not self._validator.check_descr_long_exists(dataset):
             issues.append("has no long description")
+
+        if dataset.get_licence():
+            for licence_tuple in dataset.get_licence():
+                if not self._validator.check_if_licence_in_spdx_format(licence_tuple):
+                    issues.append("has a licence that is not in SPDX format")
 
         if len(issues) > 0:
             self.issues[dataset.get_folder_name()] = (dataset.get_name(), issues)
@@ -103,6 +110,13 @@ class UI:
                 self._io.write(f"\033[1;33;40mDataset '{dataset[0]}' in folder '{dataset[1]}' has \
 {dataset[2]} graph(s) with missing source files.\033[0;37;40m")
 
+    def print_non_spdx_licences(self):
+        if len(self.licences_not_SPDX) > 0:
+            self._io.write("These licences are not in SPDX format: ")
+            for licence in self.licences_not_SPDX:
+                if not licence is None:
+                    self._io.write(licence)
+
     def process_graph_description(self, dataset):
         graph_info = dataset.get_graph_info()
         for graph in graph_info:
@@ -115,7 +129,6 @@ class UI:
                     self._writer.create_graph_description(dataset, graph[0], short_desc)
                     self._io.write("\033[1;32;40mGraph description-file created.\033[0;37;40m")
         self._io.write("\033[1;32;40mAll graphs in dataset have a description.\033[0;37;40m")
-
 
     def process_graph_licences(self, dataset):
         number_of_missing_licences = self._validator.check_graphs_without_licence(dataset)
@@ -151,8 +164,15 @@ folder "+dataset.get_folder_name()+".\033[0;37;40m"
             long_desc = self.ask_long_desc()
             licence = self.ask_for_licence()
             if len(licence) == 0:
-                licence = "None"
-            self._writer.create_json_file(dataset, name, sh_desc, long_desc, licence)
+                licence = None
+            if not licence is None:
+                licence = self.spdx_service.create_licence_link_tuples(licence)
+                self._writer.create_json_file(dataset, name, sh_desc, long_desc, licence[0])
+                self.something_updated = True
+                self.process_licence_format(licence)
+            else:
+                self._writer.create_json_file(dataset, name, sh_desc, long_desc, licence)
+                self.something_updated = True
             dataset.set_name(name)
             dataset.set_descr_short(sh_desc)
             dataset.set_descr_long(long_desc)
@@ -199,15 +219,25 @@ doesn't have a long description.\033[0;37;40m")
             if not licence_exists:
                 licence = self.ask_for_licence()
                 if licence == "":
-                    licence = "None"
-                if licence != "None":
-                    self._writer.update_json_file(dataset, "licence", licence)
+                    licence = None
+                if not licence is None:
+                    licence = self.spdx_service.create_licence_link_tuples(licence)
+                    self._writer.update_json_file(dataset, "licence", licence[0])
                     self.something_updated = True
-        if licence == "None":
+                    self.process_licence_format(licence)
+        if licence is None:
             self._io.write("\033[1;33;40mYou chose that the dataset \
 doesn't have a licence.\033[0;37;40m")
         else:
             self._io.write("\033[1;32;40mLicence exists.\033[0;37;40m")
+
+    def process_licence_format(self, licence):
+        spdx_format = self._validator.check_if_licence_in_spdx_format(licence)
+        if spdx_format is False:
+            self.licences_not_SPDX.update(licence)
+            self._io.write("\033[1;33;40mThe licence you gave is not in SPDX format, \
+so a link to the SPDX website will NOT be generated.\033[0;37;40m If you want to give the licence \
+in SPDX format, please edit the description file and run UI again.")
 
     def ask_name(self):
         name = ""

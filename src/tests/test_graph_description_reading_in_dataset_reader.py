@@ -1,12 +1,14 @@
 import os
 import unittest
 from src.dataset_services.dataset_creator import DatasetCreator
+from src.data_check.spdx_service import SpdxService
 
 class TestGraphDescriptionReadingToDataset(unittest.TestCase):
 
     def setUp(self):
         self.dir = "src/tests/testdata_with_description_for_graph"
-        self.creator = DatasetCreator([self.dir])
+        self.spdx_service = SpdxService()
+        self.creator = DatasetCreator([self.dir], self.spdx_service)
         self.dataset = self.creator.get_datasets()[0]
         self.res = self.dataset.get_graph_info()
 
@@ -41,7 +43,8 @@ class TestGraphDescriptionReadingNoDescFile(unittest.TestCase):
 
     def setUp(self):
         self.dir = "src/tests/testdata_with_empty_description"
-        self.creator = DatasetCreator([self.dir])
+        self.spdx_service = SpdxService()
+        self.creator = DatasetCreator([self.dir], self.spdx_service)
         self.dataset = self.creator.get_datasets()[0]
         self.res = self.dataset.get_graph_info()
 

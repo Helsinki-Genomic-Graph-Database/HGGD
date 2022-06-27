@@ -6,7 +6,7 @@ class TestGraphCreator(unittest.TestCase):
 
     def setUp(self):
         DIR = "src/tests/testdata"
-        self.graphcreator = GraphCreator(DIR, ["MIT"])
+        self.graphcreator = GraphCreator(DIR, [('MIT', 'https://spdx.org/licenses/MIT.html')])
         self.graphcreator.run()
 
     def test_get_graph_list_should_return_list(self):
@@ -96,7 +96,7 @@ class TestGraphCreatorWithLicencefile(unittest.TestCase):
 
     def setUp(self):
         DIR = "src/tests/testdata_with_licencefile"
-        self.graphcreator = GraphCreator(DIR, ["GNU"], [("gt1.kmer15.(736000.738000).V22.E29.cyc128.graph", "MIT", True),("gt1.kmer15.(3194000.3196000).V22.E28.cyc64", "MIT", True) ])
+        self.graphcreator = GraphCreator(DIR, [("GPL-1.0-only", 'https://spdx.org/licenses/GPL-1.0-only.html')], [("gt1.kmer15.(736000.738000).V22.E29.cyc128.graph", "MIT", True),("gt1.kmer15.(3194000.3196000).V22.E28.cyc64", "MIT", True) ])
         self.graphcreator.run()
 
     def test_graphs_with_different_licences(self):
@@ -105,6 +105,6 @@ class TestGraphCreatorWithLicencefile(unittest.TestCase):
             if graph.name == "gt1.kmer15.(736000.738000).V22.E29.cyc128" or graph.name == "gt1.kmer15.(3194000.3196000).V22.E28.cyc64":
                 self.assertEqual("MIT", graph.get_licence())
             else:
-                self.assertEqual("GNU", graph.get_licence())                
+                self.assertEqual("GPL-1.0-only", graph.get_licence())                
             
 

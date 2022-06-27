@@ -75,3 +75,8 @@ class Validator:
                 number_of_graphs_without_licence += 1
 
         return number_of_graphs_without_licence
+
+    def check_if_licence_in_spdx_format(self, licence_tuple):
+        if licence_tuple[1] is None:
+            return False
+        return True

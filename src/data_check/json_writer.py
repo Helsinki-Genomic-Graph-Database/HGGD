@@ -15,12 +15,19 @@ class JsonWriter:
             long_desc (string): long description
             licence (string)
         """
-        dataset_dict = {
-            "name" : name,
-            "descr_short" : sh_desc,
-            "descr_long" : long_desc,
-            "licence" : licence
-        }
+        if not licence is None:
+            dataset_dict = {
+                "name" : name,
+                "descr_short" : sh_desc,
+                "descr_long" : long_desc,
+                "licence" : licence
+            }
+        else:
+            dataset_dict = {
+                "name" : name,
+                "descr_short" : sh_desc,
+                "descr_long" : long_desc
+            }
         with open (self.get_json_path(dataset), "w", encoding='utf-8') as file:
             json.dump(dataset_dict, file, indent=4)
 

@@ -20,7 +20,7 @@ class ReadGraphs:
                 graphcreator_service.run()
                 dataset.set_list_of_graphs(graphcreator_service.get_graph_list())
                 dataset.set_dataset_source(graphcreator_service.get_set_sources())
-                dataset.set_licence(graphcreator_service.get_set_licences())
+                dataset.set_licence(graphcreator_service.get_licence_set())
                 total_nodes, total_edges = calculator_service.get_no_nodes_and_edges(dataset)
                 dataset.set_total_nodes(total_nodes)
                 dataset.set_total_edges(total_edges)
