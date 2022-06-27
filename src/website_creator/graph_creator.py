@@ -24,7 +24,7 @@ class GraphCreator:
         self.dataset_licence = dataset_licence
         self.graph_info = graph_info
         self.set_sources = set()
-        self.set_licences = set()
+        self.licence_set = set()
         self.formats = ["graph", "gfa", "dimacs"]
 
     def get_graph_list(self):
@@ -41,8 +41,8 @@ class GraphCreator:
         """
         return sorted(self.set_sources)
 
-    def get_set_licences(self):
-        return sorted(self.set_licences)
+    def get_licence_set(self):
+        return sorted(self.licence_set)
 
     def run(self):
         """scans the directory and creates the graph list
@@ -98,11 +98,12 @@ class GraphCreator:
 
             if licence is None:
                 if len(self.dataset_licence) > 0:
-                    licence = self.dataset_licence[0]
+                    licence = self.dataset_licence[0][0]
+
             new_graph = Graph(name, nodes, edges, sources, licence, filename, fileformat, \
                 short_desc, user_defined_columns)
 
             self.set_sources.update(sources)
             if licence is not None:
-                self.set_licences.update([licence])
+                self.licence_set.update([licence])
             self.graph_list.append(new_graph)

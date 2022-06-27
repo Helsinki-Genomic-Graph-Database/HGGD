@@ -8,4 +8,4 @@ class TestDescriptionReader(unittest.TestCase):
         self.assertEqual(name, "testdata with description")
         self.assertEqual(descr_long, "testing data")
         self.assertEqual(descr_short, "with full description")
-        self.assertEqual(licence, "test_licence")
+        self.assertEqual(licence, "MIT")

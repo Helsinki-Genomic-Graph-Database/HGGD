@@ -5,9 +5,10 @@ class DatasetCreator:
     and returns a list of dataset objects created from the folders
     """
 
-    def __init__(self, folder_paths):
+    def __init__(self, folder_paths, spdx_service):
         self.folder_paths = folder_paths
         self.dataset_list = []
+        self.spdx_service = spdx_service
 
     def get_datasets(self):
         self.run()
@@ -15,5 +16,5 @@ class DatasetCreator:
 
     def run(self):
         for path in self.folder_paths:
-            folder_reader = FolderReader(path)
+            folder_reader = FolderReader(path, self.spdx_service)
             self.dataset_list.append(folder_reader.get_dataset())

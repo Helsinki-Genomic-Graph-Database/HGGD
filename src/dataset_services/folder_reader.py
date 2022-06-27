@@ -2,6 +2,7 @@ import os
 import json
 from src.file_ui.file_utils import check_file_extension, check_file_extension_multiple, check_field, read_description
 from src.entities.dataset import Dataset
+from src.data_check.validator import Validator
 
 class FolderReader:
 
@@ -9,10 +10,11 @@ class FolderReader:
     Reads a folder and makes a Dataset object from the contents
     """
 
-    def __init__(self, path):
+    def __init__(self, path, spdx_service):
 
         self.path = path
         self.files = os.listdir(path)
+        self.spdx_service = spdx_service
         self.descrition_file_exists = False
         self.data_exists = False
         self.licence_file_exists = False
@@ -43,7 +45,8 @@ class FolderReader:
                 if file == "description.json":
                     self.descrition_file_exists = True
                     self.name, self.descr_short, self.descr_long, licence_in_descr, self.user_defined_columns = read_description(self.path)
-                    if licence_in_descr:
+                    if not licence_in_descr is None:
+                        licence_in_descr = self.spdx_service.create_licence_link_tuples(licence_in_descr)
                         self.licence.append(licence_in_descr)
                 else:
                     split_file = file.split(".")[:-1]
@@ -93,5 +96,7 @@ class FolderReader:
                             has_short_desc = True
                         if check_field(content, "sources") is not None:
                             has_sources = True
+            if not licence is None:
+                licence = self.spdx_service.create_licence_link_tuples(licence)
 
             self.graph_info.append((graph, licence, has_sources, has_short_desc, desc_file_exists))

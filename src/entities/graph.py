@@ -20,7 +20,6 @@ class Graph:
         self.file_format = file_format
         self.short_desc = short_desc
         self.user_defined_columns = user_defined_columns
-        
 
     def __eq__(self, other):
         return self.name == other.name

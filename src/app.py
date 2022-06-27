@@ -7,6 +7,7 @@ from src.website_creator.read_graphs import ReadGraphs
 from src.helper_functions_for_app import find_dataset_by_foldername, get_datapath
 from src.file_ui.file_utils import remove_file_extension
 from src.website_creator.user_defined_page_creator import UserDefinedPageCreator
+from src.data_check.spdx_service import SpdxService
 load_dotenv()
 
 app = Flask(__name__, template_folder = getenv("TEMPLATE_FOLDER"))
@@ -18,7 +19,8 @@ app.config['DATA_FOLDER']='data'
 data_directory = getenv("DIR")
 datasetreader_service = DatasetReader(data_directory)
 dir_paths = datasetreader_service.get_paths()
-datasetcreator_service = DatasetCreator(dir_paths)
+spdx_service = SpdxService()
+datasetcreator_service = DatasetCreator(dir_paths, spdx_service)
 dataset_list = datasetcreator_service.get_datasets()
 graph_update_service = ReadGraphs(dataset_list)
 graph_update_service.run()
