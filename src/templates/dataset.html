@@ -4,7 +4,7 @@
     {% block title %} {{ dataset }} {% endblock %}
 
     {% block body %}
-    <hy-docs-container>
+    <hy-docs-container back>
         <hy-baseline>
             <hy-heading heading="h2"> {{ dataset_name }} </hy-heading>
         </hy-baseline>
@@ -187,11 +187,12 @@
                 </hy-table-container>
                 {% endif %}
             <br>
-            <b>
+        </hy-link>
+           <div class="linktext">
                 <a href="/hggd/data/{{ dataset }}/sourcetxt/{{ dataset }}"
                 target="_blank"
                 download
-                > Download all source file links in a txt-file</a></b>
+                > Download all source file links in a txt-file</a></div>
             {% else %}
             <hy-paragraph-text><b>No source files provided for the dataset</hy-paragraph-text>
             
