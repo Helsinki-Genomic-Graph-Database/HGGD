@@ -25,14 +25,14 @@ Helsinki Genomic Graph Database
                     <th class="indexth">
                         <hy-paragraph-text>Graphs</hy-paragraph-text>
                     </th>
+                    <th class="indexth">
+                        <hy-paragraph-text>Description</hy-paragraph-text>
+                    </th>
                     <th class="indexthnumber">
                         <hy-paragraph-text>Edges</hy-paragraph-text>
                     </th>
                     <th class="indexthnumber">
                         <hy-paragraph-text>Nodes</hy-paragraph-text>
-                    </th>
-                    <th class="indexth">
-                        <hy-paragraph-text>Description</hy-paragraph-text>
                     </th>
                 </tr>
             </thead>
@@ -44,19 +44,19 @@ Helsinki Genomic Graph Database
                                 aria-label= "{{ graph[0] }}" is-external="false">
                             </hy-link>
                         </td>
+                        <td class="indextdtext">                 
+                            <hy-paragraph-text>{{ graph[3] }} </hy-paragraph-text>
+                        </td>
                         <td class="indextdnumber">
                             <hy-paragraph-text>{{ graph[1] | numberFormat }} </hy-paragraph-text>
                         </td>
                         <td class="indextdnumber">
                             <hy-paragraph-text>{{ graph[2] | numberFormat }} </hy-paragraph-text>
                         </td>
-                        <td class="indextdtext">                 
-                            <hy-paragraph-text>{{ graph[3] }} </hy-paragraph-text>
-                        </td>
                     </tr>
                 {% endfor %}
                 <tr>
-                    <td class="indextotal">
+                    <td class="indextotal" colspan="2">
                         <hy-paragraph-text> <b>Total for dataset </b></hy-paragraph-text>
                     </td>
                     <td class="indextotalnumber">
@@ -65,9 +65,6 @@ Helsinki Genomic Graph Database
                     <td class="indextotalnumber">
                         <hy-paragraph-text>{{ dataset[4] | numberFormat }} </hy-paragraph-text>
                     </td>                    
-                    <td class="indextotal">
-                        <hy-paragraph-text> </hy-paragraph-text>
-                    </td>
                 </tr>
             </tbody>
             <br><br>
