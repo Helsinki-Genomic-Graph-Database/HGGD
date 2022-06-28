@@ -46,6 +46,6 @@ class SpdxReader:
             identifier_list = None
         return identifier_list
 
-    def get_identifier_list_from_file(self):
-        identifier_list = self.read_spdx_identifier_file()
+    def get_identifier_list_from_file(self, path):
+        identifier_list = self.read_spdx_identifier_file(path)
         return identifier_list

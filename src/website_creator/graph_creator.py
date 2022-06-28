@@ -71,7 +71,7 @@ class GraphCreator:
                 fileformat = "graph"
             if check_file_extension(filename, "gfa"):
                 graphreader = GfaReader(self.dir)
-                name, nodes, edges, sources, licence, short_desc = graphreader.read_file(filename)
+                name, nodes, edges, sources, licence, placeholder, placeholder2, short_desc = graphreader.read_file(filename)
                 fileformat = "gfa"
             if check_file_extension(filename, "dimacs"):
                 dimacsreader = DimacsReader(self.dir)

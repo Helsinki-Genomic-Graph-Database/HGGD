@@ -38,34 +38,48 @@ body {
 .indexth {
   border: 1px #0e688b solid;
   text-align: center;
+  padding: 3px;
 }
 
 .indexthnumber {
   border: 1px #0e688b solid;
   text-align: center;
   width: 160px;
+  padding: 3px;
 }
 
 .indextdnumber {
   border: 1px #0e688b solid;
   text-align: center;
   width: 160px;
+  padding: 3px;
 }
 
 .indextdtext {
   border: 1px #0e688b solid;
   text-align: left;
+  padding: 3px;
 }
 
 .indextotal {
-  border: 2px #0e688b solid;
-  text-align: center;
+  border: 2px solid #0e688b;
+  text-align: match-parent;
+  padding: 3px;
 }
 
 .indextotalnumber {
   border: 2px #0e688b solid;
   text-align: center;
   width: 160px;
+  padding: 3px;
+}
+
+.statisticstable {
+  table-layout: fixed;
+  width: 50%;
+  border-collapse: collapse;
+  border: 2px #0e688b solid;
+  padding: 3px;
 }
 
 a:link {

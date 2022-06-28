@@ -2,7 +2,7 @@ import unittest
 import os
 from time import sleep
 from src.dataset_services.dataset_creator import DatasetCreator
-from src.data_check.spdx_service import SpdxService
+from src.tests.mock_spdx import SpdxService
 
 
 class TestDataSetCreator(unittest.TestCase):

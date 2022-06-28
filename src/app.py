@@ -232,6 +232,13 @@ def download_graph_source_txt(dataset, name):
     directory = path.join(get_datapath(dataset, app), 'sourcetxt/graphs')
     return send_from_directory(directory=directory, path='', filename=filename)
 
+@app.template_filter()
+def numberFormat(value):
+    """ Formats the numbers with commas as thousand separator.
+    Can be called in jinja-templates with {{ number | numberFormat }}
+    """
+    return format(int(value), ',d')
+
 if __name__ == "__main__":
     port = int(environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
