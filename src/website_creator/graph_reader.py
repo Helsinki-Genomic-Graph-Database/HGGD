@@ -16,8 +16,8 @@ class GraphReader:
         Returns:
             int, str: number of nodes and edges, names of sources
         """
-
         name = remove_file_extension(filename, ".graph")
+        
         with open(os.path.join(self.dir, filename), "r", encoding='utf-8') as file:
             line = file.readline()
             sources = []

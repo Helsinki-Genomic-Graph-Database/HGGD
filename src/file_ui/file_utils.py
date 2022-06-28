@@ -50,7 +50,8 @@ def list_licence_files(path):
     return file_list
 
 def remove_file_extension(filename, extension):
-    return filename.rstrip(extension)
+    return filename[:-len(extension)]
+    
 
 def check_field(content, field):
     if field in content and len(content[field]) > 0:

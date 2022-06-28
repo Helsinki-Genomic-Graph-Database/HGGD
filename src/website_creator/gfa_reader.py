@@ -39,4 +39,4 @@ class GfaReader:
         #     name, licence, sources, short_desc = read_graph_description(self.dir, name)
         # if name is None:
         #     name = remove_file_extension(filename, ".gfa")
-        return name, nodes, edges, sources, licence, short_desc
+        return name, nodes, edges, sources, licence,None, None, short_desc
