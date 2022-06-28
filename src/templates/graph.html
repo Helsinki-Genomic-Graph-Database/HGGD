@@ -17,30 +17,18 @@
     {% endif %}
     <br>
     <hy-table-container>
-        <table>
-            <thead>
-                <tr>
-                    <th colspan="2">
-                        <hy-heading heading="h5">Statistics for {{ name }} </hy-heading>
-                    </th>
-                </tr>
-            </thead>
+        <table class="statisticstable">
+            <caption class="indexcaption">
+                <hy-heading heading="h5">Statistics for {{ name }} </hy-heading>
+            </caption>
             <tbody>
                 <tr>
-                    <td>
-                        <hy-paragraph-text>Nodes:</hy-paragraph-text>
-                    </td>
-                    <td>
-                        <hy-paragraph-text>{{ nodes }}</hy-paragraph-text>
-                    </td>
+                    <td class="indextdtext"> <hy-paragraph-text>Nodes:</hy-paragraph-text></td>
+                    <td class="indextdnumber"> <hy-paragraph-text>{{ nodes | numberFormat }}</hy-paragraph-text></td>
                 </tr>
                 <tr>
-                    <td>
-                        <hy-paragraph-text>Edges:</hy-paragraph-text>
-                    </td>
-                    <td>
-                        <hy-paragraph-text>{{ edges }}</hy-paragraph-text>
-                    </td>
+                    <td class="indextdtext"> <hy-paragraph-text>Edges:</hy-paragraph-text></td>
+                    <td class="indextdnumber"> <hy-paragraph-text>{{ edges | numberFormat }}</hy-paragraph-text></td>
                 </tr>
             </tbody>
 

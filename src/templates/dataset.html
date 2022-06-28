@@ -22,52 +22,48 @@
         {% endif %}
         <br>
         <hy-table-container>
-            <table>
-                <thead>
-                    <tr> 
-                        <th colspan="2"><hy-heading heading="h5"> Statistics for {{ dataset_name }}</hy-heading> </th>
-                    </tr> 
-                </thead>
+            <table class="statisticstable">
+                <caption class="indexcaption"><hy-heading heading="h5"> Statistics for {{ dataset_name }}</hy-heading></caption>
                 <tbody>
                     <tr> 
-                        <td><hy-paragraph-text>Total number of graphs in dataset:</hy-paragraph-text> </td>
-                        <td><hy-paragraph-text>{{ total_graphs }}</hy-paragraph-text> </td>
+                        <td class="indextdtext"><hy-paragraph-text>Total number of graphs in dataset:</hy-paragraph-text> </td>
+                        <td class="indextdnumber"><hy-paragraph-text>{{ total_graphs | numberFormat }}</hy-paragraph-text> </td>
                     </tr>
                     <tr>
-                        <td> <hy-paragraph-text>Total nodes in dataset:</hy-paragraph-text>  </td>
-                        <td> <hy-paragraph-text>{{ total_nodes }} </hy-paragraph-text></td>
+                        <td class="indextdtext"> <hy-paragraph-text>Total nodes in dataset:</hy-paragraph-text>  </td>
+                        <td class="indextdnumber"> <hy-paragraph-text>{{ total_nodes | numberFormat }} </hy-paragraph-text></td>
                     </tr>
                     <tr>        
-                        <td> <hy-paragraph-text>Total edges in dataset:</hy-paragraph-text> </td>
-                        <td> <hy-paragraph-text>{{ total_edges }} </hy-paragraph-text></td>
+                        <td class="indextdtext"> <hy-paragraph-text>Total edges in dataset:</hy-paragraph-text> </td>
+                        <td class="indextdnumber"> <hy-paragraph-text>{{ total_edges | numberFormat }} </hy-paragraph-text></td>
                     </tr>
                     <tr>            
-                        <td> <hy-paragraph-text>Nodes per graph average: </hy-paragraph-text> </td>
-                        <td> <hy-paragraph-text>{{ average_nodes }} </hy-paragraph-text> </td>
+                        <td class="indextdtext"> <hy-paragraph-text>Nodes per graph average: </hy-paragraph-text> </td>
+                        <td class="indextdnumber"> <hy-paragraph-text>{{ average_nodes | numberFormat }} </hy-paragraph-text> </td>
                     </tr>
                     <tr>    
-                        <td> <hy-paragraph-text>Edges per graph average:</hy-paragraph-text>  </td>
-                        <td> <hy-paragraph-text>{{ average_edges }} </hy-paragraph-text> </td>
+                        <td class="indextdtext"> <hy-paragraph-text>Edges per graph average:</hy-paragraph-text>  </td>
+                        <td class="indextdnumber"> <hy-paragraph-text>{{ average_edges | numberFormat }} </hy-paragraph-text> </td>
                     </tr>
                 </tbody>
             </table>
         </hy-table-container>
         <br>
         <hy-table-container>
-            <table>
-                <caption><hy-heading heading="h5"> Graphs in the dataset</hy-heading></caption>
+            <table class="indextable">
+                <caption class="indexcaption"><hy-heading heading="h5"> Graphs in the dataset</hy-heading></caption>
                 <thead>
                     <tr>
-                        <th><hy-paragraph-text> Name </hy-paragraph-text></th>
-                        <th> <hy-paragraph-text>Description</hy-paragraph-text> </th>
-                        <th> <hy-paragraph-text>Licence</hy-paragraph-text> </th>
-                        <th> <hy-paragraph-text>Download links</hy-paragraph-text> </th>
+                        <th class="indexth"><hy-paragraph-text> Name </hy-paragraph-text></th>
+                        <th class="indexth"> <hy-paragraph-text>Description</hy-paragraph-text> </th>
+                        <th class="indexthnumber"> <hy-paragraph-text>Licence</hy-paragraph-text> </th>
+                        <th class="indexthnumber"> <hy-paragraph-text>Download links</hy-paragraph-text> </th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for name in graph_namelist %}   
                     <tr valign=top>
-                        <td>
+                        <td class="indextdtext">
                             <hy-link
                                 variant="within-paragraph"
                                 url="/hggd/datasets/{{ dataset }}/{{ name[0] }}"
@@ -77,13 +73,13 @@
                                 >
                             </hy-link>
                         </td>
-                        <td><hy-paragraph-text>{{ name[3] }}</hy-paragraph-text></td>
+                        <td class="indextdtext"> <hy-paragraph-text>{{ name[3] }}</hy-paragraph-text></td>
                         {% if name[4] %}
-                        <td><hy-paragraph-text>{{ name[4] }} </hy-paragraph-text></td>
+                        <td class="indextdnumber"> <hy-paragraph-text>{{ name[4] }} </hy-paragraph-text></td>
                         {% else %}
-                        <td>N/A</td>
+                        <td class="indextdnumber">N/A</td>
                         {% endif %}
-                        <td> 
+                        <td class="indextdnumber"> 
                             <hy-link 
                                 url="/hggd/data/{{ dataset }}/{{ name[0] }}"
                                 link-content="{{ name[1] }} file "
@@ -91,8 +87,6 @@
                                 is-external="false"
                                 >
                             </hy-link>
-                        </td>
-                        <td> 
                             {% if not name[2] %}
                             <hy-link 
                                 url="/hggd/data/{{ dataset }}/dimacs/{{ name[0] }}"
@@ -104,7 +98,7 @@
                             {% endif %}
                         </td>
                         {% if name[5] %}
-                        <td>
+                        <td class="indextdtext">
                             <table>
                             
                                 {% for column, content in name[5] %}
@@ -143,15 +137,15 @@
         <br>
             <hy-link 
                 url="/hggd/data/{{ dataset }}/zip/{{ zipfile }}"
-                link-content="Download all graph files in a zip-file"
-                aria-label="Download all graph files in a zip-file"
+                link-content="Download all dataset files in a zip-file"
+                aria-label="Download all dataset files in a zip-file"
                 is-external="false"
                 >
             </hy-link>
             <br>
             {% if nro_of_sources > 0 %}
                 {% if over_ten_sources %}
-                    <hy-heading heading="h5">Source files in the dataset</hy-heading>
+                    <hy-heading heading="h5">Source files for the dataset</hy-heading>
                     <hy-link 
                         url="/hggd/datasets/{{ dataset }}/sources"
                         link-content="List of links to the {{ nro_of_sources }} source files"
@@ -165,7 +159,7 @@
                     <table>
                         <thead> 
                             <tr>
-                                <th colspan="2"><hy-heading heading="h5">Source files in the dataset</hy-heading></th>
+                                <th colspan="2"><hy-heading heading="h5">Source files for the dataset</hy-heading></th>
                             </tr>
                         </thead>
                         <tbody>
