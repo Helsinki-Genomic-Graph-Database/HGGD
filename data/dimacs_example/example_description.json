@@ -1,1 +1,8 @@
-{"name": "dimacsin nimi", "licence": "Apache", "sources": ["www.dimacs.com"]}
+{
+    "name": "dimacsin nimi",
+    "licence": "Apache",
+    "sources": [
+        "www.dimacs.com"
+    ],
+    "descr_short": "dimacs kuvaus"
+}

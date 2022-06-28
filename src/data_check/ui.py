@@ -5,12 +5,6 @@ from src.data_check.zip_creator import ZipCreator
 from src.data_check.graph_to_dimacs_converter import GraphToDimacsConverter
 from src.data_check.gfa_to_dimacs_converter import GfaToDimacsConverter
 from src.file_ui.file_utils import check_file_extension
-from src.dataset_services.dataset_creator import DatasetCreator
-from src.dataset_services.dataset_reader import DatasetReader
-from src.website_creator.read_graphs import ReadGraphs
-from dotenv import load_dotenv
-from flask import render_template, Flask, send_from_directory
-from os import getenv, environ, path
 
 class UI:
     """This is a text-based user interface for processing
@@ -33,19 +27,6 @@ class UI:
         a loop and call the appropriate methods to
         check and add to the data.
         """
-        load_dotenv()
-        app = Flask(__name__, template_folder = getenv("TEMPLATE_FOLDER"))
-        app.secret_key = getenv("SECRET_KEY")
-        app.config['DATA_FOLDER']='data'
-        data_directory = getenv("DIR")
-        datasetreader_service = DatasetReader(data_directory)
-        dir_paths = datasetreader_service.get_paths()
-        datasetcreator_service = DatasetCreator(dir_paths, self.spdx_service)
-        dataset_list = datasetcreator_service.get_datasets()
-        graph_update_service = ReadGraphs(dataset_list)
-        graph_update_service.run()
-        self.dataset_list = graph_update_service.get_dataset_list_with_graphs()
-
         for dataset in self.dataset_list:
             self.something_updated = False
             self._io.write("-------")
@@ -140,12 +121,12 @@ class UI:
         graph_list = dataset.get_list_of_graphs()
         for graph in graph_list:
             if not self._validator.check_graph_short_description(graph):
-                short_desc = self.ask_sh_desc_graph(graph.get_names())
+                short_desc = self.ask_sh_desc_graph(graph.get_file_name())
                 if self._validator.check_graph_description_file_exists(graph):
-                    self._writer.update_graph_description(dataset, graph.get_names(), short_desc)
+                    self._writer.update_graph_description(dataset, graph.get_file_name(), short_desc)
                     self._io.write("\033[1;32;40mGraph description-file updated.\033[0;37;40m")
                 else:
-                    self._writer.create_graph_description(dataset, graph.get_names(), short_desc)
+                    self._writer.create_graph_description(dataset, graph.get_file_name(), short_desc)
                     self._io.write("\033[1;32;40mGraph description-file created.\033[0;37;40m")
         self._io.write("\033[1;32;40mAll graphs in dataset have a description.\033[0;37;40m")
 

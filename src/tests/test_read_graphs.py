@@ -53,5 +53,5 @@ class TestReadGraphsNotVisible(unittest.TestCase):
     def test_returns_list(self):
         self.assertIsInstance(self.updated_list, list)
 
-    def test_graphs_list_length(self):
+    def test_graphs_list_length_when_not_visible(self):
         self.assertEqual(len(self.updated_list), 0)

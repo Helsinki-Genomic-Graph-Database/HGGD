@@ -15,9 +15,7 @@ class TestUI(unittest.TestCase):
         self.reader = DatasetReader("src/tests/")
         self.dir_paths = self.reader.get_paths()
         self.creator = DatasetCreator(self.dir_paths, self.spdx_service)
-        graph_update_service = ReadGraphs(self.creator.get_datasets())
-        graph_update_service.run()
-        self.dataset_list = graph_update_service.get_dataset_list_with_graphs()
+        self.dataset_list = self.creator.get_datasets()
 
         self.dataset_dict = {}
         for dataset in self.dataset_list:
@@ -373,7 +371,8 @@ in SPDX format, please edit the description file and run UI again."
         ui.process_graph_description(dataset)
         with open("src/tests/testdata_ui_graph_desc/sample_description.json", "r+") as file:
             content = json.load(file)
-        strings_file = "\033[1;31;40mThe sample.gfa -graphfile doesn't have a short description.\033[0;37;40m"
+        strings_file = "\033[1;31;40mThe graph file 'sample.gfa' doesn't \
+have a short description.\033[0;37;40m"
         strings_updated = "\033[1;32;40mGraph description-file updated.\033[0;37;40m"
         strings_name = "\033[1;32;40mAll graphs in dataset have a description.\033[0;37;40m"
         self.assertEqual(io.outputs[0], strings_file)
@@ -395,7 +394,8 @@ in SPDX format, please edit the description file and run UI again."
         ui.process_graph_description(dataset)
         with open("src/tests/testdata_for_graph_to_dimacs_converter/gt1.kmer15.(736000.738000).V22.E29.cyc128_description.json", "r+") as file:
             content = json.load(file)
-        strings_file = "\033[1;31;40mThe gt1.kmer15.(736000.738000).V22.E29.cyc128.graph -graphfile doesn't have a short description.\033[0;37;40m"
+        strings_file = "\033[1;31;40mThe graph file 'gt1.kmer15.(736000.738000).V22.E29.cyc128.graph' doesn't \
+have a short description.\033[0;37;40m"
         strings_updated = "\033[1;32;40mGraph description-file created.\033[0;37;40m"
         strings_name = "\033[1;32;40mAll graphs in dataset have a description.\033[0;37;40m"
         self.assertEqual(io.outputs[0], strings_file)

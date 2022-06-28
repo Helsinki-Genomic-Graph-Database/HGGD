@@ -53,7 +53,9 @@ class JsonWriter:
 
     def get_graph_json_path(self, dataset, graph):
         dataset_folder_path = dataset.get_path()
-        return dataset_folder_path+"/"+graph+"_description.json"
+        extension_length = len(graph.split(".")[-1])
+        graph_without_extension = graph[:-extension_length-1]
+        return dataset_folder_path+"/"+graph_without_extension+"_description.json"
 
     def create_graph_description(self, dataset, graph, short_desc):
         dataset_dict = {

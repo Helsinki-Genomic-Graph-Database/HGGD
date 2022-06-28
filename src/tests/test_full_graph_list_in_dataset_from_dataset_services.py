@@ -29,7 +29,7 @@ class TestDataSetCreatorGivesFullGraphLists(unittest.TestCase):
         self.create_creator()
         self.assertEqual(len(self.dataset_graphs), 3)
 
-    def test_dataset_graphs_have_name_if_not_given_in_description(self):
+    def test_if_graph_has_no_description_file_it_still_has_a_name_from_file_name(self):
         self.create_creator()
         res = False
         for graph in self.dataset_graphs:
@@ -39,7 +39,7 @@ class TestDataSetCreatorGivesFullGraphLists(unittest.TestCase):
 
         self.assertEqual(res, True)
 
-    def test_dataset_graphs_get_name_from_description_if_given(self):
+    def test_dataset_graphs_get_name_from_own_description_file_if_given(self):
         with open(self.dir+"/test_gfa_description.json", "w") as desc:
             desc.write('{"name": "Test GFA"}')
         res = False
@@ -50,9 +50,8 @@ class TestDataSetCreatorGivesFullGraphLists(unittest.TestCase):
 
         self.assertEqual(res, True)
 
-    def test_dataset_graph_graphs_have_correct_amount_of_nodes(self):
+    def test_dataset_dot_graphs_have_correct_amount_of_nodes(self):
         self.create_creator()
-        
         for graph in self.dataset_graphs:
             if graph.get_names() == "test_graph":
                 res = graph.get_nodes()
@@ -65,14 +64,14 @@ class TestDataSetCreatorGivesFullGraphLists(unittest.TestCase):
                 res = graph.get_nodes()
         self.assertEqual(res, 6)
 
-    def test_dataset_gfa_graphs_have_correct_number_of_nodes(self):
+    def test_dataset_dimacs_graphs_have_correct_number_of_nodes(self):
         self.create_creator()
         for graph in self.dataset_graphs:
             if graph.get_names() == "test_dimacs":
                 res = graph.get_nodes()
         self.assertEqual(res, 5)
 
-    def test_dataset_graph_graphs_have_correct_amount_of_edges(self):
+    def test_dataset_dot_graphs_have_correct_amount_of_edges(self):
         self.create_creator()
         for graph in self.dataset_graphs:
             if graph.get_names() == "test_graph":
@@ -93,7 +92,7 @@ class TestDataSetCreatorGivesFullGraphLists(unittest.TestCase):
                 res = graph.get_edges()
         self.assertEqual(res, 10)
 
-    def test_graph_graph_sources_are_list_of_tuples(self):
+    def test_dot_graph_sources_are_list_of_tuples(self):
         self.create_creator()
         for graph in self.dataset_graphs:
             if graph.get_names() == "test_graph":
@@ -114,7 +113,7 @@ class TestDataSetCreatorGivesFullGraphLists(unittest.TestCase):
                 res = graph.get_sources()
         self.assertEqual(res, [])
 
-    def test_graph_graph_sources_are_overwritten_from_description_file(self):
+    def test_dot_graph_sources_are_overwritten_from_description_file(self):
         with open(self.dir+"/test_graph_description.json", "w") as desc:
             desc.write('{"sources": ["test source 1", "test source 2"]}')
         self.create_creator()
@@ -143,7 +142,7 @@ class TestDataSetCreatorGivesFullGraphLists(unittest.TestCase):
         self.assertEqual(len(res), 2)
         self.assertEqual(res[0][0], res[0][1])
 
-    def test_sources_for_graph_graphs_are_converted_to_links_if_in_fna_format(self):
+    def test_sources_for_dot_graphs_are_converted_to_links_if_in_fna_format(self):
         self.create_creator()
         for graph in self.dataset_graphs:
             if graph.get_names() == "test_graph":
@@ -151,7 +150,7 @@ class TestDataSetCreatorGivesFullGraphLists(unittest.TestCase):
         
         self.assertNotEqual(res[0], res[1])
 
-    def test_graph_graph_has_graph_as_file_format(self):
+    def test_dot_graph_has_graph_as_file_format(self):
         self.create_creator()
         for graph in self.dataset_graphs:
             if graph.get_names() == "test_graph":
@@ -165,7 +164,7 @@ class TestDataSetCreatorGivesFullGraphLists(unittest.TestCase):
                 res = graph.get_file_format()
         self.assertEqual(res, "dimacs")
 
-    def test_graph_graph_has_correct_filename(self):
+    def test_dot_graph_has_correct_filename(self):
         self.create_creator()
         for graph in self.dataset_graphs:
             if graph.get_names() == "test_graph":
@@ -179,7 +178,7 @@ class TestDataSetCreatorGivesFullGraphLists(unittest.TestCase):
                 res = graph.get_file_name()
         self.assertEqual(res, "test_dimacs.dimacs")
 
-    def test_graph_graph_has_short_desc_if_given_in_descrpition(self):
+    def test_dot_graph_has_short_desc_if_given_in_description(self):
         with open(self.dir+"/test_graph_description.json", "w") as desc:
             desc.write('{"descr_short": "test desc 1"}')
         self.create_creator()
@@ -188,7 +187,7 @@ class TestDataSetCreatorGivesFullGraphLists(unittest.TestCase):
                 res = graph.get_short_desc()
         self.assertEqual(res, "test desc 1")
 
-    def test_dimacs_has_short_desc_if_given_in_descrpition(self):
+    def test_dimacs_has_short_desc_if_given_in_description(self):
         with open(self.dir+"/test_dimacs_description.json", "w") as desc:
             desc.write('{"descr_short": "test desc 1"}')
         self.create_creator()
@@ -204,7 +203,7 @@ class TestDataSetCreatorGivesFullGraphLists(unittest.TestCase):
                 res = graph.get_short_desc()
         self.assertEqual(res, None)
 
-    def test_graph_graph_has_user_defined_columns_if_given_in_description(self):
+    def test_dot_graph_has_user_defined_columns_if_given_in_description(self):
         with open(self.dir+"/test_graph_description.json", "w") as desc:
             desc.write('{"user_defined_columns": {"test 1": [1, 2]}}')
         self.create_creator()
@@ -229,7 +228,7 @@ class TestDataSetCreatorGivesFullGraphLists(unittest.TestCase):
                 res = graph.get_user_defined_columns()
         self.assertEqual(res, None)
 
-    def test_graph_graph_has_description_file_exists_true_if_has_description_file(self):
+    def test_dot_graph_has_description_file_exists_true_if_has_description_file(self):
         with open(self.dir+"/test_graph_description.json", "w") as desc:
             desc.write('{"user_defined_columns": {"test 1": [1, 2]}}')
         self.create_creator()
@@ -247,7 +246,7 @@ class TestDataSetCreatorGivesFullGraphLists(unittest.TestCase):
                 res = graph.get_description_file_exists()
         self.assertEqual(res, True)
 
-    def test_graph_graph_has_description_file_exists_false_if_no_description_file(self):
+    def test_dot_graph_has_description_file_exists_false_if_no_description_file(self):
         self.create_creator()
         for graph in self.dataset_graphs:
             if graph.get_names() == "test_graph":

@@ -15,7 +15,7 @@ class ReadGraphs:
             Shows only those approved for appear on website
         """
         for dataset in self.dataset_list:
-            if True:
+            if dataset.get_show_on_website():
                 graphcreator_service = GraphCreator(dataset.get_path(), dataset.get_licence())
                 graphcreator_service.run()
                 dataset.set_list_of_graphs(graphcreator_service.get_graph_list())
