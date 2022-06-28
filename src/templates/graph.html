@@ -36,32 +36,38 @@
     </hy-table-container>
     <br>
     {% if user_defined_columns %}
-    <div class ="float-container clear">
-            <caption><hy-heading heading="h5"> Other information</hy-heading></caption>
+    <hy-table-container>
+        <table class="userdefinedtable">
+            <caption class="indexcaption"><hy-heading heading="h5"> Other information</hy-heading></caption>
             <br>
-            
-            {% for name, content in user_defined_columns %}
-            <div class="float-child">
-                <tr><th><hy-heading heading="h6">{{ name }}</hy-heading></th></tr>
-                <br>
-                {% for item in content %}
-                <tr><td><hy-paragraph-text>{{ item }}</hy-paragraph-text></td></tr>
+            <thead>
+                <tr>
+                    {% for columnname, content in user_defined_columns %}
+                    <th class="indexth"> <hy-paragraph-text>{{ columnname }}</hy-paragraph-text> </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for column, content in user_defined_columns %}
+                <td class="indextdtext">  
+                    {% for item in content %} 
+                    <hy-paragraph-text>{{item}}<br></hy-paragraph-text>
+                    {% endfor %}
+                    </td>
                 {% endfor %}
-                <br>
-            </div>
-            {% endfor %}
-
-    </div>
-        
+            </tbody>        
+        </table>
+    </hy-table-container>
     {% endif %}
-    <hy-link url="/hggd/data/{{ dataset }}/{{ name }}" link-content="Download {{ fileformat }} file"
-        aria-label="Download {{ fileformat }} file" is-external="false">
-    </hy-link>
-    {% if not is_dimacs %}
-    <hy-link url="/hggd/data/{{ dataset }}/dimacs/{{ name }}" link-content="Download DIMACS file"
-        aria-label="Download DIMACS file" is-external="false">
-    </hy-link>
-    {% endif %}
+    <br>
+        <hy-link url="/hggd/data/{{ dataset }}/{{ name }}" link-content="Download {{ fileformat }} file"
+            aria-label="Download {{ fileformat }} file" is-external="false">
+        </hy-link>
+        {% if not is_dimacs %}
+        <hy-link url="/hggd/data/{{ dataset }}/dimacs/{{ name }}" link-content="Download DIMACS file"
+            aria-label="Download DIMACS file" is-external="false">
+        </hy-link>
+        {% endif %}
     <br>
     {% if nro_of_sources > 0 %}
     {% if over_ten_sources %}
