@@ -1,8 +1,11 @@
 import os
 import json
-from src.file_ui.file_utils import check_file_extension, check_file_extension_multiple, check_field, read_description
+from src.file_ui.file_utils import check_file_extension, check_file_extension_multiple, check_field, read_description, read_graph_description
 from src.entities.dataset import Dataset
-from src.data_check.validator import Validator
+from src.entities.graph import Graph
+from src.website_creator.graph_reader import GraphReader
+from src.website_creator.gfa_reader import GfaReader
+from src.website_creator.dimacs_reader import DimacsReader
 
 class FolderReader:
 
@@ -31,30 +34,39 @@ class FolderReader:
         self.graph_info = [] # list of tuples, format: (graph filename, licence, \
                             # has sources (bool), has_short_desc(bool), desc_file_exists(bool))
         self.sources = []
+        self.graph_list = []
+
+        self.licence_in_descr = None
+
+    def read_graph(self, filename, reader):
+        name, nodes, edges, sources, licence, comments_for_conversion, edges_listed, \
+                    short_desc = reader.read_file(filename)
+        return Graph(name, nodes, edges, sources, None, filename)
 
     def get_dataset(self):
         graphs = []
         graph_descriptions = []
-        for file in self.files:
-            self.check_modification_times(file)
+        for filename in self.files:
+            self.check_modification_times(filename)
 
-            if check_file_extension_multiple(file, ["graph", "gfa", "dimacs"]):
+            if check_file_extension_multiple(filename, ["graph", "gfa", "dimacs"]):
                 self.data_exists = True
-                graphs.append(file)
-
-            if check_file_extension(file, "json"):
-                if file == "description.json":
+                graphs.append(filename)
+            
+            if check_file_extension(filename, "json"):
+                if filename == "description.json":
                     self.descrition_file_exists = True
                     self.name, self.descr_short, self.descr_long, licence_in_descr, self.user_defined_columns, \
                         self.sources = read_description(self.path)
                     if not licence_in_descr is None:
+                        self.licence_in_descr = licence_in_descr
                         licence_in_descr = self.spdx_service.create_licence_link_tuples(licence_in_descr)
 
                         self.licence.append(licence_in_descr)
                 else:
-                    split_file = file.split(".")[:-1]
+                    split_file = filename.split(".")[:-1]
                     if (split_file[-1].split("_")[-1]) == "description":
-                        graph_descriptions.append(file[:-len("_description.json")])
+                        graph_descriptions.append(filename[:-len("_description.json")])
 
         ui_run = (self.logtime >= self.highest_modification_time)
 
@@ -67,6 +79,7 @@ class FolderReader:
                 self.path, self.name, self.descr_short, self.descr_long, self.licence, \
                 self.show_on_website, self.folder_name, self.user_defined_columns, \
                 self.has_log_file, self.graph_info)
+        new_dataset.set_list_of_graphs(self.graph_list)
         new_dataset.set_dataset_source(self.sources)
         return new_dataset
 
@@ -80,28 +93,56 @@ class FolderReader:
                 self.highest_modification_time = modification_time
 
     def process_graphs(self, graphs, graph_descriptions):
-        for graph in graphs:
-            extension_length = len(graph.split(".")[-1])
-            graph_without_extension = graph[:-extension_length-1]
-            has_sources = False
+        for filename in graphs:
+            extension_length = len(filename.split(".")[-1])
+            graph_without_extension = filename[:-extension_length-1]
+            
             licence = None
-            has_short_desc = False
-            desc_file_exists = False
-            if check_file_extension(graph, "graph"):
-                has_sources = True
-            if graph_without_extension in graph_descriptions:
-                filepath = self.path+"/"+graph_without_extension+"_description.json"
+            
+            
+            
 
-                if os.stat(filepath).st_size > 0:
-                    with open(filepath, encoding='utf-8') as file:
-                        content = json.load(file)
-                        licence = check_field(content, "licence")
-                        desc_file_exists = True
-                        if check_field(content, "descr_short") is not None:
-                            has_short_desc = True
-                        if check_field(content, "sources") is not None:
-                            has_sources = True
+
+            if check_file_extension(filename, "graph"):
+                graphreader = GraphReader(self.path)
+                graph = self.read_graph(filename, graphreader)
+                graph.set_file_format("graph")
+                
+
+            if check_file_extension(filename, "gfa"):
+                graphreader = GfaReader(self.path)
+                graph = self.read_graph(filename, graphreader)
+                graph.set_file_format("gfa")
+                
+            if check_file_extension(filename, "dimacs"):
+                dimacsreader = DimacsReader(self.path)
+                name, nodes, edges, sources, licence, short_desc \
+                    = dimacsreader.read_dimacs_graph(filename)
+                fileformat = "dimacs"
+                graph = Graph(name)
+                graph.set_nodes(nodes)
+                graph.set_edges(edges)
+                graph.set_file_format(fileformat)
+                graph.set_filename(filename)
+
+            
+            if graph_without_extension in graph_descriptions:
+                
+                name, licence, sources, short_desc, user_defined_columns = read_graph_description(self.path, graph_without_extension)
+                
+                if name is not None:
+                    graph.set_name(name)
+                if sources is not None:
+                    graph.set_sources(sources)
+                graph.set_short_desc(short_desc)
+                graph.set_user_defined_columns(user_defined_columns)
+                graph.set_description_file_exists(True)
+            
+            if licence is None:
+                licence = self.licence_in_descr
+
             if not licence is None:
                 licence = self.spdx_service.create_licence_link_tuples(licence)
 
-            self.graph_info.append((graph, licence, has_sources, has_short_desc, desc_file_exists))
+            graph.set_licence(licence)
+            self.graph_list.append(graph)

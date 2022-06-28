@@ -4,7 +4,7 @@ import time
 from src.tests.stub_io import StubIO
 from src.dataset_services.dataset_creator import DatasetCreator
 from src.data_check.ui import UI
-from src.data_check.spdx_service import SpdxService
+from src.tests.mock_spdx import SpdxService
 
 
 class TestUI(unittest.TestCase):
