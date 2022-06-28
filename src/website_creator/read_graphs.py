@@ -4,7 +4,7 @@ from src.file_ui.file_utils import create_source_txt_file
 
 class ReadGraphs:
     """ Updates the dataset list with graphs, sources
-       and the statistics from the graphss
+       and the statistics from the graphs
     """
     def __init__(self, dataset_list):
         self.dataset_list = dataset_list
@@ -15,8 +15,8 @@ class ReadGraphs:
             Shows only those approved for appear on website
         """
         for dataset in self.dataset_list:
-            if dataset.get_show_on_website():
-                graphcreator_service = GraphCreator(dataset.get_path(), dataset.get_licence(), dataset.get_graph_info())
+            if True:
+                graphcreator_service = GraphCreator(dataset.get_path(), dataset.get_licence())
                 graphcreator_service.run()
                 dataset.set_list_of_graphs(graphcreator_service.get_graph_list())
                 dataset.set_dataset_source(graphcreator_service.get_set_sources())

@@ -8,6 +8,7 @@ from src.dataset_services.dataset_creator import DatasetCreator
 from src.data_check.ui import UI
 from src.tests.stub_io import StubIO
 from src.data_check.spdx_service import SpdxService
+from src.website_creator.read_graphs import ReadGraphs
 
 class TestUI(unittest.TestCase):
     def setUp(self):
@@ -15,7 +16,10 @@ class TestUI(unittest.TestCase):
         self.reader = DatasetReader("src/tests/")
         self.dir_paths = self.reader.get_paths()
         self.creator = DatasetCreator(self.dir_paths, self.spdx_service)
-        self.dataset_list = self.creator.get_datasets()
+        graph_update_service = ReadGraphs(self.creator.get_datasets())
+        graph_update_service.run()
+        self.dataset_list = graph_update_service.get_dataset_list_with_graphs()
+
         self.dataset_dict = {}
         for dataset in self.dataset_list:
             name = dataset.get_folder_name()
@@ -205,6 +209,8 @@ doesn't have a licence.\033[0;37;40m"
         io = StubIO(inputs)
         ui = UI(dataset_list, io, self.spdx_service)
         ui.start()
+        for o in io.outputs:
+            print(o)
         strings_path = "testdata_with_full_description"
         strings_data = "\033[1;32;40mData exists.\033[0;37;40m"
         strings_json = "\033[1;32;40mJson-file exists.\033[0;37;40m"

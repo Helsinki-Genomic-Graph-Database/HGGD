@@ -6,7 +6,7 @@ class Validator:
     def __init__(self):
         pass
 
-    def check_description_file_exists(self, dataset):
+    def check_dataset_description_file_exists(self, dataset):
         return dataset.get_description_file_exists()
 
     def check_data_exists(self, dataset):
@@ -22,7 +22,7 @@ class Validator:
             return False
         return True
 
-    def check_descr_short_exists(self, dataset):
+    def check_dataset_descr_short_exists(self, dataset):
         if (dataset.get_descr_short()) is None:
             return False
         if len(dataset.get_descr_short()) == 0:
@@ -53,25 +53,29 @@ class Validator:
         return os.stat(json_path).st_size == 0
 
     def check_graph_short_description(self, graph):
-        return graph[3]
+        if graph.get_short_desc() is None:
+            return False
+        if graph.get_short_desc() is "":
+            return False
+        return True
 
     def check_graph_description_file_exists(self, graph):
-        return graph[4]
+        return graph.get_description_file_exists()
 
-    def check_graphs_without_sources(self, dataset):
-        graphs = dataset.get_graph_info()
+    def count_graphs_without_sources(self, dataset):
+        graphs = dataset.get_list_of_graphs()
         number_of_graphs_without_sources = 0
         for graph in graphs:
-            if graph[2] is False:
+            if graph.get_sources() is None:
                 number_of_graphs_without_sources += 1
 
         return number_of_graphs_without_sources
 
-    def check_graphs_without_licence(self, dataset):
-        graphs = dataset.get_graph_info()
+    def count_graphs_without_licence(self, dataset):
+        graphs = dataset.get_list_of_graphs()
         number_of_graphs_without_licence = 0
         for graph in graphs:
-            if graph[1] is None:
+            if graph.get_licence() is None:
                 number_of_graphs_without_licence += 1
 
         return number_of_graphs_without_licence

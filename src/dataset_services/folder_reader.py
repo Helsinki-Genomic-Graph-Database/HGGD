@@ -66,7 +66,7 @@ class FolderReader:
         new_dataset = Dataset(self.descrition_file_exists, self.data_exists, self.licence_file_exists, \
                 self.path, self.name, self.descr_short, self.descr_long, self.licence, \
                 self.show_on_website, self.folder_name, self.user_defined_columns, \
-                self.has_log_file, self.graph_info)
+                self.has_log_file)
         new_dataset.set_dataset_source(self.sources)
         return new_dataset
 

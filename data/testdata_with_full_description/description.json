@@ -1,0 +1,6 @@
+{
+    "name": "testdata with description",
+    "descr_short": "testing data",
+    "descr_long": "with full description",
+    "licence": "MIT"
+}
