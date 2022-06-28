@@ -44,7 +44,7 @@ body {
 .indexthnumber {
   border: 1px #0e688b solid;
   text-align: center;
-  width: 10em;
+  width: 15%;
   max-width: 10em;
   padding: 3px;
 }
@@ -52,7 +52,7 @@ body {
 .indextdnumber {
   border: 1px #0e688b solid;
   text-align: center;
-  width: 10em;
+  width: 15%;
   max-width: 10em;
   padding: 3px;
 }
@@ -73,7 +73,7 @@ body {
 .indextotalnumber {
   border: 2px #0e688b solid;
   text-align: center;
-  width: 10em;
+  width: 15%;
   max-width: 10em;
   padding: 3px;
 }
