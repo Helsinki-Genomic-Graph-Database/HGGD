@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+{"name": "dimacsin nimi", "licence": "Apache", "sources": ["www.dimacs.com"], "descr_short": "s"}
+=======
 {
     "name": "dimacsin nimi",
     "licence": "Apache",
@@ -6,3 +9,4 @@
     ],
     "descr_short": "dimacs kuvaus"
 }
+>>>>>>> 56c5a8ec2b5ea39263b10cb84e2676fa6273a5aa

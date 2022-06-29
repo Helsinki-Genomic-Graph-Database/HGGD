@@ -8,6 +8,8 @@ class UserDefinedPageCreator:
         self.user_defined_page_dir = user_defined_page_dir
         self.files = os.listdir(self.user_defined_page_dir)
         self.created_pages = {}
+        if not os.path.exists(f"{self.user_defined_page_dir}/pages"):
+            os.mkdir(f"{self.user_defined_page_dir}/pages")
         self.run()
 
     def run(self):

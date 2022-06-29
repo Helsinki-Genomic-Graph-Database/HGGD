@@ -1,5 +1,6 @@
 import unittest
 import os
+import time
 from src.dataset_services.dataset_creator import DatasetCreator
 from src.tests.mock_spdx import SpdxService
 
@@ -22,6 +23,12 @@ class TestDataSetCreatorGivesFullGraphLists(unittest.TestCase):
 
         if os.path.exists(self.dir+"/test_dimacs_description.json"):
             os.remove(self.dir+"/test_dimacs_description.json")
+
+        if os.path.exists(self.dir+"/description.json"):
+            os.remove(self.dir+"/description.json")
+
+        if os.path.exists(self.dir+"/log.txt"):
+            os.remove(self.dir+"/log.txt")
 
 
     def test_datasets_have_graph_list_with_graph_for_each_file(self):
@@ -252,7 +259,84 @@ class TestDataSetCreatorGivesFullGraphLists(unittest.TestCase):
                 res = graph.get_description_file_exists()
         self.assertEqual(res, False)
 
+    def test_dataset_nodes_are_sum_of_all_nodes_in_dataset(self):
+        self.create_creator()
+        res = self.dataset.get_total_nodes()
+        self.assertEqual(res, 32)
+
+    def test_dataset_edges_are_sum_of_all_edges_in_dataset(self):
+        self.create_creator()
+        res = self.dataset.get_total_edges()
+        self.assertEqual(res, 41)
+
+    def test_dataset_number_of_graphs_should_be_three_when_three_graphs_ar_given(self):
+        self.create_creator()
+        res = self.dataset.get_number_of_graphs()
+        self.assertEqual(res, 3)
+
+    def test_dataset_has_average_nodes_calculates_from_graphs(self):
+        self.create_creator()
+        res = self.dataset.get_average_nodes()
+        self.assertEqual(res, 11)
+
+    def test_dataset_has_average_edges_calculates_from_graphs(self):
+        self.create_creator()
+        res = self.dataset.get_average_edges()
+        self.assertEqual(res, 14)
+
+    def test_dataset_source_list_updates_from_dot_graph_files(self):
+        self.create_creator()
+        res = self.dataset.get_dataset_source()
+        self.assertEqual(res[0][1], "GCA_000005845.2_ASM584v2.fna")
+
+    def test_if_dot_graph_file_has_sources_in_description_sources_from_graph_file_should_not_be_in_dataset_sources(self):
+        with open(self.dir+"/test_graph_description.json", "w") as desc:
+            desc.write('{"sources": ["test source"]}')
+        self.create_creator()
+        res = self.dataset.get_dataset_source()
+        self.assertEqual(len(res), 1)
+
+    def test_if_folder_has_no_log_dataset_should_have_show_on_website_as_false(self):
+        self.create_creator()
+        res = self.dataset.get_show_on_website()
+        self.assertEqual(res, False)
     
+    def test_folder_has_log_made_after_modification_show_on_website_should_be_true(self):
+        with open(self.dir+"/log.txt", "w") as log:
+            log.write("test")
+        time.sleep(0.05)
+        self.create_creator()
+        res = self.dataset.get_show_on_website()
+        self.assertEqual(res, True)
+
+    def test_dataset_should_have_licence_if_given_in_dataset_description_file(self):
+        with open(self.dir+"/description.json", "w") as desc:
+            desc.write('{"licence": "MIT"}')
+        self.create_creator()
+        res = self.dataset.get_licence()
+        self.assertEqual(res[0][0], "MIT")
+
+    def test_dataset_should_have_licence_if_given_graph_descriptions(self):
+        with open(self.dir+"/test_graph_description.json", "w") as graph:
+            graph.write('{"licence": "graph licence"}')
+        with open(self.dir+"/test_dimacs_description.json", "w") as graph:
+            graph.write('{"licence": "dimacs licence"}')
+        self.create_creator()
+        res = self.dataset.get_licence()
+        self.assertEqual(len(res), 2)
+
+    def test_dataset_licence_should_show_only_one_licence_if_same_licence_given_in_many_places(self):
+        with open(self.dir+"/test_graph_description.json", "w") as graph:
+            graph.write('{"licence": "MIT"}')
+        with open(self.dir+"/test_dimacs_description.json", "w") as graph:
+            graph.write('{"licence": "MIT"}')
+        with open(self.dir+"/test_gfa_description.json", "w") as graph:
+            graph.write('{"licence": "MIT"}')
+        with open(self.dir+"/description.json", "w") as desc:
+            desc.write('{"licence": "MIT"}')
+        self.create_creator()
+        res = self.dataset.get_licence()
+        self.assertEqual(len(res), 1)
 
 
     

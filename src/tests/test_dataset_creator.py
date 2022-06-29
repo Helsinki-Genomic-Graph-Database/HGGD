@@ -151,7 +151,7 @@ class TestDataSetCreator(unittest.TestCase):
     def test_sources_exists_for_full_desc(self):
         creator = DatasetCreator([self.full_descr], self.spdx_service)
         res = creator.get_datasets()[0].get_dataset_source()
-        self.assertEqual(res, [("test source", "test source"), ("test source2", "test source2")])
+        self.assertIn(("test source", "test source"), res)
     
     def test_sources_empty_desc(self):
         creator = DatasetCreator([self.no_descr], self.spdx_service)
