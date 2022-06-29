@@ -76,7 +76,8 @@ class UI:
         for folder in self.issues:
             name, issues = self.issues[folder]
 
-            self._io.write(f"\033[1;33;40m'{name}' in folder '{folder}' {issues[0]}\033[0;37;40m")
+            for issue in issues:
+                self._io.write(f"\033[1;33;40mDataset '{name}' in folder '{folder}' {issue}.\033[0;37;40m")
 
         self.print_missing_sources()
         self.print_missing_licences()
@@ -91,9 +92,10 @@ class UI:
             issues.append("has no long description")
 
         if dataset.get_licence():
-            for licence_tuple in dataset.get_licence():
-                if not self._validator.check_if_licence_in_spdx_format(licence_tuple):
-                    issues.append("has a licence that is not in SPDX format")
+            for licence in dataset.get_licence():
+                if not licence is None:
+                    if not self._validator.check_if_licence_in_spdx_format(licence):
+                        issues.append("has a licence that is not in SPDX format")
 
         if len(issues) > 0:
             self.issues[dataset.get_folder_name()] = (dataset.get_name(), issues)
@@ -170,13 +172,13 @@ folder "+dataset.get_folder_name()+".\033[0;37;40m"
                 self._writer.create_json_file(dataset, name, sh_desc, long_desc, licence[0])
                 self.something_updated = True
                 self.process_licence_format(licence)
+                dataset.update_licence(licence)
             else:
                 self._writer.create_json_file(dataset, name, sh_desc, long_desc, licence)
                 self.something_updated = True
             dataset.set_name(name)
             dataset.set_descr_short(sh_desc)
             dataset.set_descr_long(long_desc)
-            dataset.set_licence(licence)
             dataset.set_description_file_exists(True)
             questions_asked = True
         self._io.write("\033[1;32;40mJson-file exists.\033[0;37;40m")
@@ -225,7 +227,8 @@ doesn't have a long description.\033[0;37;40m")
                     licence = self.spdx_service.create_licence_link_tuples(licence)
                     self.something_updated = True
                     self.process_licence_format(licence)
-        if licence is None:
+                    dataset.update_licence(licence)
+        if licence is None or len(licence) == 0:
             self._io.write("\033[1;33;40mYou chose that the dataset \
 doesn't have a licence.\033[0;37;40m")
         else:
@@ -302,5 +305,4 @@ have a short description.\033[0;37;40m")
             if check_file_extension(graph.get_file_name(), "graph"):
                 dimacs_converter.convert_graph_to_dimacs(graph.get_file_name())
             elif check_file_extension(graph.get_file_name(), "gfa"):
-                print("test2")
                 gfa_to_dimacs_converter.convert_gfa_to_dimacs(graph.get_file_name())
