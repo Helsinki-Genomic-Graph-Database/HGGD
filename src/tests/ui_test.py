@@ -16,6 +16,7 @@ class TestUI(unittest.TestCase):
         self.dir_paths = self.reader.get_paths()
         self.creator = DatasetCreator(self.dir_paths, self.spdx_service)
         self.dataset_list = self.creator.get_datasets()
+
         self.dataset_dict = {}
         for dataset in self.dataset_list:
             name = dataset.get_folder_name()
@@ -205,6 +206,8 @@ doesn't have a licence.\033[0;37;40m"
         io = StubIO(inputs)
         ui = UI(dataset_list, io, self.spdx_service)
         ui.start()
+        for o in io.outputs:
+            print(o)
         strings_path = "testdata_with_full_description"
         strings_data = "\033[1;32;40mData exists.\033[0;37;40m"
         strings_json = "\033[1;32;40mJson-file exists.\033[0;37;40m"
@@ -368,7 +371,8 @@ in SPDX format, please edit the description file and run UI again."
         ui.process_graph_description(dataset)
         with open("src/tests/testdata_ui_graph_desc/sample_description.json", "r+") as file:
             content = json.load(file)
-        strings_file = "\033[1;31;40mThe sample.gfa -graphfile doesn't have a short description.\033[0;37;40m"
+        strings_file = "\033[1;31;40mThe graph file 'sample.gfa' doesn't \
+have a short description.\033[0;37;40m"
         strings_updated = "\033[1;32;40mGraph description-file updated.\033[0;37;40m"
         strings_name = "\033[1;32;40mAll graphs in dataset have a description.\033[0;37;40m"
         self.assertEqual(io.outputs[0], strings_file)
@@ -390,7 +394,8 @@ in SPDX format, please edit the description file and run UI again."
         ui.process_graph_description(dataset)
         with open("src/tests/testdata_for_graph_to_dimacs_converter/gt1.kmer15.(736000.738000).V22.E29.cyc128_description.json", "r+") as file:
             content = json.load(file)
-        strings_file = "\033[1;31;40mThe gt1.kmer15.(736000.738000).V22.E29.cyc128.graph -graphfile doesn't have a short description.\033[0;37;40m"
+        strings_file = "\033[1;31;40mThe graph file 'gt1.kmer15.(736000.738000).V22.E29.cyc128.graph' doesn't \
+have a short description.\033[0;37;40m"
         strings_updated = "\033[1;32;40mGraph description-file created.\033[0;37;40m"
         strings_name = "\033[1;32;40mAll graphs in dataset have a description.\033[0;37;40m"
         self.assertEqual(io.outputs[0], strings_file)

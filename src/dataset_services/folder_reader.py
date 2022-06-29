@@ -31,8 +31,6 @@ class FolderReader:
         self.highest_modification_time = 0
         self.logtime = 0
         self.has_log_file = False
-        self.graph_info = [] # list of tuples, format: (graph filename, licence, \
-                            # has sources (bool), has_short_desc(bool), desc_file_exists(bool))
         self.sources = []
         self.graph_list = []
 
@@ -78,7 +76,7 @@ class FolderReader:
         new_dataset = Dataset(self.descrition_file_exists, self.data_exists, self.licence_file_exists, \
                 self.path, self.name, self.descr_short, self.descr_long, self.licence, \
                 self.show_on_website, self.folder_name, self.user_defined_columns, \
-                self.has_log_file, self.graph_info)
+                self.has_log_file)
         new_dataset.set_list_of_graphs(self.graph_list)
         new_dataset.set_dataset_source(self.sources)
         return new_dataset
@@ -98,10 +96,6 @@ class FolderReader:
             graph_without_extension = filename[:-extension_length-1]
             
             licence = None
-            
-            
-            
-
 
             if check_file_extension(filename, "graph"):
                 graphreader = GraphReader(self.path)

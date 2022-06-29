@@ -9,20 +9,20 @@ from src.website_creator.dimacs_reader import DimacsReader
 class GraphCreator:
     """reads graph files and makes graph objects and puts them to a list
     """
-    def __init__(self, directory, dataset_licence, graph_info = []):
+    def __init__(self, directory, dataset_licence):
         """
 
         Args:
             dir (str): directory for the dataset
             dataset_licence (str): Licence for the dataset
-            graph_info (list): list of tuples, format: (graph filename, licence, \
+            format: (graph filename, licence, \
                 has sources (bool), has_short_desc(bool), desc_file_exists(bool))
         """
         self.files = []
         self.graph_list = []
         self.dir = directory
         self.dataset_licence = dataset_licence
-        self.graph_info = graph_info
+        self.graph_info = None
         self.set_sources = set()
         self.licence_set = set()
         self.formats = ["graph", "gfa", "dimacs"]
@@ -78,11 +78,6 @@ class GraphCreator:
                 name, nodes, edges, sources, licence, short_desc \
                     = dimacsreader.read_dimacs_graph(filename)
                 fileformat = "dimacs"
-            for graph in self.graph_info:
-                if graph[0] == filename:
-                    licence = graph[1]
-
-            
 
             extension_length = len(filename.split(".")[-1])+1
             filename_without_extension = filename[:-extension_length]

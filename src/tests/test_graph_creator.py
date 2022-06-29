@@ -96,7 +96,7 @@ class TestGraphCreatorWithLicencefile(unittest.TestCase):
 
     def setUp(self):
         DIR = "src/tests/testdata_with_licencefile"
-        self.graphcreator = GraphCreator(DIR, [("GPL-1.0-only", 'https://spdx.org/licenses/GPL-1.0-only.html')], [("gt1.kmer15.(736000.738000).V22.E29.cyc128.graph", "MIT", True),("gt1.kmer15.(3194000.3196000).V22.E28.cyc64", "MIT", True) ])
+        self.graphcreator = GraphCreator(DIR, [("GPL-1.0-only", 'https://spdx.org/licenses/GPL-1.0-only.html')])
         self.graphcreator.run()
 
     def test_graphs_with_different_licences(self):

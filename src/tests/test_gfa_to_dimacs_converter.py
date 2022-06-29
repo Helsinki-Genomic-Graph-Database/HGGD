@@ -18,17 +18,17 @@ class TestGraphToDimacsConverter(unittest.TestCase):
         self.converter.convert_gfa_to_dimacs(self.filename_gfa)
         with open(os.path.join(f"{self.directory}/dimacs", self.filename_dimacs), "r") as file:
             information = file.read().split("\n")
-            self.assertEqual("p edge 10 10", str(information[0]))
+            self.assertEqual("p edge 6 10", str(information[0]))
             self.assertEqual("e 1 3", str(information[1]))
             self.assertEqual("e 4 2", str(information[2]))
             self.assertEqual("e 3 1", str(information[3]))
             self.assertEqual("e 2 4", str(information[4]))
             self.assertEqual("e 5 3", str(information[5]))
             self.assertEqual("e 4 6", str(information[6]))
-            self.assertEqual("e 5 7", str(information[7]))
-            self.assertEqual("e 8 6", str(information[8]))
-            self.assertEqual("e 7 9", str(information[9]))
-            self.assertEqual("e 10 8", str(information[10]))
+            self.assertEqual("e 5 8", str(information[7]))
+            self.assertEqual("e 7 6", str(information[8]))
+            self.assertEqual("e 8 9", str(information[9]))
+            self.assertEqual("e 10 7", str(information[10]))
 
     def test_convert_no_dimacs_folder(self):
         self.delete_dimacs_folder()

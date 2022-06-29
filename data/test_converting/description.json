@@ -1,6 +1,12 @@
 {
+<<<<<<< HEAD
     "name": "name",
     "descr_short": "s",
     "descr_long": "long",
     "licence": "None"
+=======
+    "name": "testdata_with_full_description",
+    "descr_short": "Short description for testdata",
+    "descr_long": ""
+>>>>>>> 56c5a8ec2b5ea39263b10cb84e2676fa6273a5aa
 }

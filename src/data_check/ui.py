@@ -99,7 +99,7 @@ class UI:
             self.issues[dataset.get_folder_name()] = (dataset.get_name(), issues)
 
     def process_graph_sources(self, dataset):
-        number_of_missing_sources = self._validator.check_graphs_without_sources(dataset)
+        number_of_missing_sources = self._validator.count_graphs_without_sources(dataset)
         if number_of_missing_sources > 0:
             self.missing_sources.append((dataset.get_name(), dataset.get_folder_name(), \
                 number_of_missing_sources))
@@ -118,20 +118,20 @@ class UI:
                     self._io.write(licence)
 
     def process_graph_description(self, dataset):
-        graph_info = dataset.get_graph_info()
-        for graph in graph_info:
+        graph_list = dataset.get_list_of_graphs()
+        for graph in graph_list:
             if not self._validator.check_graph_short_description(graph):
-                short_desc = self.ask_sh_desc_graph(graph[0])
+                short_desc = self.ask_sh_desc_graph(graph.get_file_name())
                 if self._validator.check_graph_description_file_exists(graph):
-                    self._writer.update_graph_description(dataset, graph[0], short_desc)
+                    self._writer.update_graph_description(dataset, graph.get_file_name(), short_desc)
                     self._io.write("\033[1;32;40mGraph description-file updated.\033[0;37;40m")
                 else:
-                    self._writer.create_graph_description(dataset, graph[0], short_desc)
+                    self._writer.create_graph_description(dataset, graph.get_file_name(), short_desc)
                     self._io.write("\033[1;32;40mGraph description-file created.\033[0;37;40m")
         self._io.write("\033[1;32;40mAll graphs in dataset have a description.\033[0;37;40m")
 
     def process_graph_licences(self, dataset):
-        number_of_missing_licences = self._validator.check_graphs_without_licence(dataset)
+        number_of_missing_licences = self._validator.count_graphs_without_licence(dataset)
         if number_of_missing_licences > 0 and not self._validator.check_licence_exists(dataset):
             self.missing_licences.append((dataset.get_name(), dataset.get_folder_name(), \
                 number_of_missing_licences))
@@ -155,7 +155,7 @@ folder "+dataset.get_folder_name()+".\033[0;37;40m"
 
     def process_json_file(self, dataset, json_path):
         questions_asked = False
-        json_exists = self._validator.check_description_file_exists(dataset)
+        json_exists = self._validator.check_dataset_description_file_exists(dataset)
         if json_exists:
             json_empty = self._validator.check_description_file_empty(json_path)
         if not json_exists or json_empty:
@@ -191,7 +191,7 @@ folder "+dataset.get_folder_name()+".\033[0;37;40m"
         self._io.write("\033[1;32;40mName exists.\033[0;37;40m")
 
     def process_short_desc(self, dataset):
-        short_desc_exists = self._validator.check_descr_short_exists(dataset)
+        short_desc_exists = self._validator.check_dataset_descr_short_exists(dataset)
         if not short_desc_exists:
             sh_desc = self.ask_sh_desc()
             self._writer.update_json_file(dataset, "descr_short", sh_desc)
@@ -221,8 +221,8 @@ doesn't have a long description.\033[0;37;40m")
                 if licence == "":
                     licence = None
                 if not licence is None:
+                    self._writer.update_json_file(dataset, "licence", licence)
                     licence = self.spdx_service.create_licence_link_tuples(licence)
-                    self._writer.update_json_file(dataset, "licence", licence[0])
                     self.something_updated = True
                     self.process_licence_format(licence)
         if licence is None:
@@ -267,7 +267,7 @@ have a short description.\033[0;37;40m")
     def ask_sh_desc_graph(self, graph):
         sh_desc = ""
         while sh_desc == "":
-            self._io.write(f"\033[1;31;40mThe {str(graph)} -graphfile doesn't \
+            self._io.write(f"\033[1;31;40mThe graph file '{str(graph)}' doesn't \
 have a short description.\033[0;37;40m")
             sh_desc = self._io.read("Please give a short description: ")
         return sh_desc
@@ -295,11 +295,11 @@ have a short description.\033[0;37;40m")
         zip_c.create_zip(name, path)
 
     def create_dimacs(self, dataset):
-        graph_info = dataset.get_graph_info()
+        graph_list = dataset.get_list_of_graphs()
         dimacs_converter = GraphToDimacsConverter(dataset.get_path())
         gfa_to_dimacs_converter = GfaToDimacsConverter(dataset.get_path())
-        for item in graph_info:
-            if check_file_extension(item[0], "graph"):
-                dimacs_converter.convert_graph_to_dimacs(item[0])
-            elif check_file_extension(item[0], "gfa"):
-                gfa_to_dimacs_converter.convert_gfa_to_dimacs(item[0])
+        for graph in graph_list:
+            if check_file_extension(graph.get_names(), "graph"):
+                dimacs_converter.convert_graph_to_dimacs(graph.get_names())
+            elif check_file_extension(graph.get_names(), "gfa"):
+                gfa_to_dimacs_converter.convert_gfa_to_dimacs(graph.get_names())
