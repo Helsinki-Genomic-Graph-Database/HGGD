@@ -8,7 +8,6 @@ class TestDataSetCreatorGivesFullGraphLists(unittest.TestCase):
     def setUp(self):
         self.spdx_service =  SpdxService()
         self.dir = "src/tests/testdata_with_only_three_graphs"
-        
 
     def create_creator(self):
         self.dataset = DatasetCreator([self.dir], self.spdx_service).get_datasets()[0]

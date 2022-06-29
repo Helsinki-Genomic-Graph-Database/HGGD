@@ -299,7 +299,8 @@ have a short description.\033[0;37;40m")
         dimacs_converter = GraphToDimacsConverter(dataset.get_path())
         gfa_to_dimacs_converter = GfaToDimacsConverter(dataset.get_path())
         for graph in graph_list:
-            if check_file_extension(graph.get_names(), "graph"):
-                dimacs_converter.convert_graph_to_dimacs(graph.get_names())
-            elif check_file_extension(graph.get_names(), "gfa"):
-                gfa_to_dimacs_converter.convert_gfa_to_dimacs(graph.get_names())
+            if check_file_extension(graph.get_file_name(), "graph"):
+                dimacs_converter.convert_graph_to_dimacs(graph.get_file_name())
+            elif check_file_extension(graph.get_file_name(), "gfa"):
+                print("test2")
+                gfa_to_dimacs_converter.convert_gfa_to_dimacs(graph.get_file_name())
