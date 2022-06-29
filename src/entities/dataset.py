@@ -67,7 +67,7 @@ class Dataset:
         return self.descr_short
 
     def get_licence(self):
-        return self.licence
+        return sorted(self.licence)
 
     def get_zipfile_path(self):
         return self.zipfile_path
@@ -101,6 +101,9 @@ class Dataset:
 
     def get_has_log_file(self):
         return self.has_log_file
+
+    def update_licence(self, licence_tuple):
+        self.licence.append(licence_tuple)
 
     def set_folder_name(self, folder_name):
         self.folder_name = folder_name
