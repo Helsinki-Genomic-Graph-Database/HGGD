@@ -3,7 +3,6 @@ from dotenv import load_dotenv
 from flask import render_template, Flask, send_from_directory
 from src.dataset_services.dataset_creator import DatasetCreator
 from src.dataset_services.dataset_reader import DatasetReader
-from src.website_creator.read_graphs import ReadGraphs
 from src.helper_functions_for_app import find_dataset_by_foldername, get_datapath
 from src.file_ui.file_utils import remove_file_extension
 from src.website_creator.user_defined_page_creator import UserDefinedPageCreator
@@ -22,9 +21,6 @@ dir_paths = datasetreader_service.get_paths()
 spdx_service = SpdxService()
 datasetcreator_service = DatasetCreator(dir_paths, spdx_service)
 dataset_list = datasetcreator_service.get_datasets()
-graph_update_service = ReadGraphs(dataset_list)
-graph_update_service.run()
-dataset_list = graph_update_service.get_dataset_list_with_graphs()
 user_generated_pages = UserDefinedPageCreator(getenv("USER_DEFINED_TEMPLATE_FOLDER"))
 
 def get_app():
@@ -73,7 +69,7 @@ def render_dataset(dataset):
     various_licences = False
     if len(licence) > 1:
         various_licences = True
-    licencelist = ", ".join(licence)
+    
     user_defined_columns = current_dataset.get_user_defined_columns()
     graph_namelist = []
     graphs = current_dataset.get_list_of_graphs()
@@ -91,7 +87,7 @@ def render_dataset(dataset):
     return render_template("dataset.html", total_graphs=graphs_total, average_nodes=avg_nodes, \
         average_edges=avg_edges, total_edges=total_edges, total_nodes=total_nodes, \
         dataset_name = dataset_name, graph_namelist=graph_namelist, dataset= dataset, \
-        zipfile=zipfile, long_description = long_description, licencelist=licencelist, \
+        zipfile=zipfile, long_description = long_description, licencelist=licence, \
         source_tuples = sources, user_defined_columns = user_defined_columns, \
         over_ten_sources=over_ten_sources, nro_of_sources=nro_of_sources, \
         pages = user_generated_pages.get_page_names(), \

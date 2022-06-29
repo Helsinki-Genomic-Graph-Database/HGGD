@@ -3,10 +3,10 @@ import json
 from src.file_ui.file_utils import check_file_extension, check_file_extension_multiple, check_field, read_description, read_graph_description,create_source_txt_file
 from src.entities.dataset import Dataset
 from src.entities.graph import Graph
-from src.website_creator.graph_reader import GraphReader
-from src.website_creator.gfa_reader import GfaReader
-from src.website_creator.dimacs_reader import DimacsReader
-from src.website_creator.calculator import calculator_service
+from src.dataset_services.graph_reader import GraphReader
+from src.dataset_services.gfa_reader import GfaReader
+from src.dataset_services.dimacs_reader import DimacsReader
+from src.dataset_services.calculator import calculator_service
 
 class FolderReader:
 

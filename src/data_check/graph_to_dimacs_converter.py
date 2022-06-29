@@ -1,5 +1,5 @@
 import os
-from src.website_creator.graph_reader import GraphReader
+from src.dataset_services.graph_reader import GraphReader
 
 class GraphToDimacsConverter:
     """This class contains functions for converting a graph

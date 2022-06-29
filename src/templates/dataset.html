@@ -13,9 +13,25 @@
         <br>
         {% if licencelist %}
         {% if various_licences %}
-        <hy-paragraph-text><b>Various licences in dataset:</b> {{ licencelist }}</hy-paragraph-text>     
+        <hy-paragraph-text><b>Various licences in dataset:</b> 
+            {% for licence in licencelist %}
+            <hy-link
+                url={{ licence[1] }}
+                link-content={{ licence[0] }}
+                aria-label={{ licence[0]}}
+                is-external="false"
+                >
+            {% endfor %}</hy-paragraph-text>   
         {% else %}
-        <hy-paragraph-text><b>Licences for the dataset:</b> {{ licencelist }}</hy-paragraph-text>         
+        <hy-paragraph-text><b>Licences for the dataset:</b> 
+            {% for licence in licencelist %}
+            <hy-link
+                url={{ licence[1] }}
+                link-content={{ licence[0] }}
+                aria-label={{ licence[0]}}
+                is-external="false"
+                >
+            {% endfor %}</hy-paragraph-text>        
         {% endif %}
         {% else %}
         <hy-paragraph-text>Licence not provided </hy-paragraph-text>
@@ -81,8 +97,17 @@
                             </hy-link>
                         </td>
                         <td class="indextdtext"> <hy-paragraph-text>{{ name[3] }}</hy-paragraph-text></td>
+                            
                         {% if name[4] %}
-                        <td class="indextdnumber"> <hy-paragraph-text>{{ name[4] }} </hy-paragraph-text></td>
+                        <td class="indextdtext"> <hy-paragraph-text>
+                            <hy-link
+                            variant="within-paragraph"
+                            url={{ name[4][1] }}
+                            link-content={{ name[4][0] }}
+                            aria-label={{ name[4][0] }}
+                            >
+                            </hy-link>
+                        </hy-paragraph-text></td>
                         {% else %}
                         <td class="indextdnumber"><hy-paragraph-text>N/A</hy-paragraph-text></td>
                         {% endif %}

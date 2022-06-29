@@ -1,5 +1,5 @@
 import unittest
-from src.website_creator.gfa_reader import GfaReader
+from src.dataset_services.gfa_reader import GfaReader
 
 class TestGfaReader(unittest.TestCase):
     def setUp(self):

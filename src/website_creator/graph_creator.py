@@ -2,9 +2,9 @@
 import os
 from src.entities.graph import Graph
 from src.file_ui.file_utils import check_file_extension, check_file_extension_multiple, read_graph_description, check_description_file_exists, create_source_txt_file
-from src.website_creator.graph_reader import GraphReader
-from src.website_creator.gfa_reader import GfaReader
-from src.website_creator.dimacs_reader import DimacsReader
+from src.dataset_services.graph_reader import GraphReader
+from src.dataset_services.gfa_reader import GfaReader
+from src.dataset_services.dimacs_reader import DimacsReader
 
 class GraphCreator:
     """reads graph files and makes graph objects and puts them to a list

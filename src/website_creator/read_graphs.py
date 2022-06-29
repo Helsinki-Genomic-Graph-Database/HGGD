@@ -1,5 +1,5 @@
 from src.website_creator.graph_creator import GraphCreator
-from src.website_creator.calculator import calculator_service
+from src.dataset_services.calculator import calculator_service
 from src.file_ui.file_utils import create_source_txt_file
 
 class ReadGraphs:

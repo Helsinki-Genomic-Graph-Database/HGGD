@@ -1,5 +1,5 @@
 import unittest
-from src.website_creator.calculator import Calculator
+from src.dataset_services.calculator import Calculator
 from src.entities.dataset import Dataset
 from src.entities.graph import Graph
 

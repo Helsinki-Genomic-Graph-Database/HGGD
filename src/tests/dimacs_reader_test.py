@@ -1,5 +1,5 @@
 import unittest
-from src.website_creator.dimacs_reader import DimacsReader
+from src.dataset_services.dimacs_reader import DimacsReader
 from src.website_creator.graph_creator import GraphCreator
 
 
