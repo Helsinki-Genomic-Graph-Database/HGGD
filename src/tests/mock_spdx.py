@@ -1,16 +1,13 @@
+from os import getenv
 from src.data_check.spdx_reader import SpdxReader
 
 class SpdxService:
     def __init__(self):
         self.reader = SpdxReader()
-        self.path = "../../spdx_identifiers.txt"
+        self.path = getenv("SPDX_FILE")
         self.identifier_list = self.set_identifier_list()
 
     def set_identifier_list(self):
-        new_list = None
-        if not new_list is None:
-            self.reader.write_spdx_identifier_file(new_list, self.path)
-            return new_list
         return self.reader.get_identifier_list_from_file(self.path)
 
     def get_identifier_list(self):
