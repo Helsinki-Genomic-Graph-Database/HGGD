@@ -9,6 +9,8 @@ services:
       - 5000:5000
     volumes:
       - ./data:/mydir/data/
+      - ./user_templates:/mydir/src/templates/user_templates/
+
 
 networks:
   default:
@@ -17,3 +19,4 @@ networks:
 
 volumes:
   data:
+  user_templates:
