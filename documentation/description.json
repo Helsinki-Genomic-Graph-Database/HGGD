@@ -1,22 +1,22 @@
 {
     "name": "Example dataset",
-    "descr_long": "testing data",
-    "descr_short": "with full description",
-    "licence": "test_licence",
+    "descr_long": "This dataset represents dimacs data",
+    "descr_short": "Dimacs files",
+    "licence": "MIT",
     "sources": [
         "https://github.com/alexandrutomescu/create-flow-graphs"
     ],
     "user_defined_columns": {
-        "test column strings": [
-            "test string 1",
-            "test string 2"
+        "Information provided by": [
+            "Matti Meikäläinen",
+            "Maija Meikäläinen"
         ],
-        "test column numbers": [
-            1,
-            2
+        "contact numbers": [
+            505050505,
+            1505050505
         ],
-        "test column strings and numbers": [
-            "test string",
+        "Special thanks": [
+            "The whole team",
             2
         ]
     }

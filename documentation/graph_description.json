@@ -1,9 +1,20 @@
 {
-    "name": "Dimacs file",
+    "name": "Assembly graph",
     "licence": "Apache",
     "sources": [
-        "https://lcs.ios.ac.cn/~caisw/Resource/about_DIMACS_graph_format.txt",
-        "https://www.helsinki.fi/fi"
+        "https://www2.helsinki.fi/en/researchgroups/algorithmic-bioinformatics/teams/graph-algorithms",
+        "https://www2.helsinki.fi/en/researchgroups/algorithmic-bioinformatics"
     ],
-    "descr_short": "short story"
+    "user_defined_columns": {
+        "test strings": [
+            "test 1",
+            "test 2"
+        ],
+        "test numbers": [
+            1,
+            2,
+            3
+        ]
+    },
+    "descr_short": "A sample assembly graph in gfa"
 }
