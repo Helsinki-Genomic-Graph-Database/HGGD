@@ -55,7 +55,7 @@ class Validator:
     def check_graph_short_description(self, graph):
         if graph.get_short_desc() is None:
             return False
-        if graph.get_short_desc() is "":
+        if graph.get_short_desc() == "":
             return False
         return True
 
