@@ -6,6 +6,12 @@ from src.data_check.ui import UI
 from src.tests.stub_io import StubIO
 
 class TestUiPrintsSummaryOfIssues(unittest.TestCase):
+
+    def check_folder_done(self, outputs):
+        # for o in outputs:
+        #     print(o)
+        self.assertIn("\033[1;33;40m1 issue(s) found in datasets\033[0;37;40m", outputs)
+
     def setUp(self):
         self.spdx_service = SpdxService()
         self.dir = "src/tests/testdata_with_only_one_dataset/testdata_with_only_three_graphs"
@@ -47,8 +53,10 @@ class TestUiPrintsSummaryOfIssues(unittest.TestCase):
         io = StubIO(inputs)
         ui = UI(self.dataset, io, self.spdx_service)
         ui.start()
-        final_string_should_be = "Folder done."
-        self.assertEqual(io.outputs[-1], final_string_should_be)
+        output_set = set()
+        for output in io.outputs:
+            output_set.add(output)
+        self.check_folder_done(output_set)
 
     def test_if_dataset_nor_graph_have_description_files_but_non_spdx_licence_is_given_in_ui_shows_issues(self):
         self.create_creator()
@@ -69,8 +77,10 @@ class TestUiPrintsSummaryOfIssues(unittest.TestCase):
         io = StubIO(inputs)
         ui = UI(self.dataset, io, self.spdx_service)
         ui.start()
-        final_string_should_be = "Folder done."
-        self.assertEqual(io.outputs[-1], final_string_should_be)
+        output_set = set()
+        for output in io.outputs:
+            output_set.add(output)
+        self.check_folder_done(output_set)
 
     def test_if_dataset_description_has_spdx_licence_but_graph_has_non_spdx_licence_shows_issues(self):
         with open(self.dir+"/description.json", "w") as desc:
@@ -84,8 +94,7 @@ class TestUiPrintsSummaryOfIssues(unittest.TestCase):
         ui.start()
         final_string_should_be = "\033[1;33;40mDataset 'test_name' in folder 'testdata_with_only_three_graphs' has a licence that is not in SPDX format.\033[0;37;40m"
         self.assertEqual(io.outputs[25], final_string_should_be)
-        pass
-
+        
     def test_if_all_graphs_have_licence_in_description_but_dataset_doesnt_shows_no_issues(self):
         with open(self.dir+"/test_gfa_description.json", "w") as desc:
             desc.write('{"licence": "MIT"}')
@@ -98,8 +107,10 @@ class TestUiPrintsSummaryOfIssues(unittest.TestCase):
         io = StubIO(inputs)
         ui = UI(self.dataset, io, self.spdx_service)
         ui.start()
-        final_string_should_be = "Folder done."
-        self.assertEqual(io.outputs[-1], final_string_should_be)
+        output_set = set()
+        for output in io.outputs:
+            output_set.add(output)
+        self.check_folder_done(output_set)
 
     def test_if_dataset_has_non_spdx_licence_but_some_graphs_have_spdx_licence_shows_issues(self):
         with open(self.dir+"/description.json", "w") as desc:
@@ -138,17 +149,35 @@ class TestUiPrintsSummaryOfIssues(unittest.TestCase):
         licence_dataset = "dataset non-spdx"
         licence_graph = "graph non-spdx"
         licence_gfa = "gfa non-spdx"
-        self.assertEqual(licence_list, io.outputs[26])
+        self.assertIn(licence_list, output_set)
         self.assertIn(licence_dimacs, output_set)
         self.assertIn(licence_dataset, output_set)
         self.assertIn(licence_graph, output_set)
         self.assertIn(licence_gfa, output_set)
 
     def test_if_graph_doesnt_have_source_shows_issue(self):
-        pass
+        self.create_creator()
+        inputs = ["test_name", "test_short", "long desc", "MIT", "gfa_short", "graph_short", "dimacs_short", "y"] # name, short desc, long desc, licence, gfa desc, graph desc, dimacs desc, show details?
+        io = StubIO(inputs)
+        ui = UI(self.dataset, io, self.spdx_service)
+        ui.start()
+        output_set = set()
+        for output in io.outputs:
+            output_set.add(output)
+        self.assertIn("\033[1;33;40mDataset 'test_name' in folder 'testdata_with_only_three_graphs' has 2 graph(s) with missing source files.\033[0;37;40m", output_set)
+
 
     def test_if_graph_has_source_doesnt_show_issues(self):
-        pass
+        with open(self.dir+"/test_gfa_description.json", "w") as desc:
+            desc.write('{"sources": ["test source"]}')
+        with open(self.dir+"/test_dimacs_description.json", "w") as desc:
+            desc.write('{"sources": ["test source"]}')
+        self.create_creator()
+        inputs = ["test_name", "test_short", "long desc", "MIT", "gfa_short", "graph_short", "dimacs_short", "y"] # name, short desc, long desc, licence, gfa desc, graph desc, dimacs desc, show details?
+        io = StubIO(inputs)
+        ui = UI(self.dataset, io, self.spdx_service)
+        ui.start()
+        self.assertEqual(io.outputs[-1], "Folder done.")
 
     def test_if_dataset_has_long_desc_in_jsonfile_doesnt_show_issues(self):
         with open(self.dir+"/description.json", "w") as desc:
@@ -158,8 +187,10 @@ class TestUiPrintsSummaryOfIssues(unittest.TestCase):
         io = StubIO(inputs)
         ui = UI(self.dataset, io, self.spdx_service)
         ui.start()
-        final_string_should_be = "Folder done."
-        self.assertEqual(io.outputs[-1], final_string_should_be)
+        output_set = set()
+        for output in io.outputs:
+            output_set.add(output)
+        self.check_folder_done(output_set)
 
     def test_if_dataset_doesnt_have_long_desc_in_jsonfile_and_not_given_in_ui_shows_issues(self):
         self.create_creator()
@@ -167,8 +198,11 @@ class TestUiPrintsSummaryOfIssues(unittest.TestCase):
         io = StubIO(inputs)
         ui = UI(self.dataset, io, self.spdx_service)
         ui.start()
-        final_string_should_be = "\033[1;33;40mDataset 'test_name' in folder 'testdata_with_only_three_graphs' has no long description.\033[0;37;40m"
-        self.assertEqual(io.outputs[-1], final_string_should_be)
+        output_set = set()
+        for output in io.outputs:
+            output_set.add(output)
+        issue = "\033[1;33;40mDataset 'test_name' in folder 'testdata_with_only_three_graphs' has no long description.\033[0;37;40m"
+        self.assertIn(issue, output_set)
 
     def test_if_dataset_doesnt_have_long_desc_in_jsonfile_but_its_given_in_ui_doesnt_show_issues(self):
         self.create_creator()
@@ -176,5 +210,7 @@ class TestUiPrintsSummaryOfIssues(unittest.TestCase):
         io = StubIO(inputs)
         ui = UI(self.dataset, io, self.spdx_service)
         ui.start()
-        final_string_should_be = "Folder done."
-        self.assertEqual(io.outputs[-1], final_string_should_be)
+        output_set = set()
+        for output in io.outputs:
+            output_set.add(output)
+        self.check_folder_done(output_set)

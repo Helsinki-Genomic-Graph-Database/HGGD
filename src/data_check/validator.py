@@ -66,7 +66,7 @@ class Validator:
         graphs = dataset.get_list_of_graphs()
         number_of_graphs_without_sources = 0
         for graph in graphs:
-            if graph.get_sources() is None:
+            if len(graph.get_sources()) == 0:
                 number_of_graphs_without_sources += 1
 
         return number_of_graphs_without_sources
