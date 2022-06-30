@@ -67,7 +67,7 @@ class UI:
         number_of_issues = len(self.issues) + len(self.missing_licences) + len(self.missing_sources)
         if number_of_issues > 0:
             self._io.write(f"\033[1;33;40m{number_of_issues} issue(s) found in datasets\033[0;37;40m")
-            self._io.write("\033[1;33;40mShow issues in detail?(y/n)\033[0;37;40m")
+            self._io.write("\033[1;33;40mShow issues in detail? (y/n)\033[0;37;40m")
             command = self._io.read("")
             if command.lower() != "n":
                 self.print_issues()
@@ -94,8 +94,10 @@ class UI:
         if dataset.get_licence():
             for licence in dataset.get_licence():
                 if not licence is None:
+                    spdx_issue = "has a licence that is not in SPDX format"
                     if not self._validator.check_if_licence_in_spdx_format(licence):
-                        issues.append("has a licence that is not in SPDX format")
+                        if not spdx_issue in issues:
+                            issues.append(spdx_issue)
 
         if len(issues) > 0:
             self.issues[dataset.get_folder_name()] = (dataset.get_name(), issues)
@@ -137,6 +139,12 @@ class UI:
         if number_of_missing_licences > 0 and not self._validator.check_licence_exists(dataset):
             self.missing_licences.append((dataset.get_name(), dataset.get_folder_name(), \
                 number_of_missing_licences))
+        for graph in dataset.get_list_of_graphs():
+            graph_licence = graph.get_licence()
+            if not graph_licence is None:
+                spdx_format = self._validator.check_if_licence_in_spdx_format(graph_licence)
+                if spdx_format is False:
+                    self.licences_not_SPDX.update(graph_licence)
 
     def print_missing_licences(self):
         if len(self.missing_licences) > 0:
@@ -188,6 +196,7 @@ folder "+dataset.get_folder_name()+".\033[0;37;40m"
         name_exists = self._validator.check_name_exists(dataset)
         if not name_exists:
             name = self.ask_name()
+            dataset.set_name(name)
             self._writer.update_json_file(dataset, "name", name)
             self.something_updated = True
         self._io.write("\033[1;32;40mName exists.\033[0;37;40m")
@@ -196,6 +205,7 @@ folder "+dataset.get_folder_name()+".\033[0;37;40m"
         short_desc_exists = self._validator.check_dataset_descr_short_exists(dataset)
         if not short_desc_exists:
             sh_desc = self.ask_sh_desc()
+            dataset.set_descr_short(sh_desc)
             self._writer.update_json_file(dataset, "descr_short", sh_desc)
             self.something_updated = True
         self._io.write("\033[1;32;40mShort description exists.\033[0;37;40m")
@@ -206,6 +216,7 @@ folder "+dataset.get_folder_name()+".\033[0;37;40m"
         if not questions_asked:
             if not long_desc_exists:
                 long_desc = self.ask_long_desc()
+                dataset.set_descr_long(long_desc)
                 self._writer.update_json_file(dataset, "descr_long", long_desc)
                 self.something_updated = True
         if long_desc == "":
