@@ -346,3 +346,39 @@ class TestDataSetCreatorGivesFullGraphLists(unittest.TestCase):
     def test_dataset_should_not_have_data_exists_if_folder_has_no_graphs(self):
         self.dataset = DatasetCreator(["src/tests/testdata_with_no_data"], self.spdx_service).get_datasets()[0]
         self.assertEqual(self.dataset.get_data_exists(), False)
+
+    def test_dataset_sources_are_made_from_graph_sources(self):
+        self.create_creator()
+        sources = []
+        for graph in self.dataset_graphs:
+            gsources = graph.get_sources()
+            for s in gsources:
+                sources.append(s)
+        self.assertEqual(self.dataset.get_dataset_source(), sources)
+
+    def test_dataset_sources_should_get_sources_from_graphs_even_when_sources_given_in_description(self):
+        with open(self.dir+"description.json", "w") as desc:
+            desc.write('{"sources":["test source"]}')
+        self.create_creator()
+        sources = []
+        for graph in self.dataset_graphs:
+            gsources = graph.get_sources()
+            for s in gsources:
+                sources.append(s)
+        gsource = sources[0]
+        self.assertIn(gsource, self.dataset.get_dataset_source())
+
+    def test_dataset_sources_should_get_sources_from_graphs_when_sources_not_given_in_description(self):
+        with open(self.dir+"description.json", "w") as desc:
+            desc.write('{"name":"test source"}')
+        self.create_creator()
+        sources = []
+        for graph in self.dataset_graphs:
+            gsources = graph.get_sources()
+            for s in gsources:
+                sources.append(s)
+        gsource = sources[0]
+        self.assertIn(gsource, self.dataset.get_dataset_source())
+
+    
+    

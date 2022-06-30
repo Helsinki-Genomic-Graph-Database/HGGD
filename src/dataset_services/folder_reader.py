@@ -1,5 +1,6 @@
 import os
 import json
+from queue import Empty
 from src.file_ui.file_utils import check_file_extension, check_file_extension_multiple, check_field, read_description, read_graph_description,create_source_txt_file
 from src.entities.dataset import Dataset
 from src.entities.graph import Graph
@@ -57,6 +58,7 @@ class FolderReader:
     def update_sources(self):
         for graph in self.graph_list:
             self.sources.update(graph.get_sources())
+
 
     def read_dataset_description_file(self):
         self.descrition_file_exists = True
@@ -148,7 +150,7 @@ class FolderReader:
                 dimacsreader = DimacsReader(self.path)
                 graph = self.read_dimacs(filename, dimacsreader)
                 graph.set_file_format("dimacs")
-
+            
             
             if graph_without_extension in graph_descriptions:
                 
@@ -156,7 +158,7 @@ class FolderReader:
                 
                 if name is not None:
                     graph.set_name(name)
-                if sources is not None:
+                if len(sources) > 0:
                     graph.set_sources(sources)
                     self.sources.update(sources)
                 graph.set_short_desc(short_desc)
