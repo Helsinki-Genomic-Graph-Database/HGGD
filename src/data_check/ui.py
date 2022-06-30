@@ -70,6 +70,10 @@ class UI:
         for dataset in self.dataset_list:
             if dataset.get_folder_name() in self.issues.keys():
                 len_issues += len(self.issues[dataset.get_folder_name()][1])
+        # self.issues is a dictionary, where the key is the dataset's folder name.
+        # The corresponding value is a list, where the first item is the name of
+        # the dataset and the second item is a list of issues. Hence, the number of
+        # issues is len(self.issues[dataset.get_folder_name()][1]).
         number_of_issues = len_issues + len(self.missing_licences) + len(self.missing_sources)
         if number_of_issues > 0:
             self._io.write(f"\033[1;33;40m{number_of_issues} issue(s) found in datasets\033[0;37;40m")
