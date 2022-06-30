@@ -142,10 +142,30 @@ class TestUiPrintsSummaryOfIssues(unittest.TestCase):
         pass
 
     def test_if_dataset_has_long_desc_in_jsonfile_doesnt_show_issues(self):
-        pass
+        with open(self.dir+"/description.json", "w") as desc:
+            desc.write('{"desc_long": "long"}')
+        self.create_creator()
+        inputs = ["test_name", "test_short", "MIT", "MIT", "dimacs_short", "y"] # name, short desc, long desc, licence, gfa desc, graph desc, dimacs desc, show details?
+        io = StubIO(inputs)
+        ui = UI(self.dataset, io, self.spdx_service)
+        ui.start()
+        final_string_should_be = "Folder done."
+        self.assertEqual(io.outputs[-1], final_string_should_be)
 
     def test_if_dataset_doesnt_have_long_desc_in_jsonfile_and_not_given_in_ui_shows_issues(self):
-        pass
+        self.create_creator()
+        inputs = ["test_name", "test_short", "", "MIT", "dimacs_short", "y"] # name, short desc, long desc, licence, gfa desc, graph desc, dimacs desc, show details?
+        io = StubIO(inputs)
+        ui = UI(self.dataset, io, self.spdx_service)
+        ui.start()
+        final_string_should_be = "\033[1;33;40mDataset 'test_name' in folder 'testdata_with_only_three_graphs' has no long description.\033[0;37;40m"
+        self.assertEqual(io.outputs[-1], final_string_should_be)
 
     def test_if_dataset_doesnt_have_long_desc_in_jsonfile_but_its_given_in_ui_doesnt_show_issues(self):
-        pass
+        self.create_creator()
+        inputs = ["test_name", "test_short", "long description", "MIT", "dimacs_short", "y"] # name, short desc, long desc, licence, gfa desc, graph desc, dimacs desc, show details?
+        io = StubIO(inputs)
+        ui = UI(self.dataset, io, self.spdx_service)
+        ui.start()
+        final_string_should_be = "Folder done."
+        self.assertEqual(io.outputs[-1], final_string_should_be)
