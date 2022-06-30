@@ -4,7 +4,7 @@
     {% block title %} {{ dataset }} {% endblock %}
 
     {% block body %}
-    <hy-docs-container back>
+    <hy-docs-container>
         <hy-baseline>
             <hy-heading heading="h2"> {{ dataset_name }} </hy-heading>
         </hy-baseline>
@@ -13,14 +13,19 @@
         <br>
         {% if licencelist %}
         {% if various_licences %}
-        <hy-paragraph-text><b>Various licences in dataset:</b> 
+        <hy-paragraph-text><b>Various licences in dataset:</b>
+            <br>
             {% for licence in licencelist %}
+            {% if  licence[1] == None  %}
+            {{ licence[0] }}
+            {% else %}
             <hy-link
                 url={{ licence[1] }}
                 link-content={{ licence[0] }}
                 aria-label={{ licence[0]}}
                 is-external="false"
-                >
+                ></hy-link>
+                {% endif %}
             {% endfor %}</hy-paragraph-text>   
         {% else %}
         <hy-paragraph-text><b>Licences for the dataset:</b> 
@@ -30,7 +35,7 @@
                 link-content={{ licence[0] }}
                 aria-label={{ licence[0]}}
                 is-external="false"
-                >
+                ></hy-link>
             {% endfor %}</hy-paragraph-text>        
         {% endif %}
         {% else %}
@@ -39,27 +44,32 @@
         <br>
         <hy-table-container>
             <table class="statisticstable">
-                <caption class="indexcaption"><hy-heading heading="h5"> Statistics for {{ dataset_name }}</hy-heading></caption>
+                <caption class="indexcaption"><hy-heading heading="h5"> Information for {{ dataset_name }}</hy-heading></caption>
+                <thead>
+                    <tr>
+                        <th class="statisticsheader" colspan="2"><hy-paragraph-text>Statistics</hy-paragraph-text></th>
+                    </tr>
+                </thead>
                 <tbody>
                     <tr> 
                         <td class="indextdtext"><hy-paragraph-text>Total number of graphs in dataset:</hy-paragraph-text> </td>
-                        <td class="indextdnumber"><hy-paragraph-text>{{ total_graphs | numberFormat }}</hy-paragraph-text> </td>
+                        <td class="statisticsnumber"><hy-paragraph-text>{{ total_graphs | numberFormat }}</hy-paragraph-text> </td>
                     </tr>
                     <tr>
                         <td class="indextdtext"> <hy-paragraph-text>Total nodes in dataset:</hy-paragraph-text>  </td>
-                        <td class="indextdnumber"> <hy-paragraph-text>{{ total_nodes | numberFormat }} </hy-paragraph-text></td>
+                        <td class="statisticsnumber"> <hy-paragraph-text>{{ total_nodes | numberFormat }} </hy-paragraph-text></td>
                     </tr>
                     <tr>        
                         <td class="indextdtext"> <hy-paragraph-text>Total edges in dataset:</hy-paragraph-text> </td>
-                        <td class="indextdnumber"> <hy-paragraph-text>{{ total_edges | numberFormat }} </hy-paragraph-text></td>
+                        <td class="statisticsnumber"> <hy-paragraph-text>{{ total_edges | numberFormat }} </hy-paragraph-text></td>
                     </tr>
                     <tr>            
                         <td class="indextdtext"> <hy-paragraph-text>Nodes per graph average: </hy-paragraph-text> </td>
-                        <td class="indextdnumber"> <hy-paragraph-text>{{ average_nodes | numberFormat }} </hy-paragraph-text> </td>
+                        <td class="statisticsnumber"> <hy-paragraph-text>{{ average_nodes | numberFormat }} </hy-paragraph-text> </td>
                     </tr>
                     <tr>    
                         <td class="indextdtext"> <hy-paragraph-text>Edges per graph average:</hy-paragraph-text>  </td>
-                        <td class="indextdnumber"> <hy-paragraph-text>{{ average_edges | numberFormat }} </hy-paragraph-text> </td>
+                        <td class="statisticsnumber"> <hy-paragraph-text>{{ average_edges | numberFormat }} </hy-paragraph-text> </td>
                     </tr>
                 </tbody>
             </table>
@@ -99,6 +109,11 @@
                         <td class="indextdtext"> <hy-paragraph-text>{{ name[3] }}</hy-paragraph-text></td>
                             
                         {% if name[4] %}
+                            {% if name[4][1] == None %}
+                            <td class="indextdtext"> <hy-paragraph-text>
+                                {{ name[4][0] }}
+                            </hy-paragraph-text></td>
+                            {% else %}
                         <td class="indextdtext"> <hy-paragraph-text>
                             <hy-link
                             variant="within-paragraph"
@@ -108,6 +123,7 @@
                             >
                             </hy-link>
                         </hy-paragraph-text></td>
+                            {% endif %}
                         {% else %}
                         <td class="indextdnumber"><hy-paragraph-text>N/A</hy-paragraph-text></td>
                         {% endif %}

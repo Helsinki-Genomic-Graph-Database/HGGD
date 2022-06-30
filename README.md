@@ -1,4 +1,4 @@
-# Helsinki Genomic Graph Database
+# Helsinki Genomic Graph Archive
 
 ![GitHub Actions](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/workflows/CI/badge.svg)
 ![codecov](https://codecov.io/gh/Helsinki-Genomic-Graph-Database/HGGD/branch/main/graph/badge.svg?token=Ft06460tNh)

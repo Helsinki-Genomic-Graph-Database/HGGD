@@ -39,6 +39,7 @@ body {
   border: 1px #0e688b solid;
   text-align: center;
   padding: 3px;
+  background-color: #F9A21A;
 }
 
 .indexthnumber {
@@ -47,6 +48,7 @@ body {
   width: 15%;
   max-width: 10em;
   padding: 3px;
+  background-color: #F9A21A;
 }
 
 .indextdnumber {
@@ -83,6 +85,21 @@ body {
   width: 50%;
   border-collapse: collapse;
   border: 2px #0e688b solid;
+  padding: 3px;
+}
+
+.statisticsnumber {
+  border: 1px #0e688b solid;
+  text-align: center;
+  width: 25%;
+  max-width: 10em;
+  padding: 3px;
+}
+
+.statisticsheader {
+  border: 1px #0e688b solid;
+  background-color: #F9A21A;
+  text-align: center;
   padding: 3px;
 }
 

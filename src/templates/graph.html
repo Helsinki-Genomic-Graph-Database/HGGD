@@ -11,7 +11,11 @@
     </hy-baseline>
     <hy-paragraph-text>{{ short_desc }}</hy-paragraph-text>
     {% if licence %}
-    <hy-paragraph-text><b>Licence:</b> <hy-link
+    <hy-paragraph-text><b>Licence:</b> 
+        {% if licence[1] == None %}
+            {{licence[0] }}
+        {% else %}
+        <hy-link
         variant="within-paragraph"
         url={{ licence[1] }}
         link-content={{ licence[0] }}
@@ -19,6 +23,7 @@
         is-external="false"
         >
     </hy-link>
+        {% endif %}
     </hy-paragraph-text>
     {% else %}
     <hy-paragraph-text>Licence not provided</hy-paragraph-text>
@@ -27,8 +32,13 @@
     <hy-table-container>
         <table class="statisticstable">
             <caption class="indexcaption">
-                <hy-heading heading="h5">Statistics for {{ name }} </hy-heading>
+                <hy-heading heading="h5">Information for {{ name }} </hy-heading>
             </caption>
+            <thead>
+                <tr>
+                    <th class="statisticsheader" colspan="2"><hy-paragraph-text>Statistics</hy-paragraph-text></th>
+                </tr>
+            </thead>
             <tbody>
                 <tr>
                     <td class="indextdtext"> <hy-paragraph-text>Nodes:</hy-paragraph-text></td>
