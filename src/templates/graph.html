@@ -11,7 +11,11 @@
     </hy-baseline>
     <hy-paragraph-text>{{ short_desc }}</hy-paragraph-text>
     {% if licence %}
-    <hy-paragraph-text><b>Licence:</b> <hy-link
+    <hy-paragraph-text><b>Licence:</b> 
+        {% if licence[1] == None %}
+            {{licence[0] }}
+        {% else %}
+        <hy-link
         variant="within-paragraph"
         url={{ licence[1] }}
         link-content={{ licence[0] }}
@@ -19,6 +23,7 @@
         is-external="false"
         >
     </hy-link>
+        {% endif %}
     </hy-paragraph-text>
     {% else %}
     <hy-paragraph-text>Licence not provided</hy-paragraph-text>
