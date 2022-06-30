@@ -13,11 +13,25 @@
         <br>
         {% if licencelist %}
         {% if various_licences %}
-        <hy-paragraph-text><b>Various licences in dataset:</b>
+        <hy-paragraph-text><strong>Various licences in dataset:</strong>
             <br>
             {% for licence in licencelist %}
-            {% if  licence[1] == None  %}
-            {{ licence[0] }}
+            {% if not licence[1] %}      
+            {{ licence[0] }}<br>
+            {% else %}
+            <hy-link
+                url={{ licence[1] }}
+                link-content={{ licence[0] }}
+                aria-label={{ licence[0] }}
+                is-external="false"
+                ></hy-link>
+                {% endif %}
+            {% endfor %}</hy-paragraph-text>   
+        {% else %}
+        <hy-paragraph-text><strong>Licences for the dataset:</strong> 
+            {% for licence in licencelist %}
+            {% if not licence[1] %}      
+            <br>{{ licence[0] }}
             {% else %}
             <hy-link
                 url={{ licence[1] }}
@@ -26,16 +40,6 @@
                 is-external="false"
                 ></hy-link>
                 {% endif %}
-            {% endfor %}</hy-paragraph-text>   
-        {% else %}
-        <hy-paragraph-text><b>Licences for the dataset:</b> 
-            {% for licence in licencelist %}
-            <hy-link
-                url={{ licence[1] }}
-                link-content={{ licence[0] }}
-                aria-label={{ licence[0]}}
-                is-external="false"
-                ></hy-link>
             {% endfor %}</hy-paragraph-text>        
         {% endif %}
         {% else %}
@@ -52,7 +56,7 @@
                 </thead>
                 <tbody>
                     <tr> 
-                        <td class="indextdtext"><hy-paragraph-text>Total number of graphs in dataset:</hy-paragraph-text> </td>
+                        <td class="indextdtext"><hy-paragraph-text>Number of graphs in dataset:</hy-paragraph-text> </td>
                         <td class="statisticsnumber"><hy-paragraph-text>{{ total_graphs | numberFormat }}</hy-paragraph-text> </td>
                     </tr>
                     <tr>
@@ -239,7 +243,7 @@
                 download
                 > Download all source file links in a txt-file</a></div>
             {% else %}
-            <hy-paragraph-text><b>No source files provided for the dataset</hy-paragraph-text>
+            <hy-paragraph-text><strong>No source files provided for the dataset</strong></hy-paragraph-text>
             
             {% endif %}
         <br><br>
