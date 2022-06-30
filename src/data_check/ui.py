@@ -77,7 +77,8 @@ class UI:
 
         number_of_issues = len_issues + len(self.missing_licences) + len(self.missing_sources)
         if number_of_issues > 0:
-            self._io.write(f"\033[1;33;40m{number_of_issues} issue(s) found in datasets\033[0;37;40m")
+            self._io.write(f"\033[1;33;40m{number_of_issues} issue(s) found in  \
+datasets.\033[0;37;40m")
             self._io.write("\033[1;33;40mShow issues in detail? (y/n)\033[0;37;40m")
             command = self._io.read("")
             if command.lower() != "n":
@@ -88,7 +89,8 @@ class UI:
             name, issues = self.issues[folder]
 
             for issue in issues:
-                self._io.write(f"\033[1;33;40mDataset '{name}' in folder '{folder}' {issue}.\033[0;37;40m")
+                self._io.write(f"\033[1;33;40mDataset '{name}' in folder '{folder}' \
+{issue}.\033[0;37;40m")
 
         self.print_missing_sources()
         self.print_missing_licences()
@@ -138,10 +140,12 @@ class UI:
             if not self._validator.check_graph_short_description(graph):
                 short_desc = self.ask_sh_desc_graph(graph.get_file_name())
                 if self._validator.check_graph_description_file_exists(graph):
-                    self._writer.update_graph_description(dataset, graph.get_file_name(), short_desc)
+                    self._writer.update_graph_description(dataset, graph.get_file_name(), \
+                        short_desc)
                     self._io.write("\033[1;32;40mGraph description-file updated.\033[0;37;40m")
                 else:
-                    self._writer.create_graph_description(dataset, graph.get_file_name(), short_desc)
+                    self._writer.create_graph_description(dataset, graph.get_file_name(), \
+                        short_desc)
                     self._io.write("\033[1;32;40mGraph description-file created.\033[0;37;40m")
         self._io.write("\033[1;32;40mAll graphs in dataset have a description.\033[0;37;40m")
 
@@ -319,7 +323,6 @@ have a short description.\033[0;37;40m")
         zip_c = ZipCreator()
         zip_c.create_zip(name, path)
 
-    
     def create_dimacs(self, dataset):
         graph_list = dataset.get_list_of_graphs()
         dimacs_converter = GraphToDimacsConverter(dataset.get_path())

@@ -27,4 +27,3 @@ class DatasetCreator:
                     self.dataset_list.append(dataset)
             else:
                 self.dataset_list.append(folder_reader.get_dataset())
-

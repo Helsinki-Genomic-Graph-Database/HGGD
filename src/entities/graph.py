@@ -1,8 +1,9 @@
 class Graph:
     """This class creates a graph object that has the name
     of the graph, the number of nodes and the number of edges."""
-    def __init__(self, name = "", nodes = 0, edges = 0, sources = [], licence = None, file_name = "", \
-        file_format = "", short_desc = None, user_defined_columns = None, description_file_exists = False):
+    def __init__(self, name = "", nodes = 0, edges = 0, sources = [], licence = None, \
+        file_name = "", file_format = "", short_desc = None, user_defined_columns = None, \
+        description_file_exists = False):
         """This function initializes the graph object.
 
         Args:
@@ -85,9 +86,9 @@ class Graph:
     def set_file_format(self, file_format):
         self.file_format = file_format
 
-    def set_licence(self, new_licence):
-        self.licence = new_licence
-    
+    def set_licence(self, licence):
+        self.licence = licence
+
     def set_name(self, name):
         self.name = name
 
@@ -108,6 +109,3 @@ class Graph:
 
     def set_user_defined_columns(self, user_defined_columns):
         self.user_defined_columns = user_defined_columns
-
-    def set_licence(self, licence):
-        self.licence = licence

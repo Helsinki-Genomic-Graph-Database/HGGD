@@ -2,19 +2,25 @@
 
 ## Adding data to server
 
-For server access, see [production server access](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/production_server.md#accessing-the-server).
+For server access, see [production server access](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/production_server.md#accessing-the-server). This guide assumes running the commands in the `/home/HGGD`-folder where the docker container is running and the `data`- and `user_templates` -folders are located.
 
-Add datafiles as a separate folder into the data folder, for example `/data/new_folder`. The `new_folder` should contain the graph files in base folder.
+For a new dataset, add datafiles as a separate folder into the data folder, for example `/data/new_folder`. The `new_folder` should contain the graph and description files in base folder.
+
+If adding new files to an existing dataset, the new files can be added to the dataset folder in question.
+
+After adding the files or folders the [UI must be executed](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/user_manual.md#Execution) for the changes to take effect on the website.
+
+The program reads only [.graph (example-file)](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/gt10.kmer15.(128000.130000).V31.E43.cyc72.graph), [.dimacs](https://lcs.ios.ac.cn/~caisw/Resource/about_DIMACS_graph_format.txt) and [.gfa](https://github.com/GFA-spec/GFA-spec/blob/master/GFA-spec.md) (GFA 1.0 support tested, 2.0 should work, but not tested as no test data was found) -format files as for the graph files. Other information can be added in description files in .json format.
 
 ### Description file
 
 #### Dataset description
 
-The folder can also contain `description.json` that contains the info about the dataset. The file must contain [these fields](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/description.json). The required fields are `name` and `descr_short`, others are optional. The UI will still ask whether you want to add the other fields, apart from the `user defined fields` and `sources` that will only be shown if added manually to the file. If the `description.json` file does not exists upon running the UI, the UI will ask for all information for all the fields and create the file. Otherwise it will only ask for information on the missing fields. The sources in the file will be displayed as www-links, so they should refer to web-pages and start with `https://`.
+The folder can also contain `description.json` that contains the info about the dataset. The file can contain [these fields](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/description.json). The required fields are `name` and `descr_short`, others are optional. The UI will still ask whether you want to add the other fields, apart from the `user defined fields` and `sources` that will only be shown if added manually to the file. If the `description.json` file does not exists upon running the UI, the UI will ask for all information for all the necessary fields and create the file. Otherwise it will only ask for information on the missing fields. The sources in the file will be displayed as www-links, so they should refer to web-pages and start with `https://`. Regular strings will show up as non-working links too. The licence-field will appear as a link to the licence definition on the website if the licence is given in SPDX-format in the description. The acceptable indentifiers are found in the table [here](https://spdx.org/licenses/), the UI will notify if licences are not given in correct SPDX format. Otherwise the licence will just be a text string.
 
 #### Graph description
 
-Each graph can also have a similar `graph_description.json` file. The `graph`-part in the filename should be similar to the graph in question without the file extension. For example `sample.graph` should have a description file called `sample_description.json`. The description file should contain [these fields](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/graph_description.json). The only required field is `descr_short`, others are optional. In this case the UI will not ask for any other information than the short description. It will tell how many graphs in each dataset are without licences and sources in the end so missing information can be noticed. The sources will be displayed as www-links here similarly to the dataset descriptions. Similarily to the dataset sources, the sources provided should be www-links.
+Each graph can also have a similar `graph_description.json` file. The `graph`-part in the filename should be similar to the graph in question without the file extension. For example `sample.graph` should have a description file called `sample_description.json`. The description file can contain [these fields](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/graph_description.json). The only required field is `descr_short`, others are optional. In this case the UI will not ask for any other information than the short description. It will tell how many graphs in each dataset are without licences and sources in the end so missing information can be noticed. The sources will be displayed as www-links here similarly to the dataset descriptions, thus the sources provided should be www-links. Also the licences should be in SPDX-format if they are wanted as links to the website.
 
 ## Execution
 
@@ -27,9 +33,17 @@ After adding the files:
 
 The user interface **must always be executed** when adding, updating or removing any information or data in the data folder, otherwise the website will not show this dataset.
 
-### Zip file
+### New subfolders
 
-The program also makes a `zip` -folder in the `new_folder` with all the files in the base folder as a zip-file to download. The download link will appear on the website.
+The program also makes a `zip`, `sourcetxt` and possibly `dimacs` -folders in the dataset folder.
+
+The `zip`-folder contains all the files in the base folder as a zip-file to download. The download link will appear on the website.
+
+The `sourcetxt`-folder will contain all the sourcefile-links as a textfile for the dataset and also for each of the graphs in the `graphs`-subfolder. These are also available as download links on the website.
+
+The `dimacs`-folder will contain the converted dimacs-files from .graph and .gfa -format files. This folder will not appear if the folder contains only dimacs-format graph files. These
+
+There will also be a `log.txt`-file in the dataset folder that will tell when the UI is last executed to compare it to the modification time of the files to see if the files have been added or modified. This is no concern for the user.
 
 ## Adding user generated html-pages
 
@@ -46,3 +60,12 @@ Removing data works from inside the docker container.
 3. In case of removing datafolders, the UI should be run afterwards with `python3 src/index.py` in the main directory. If removing templates, both the .json-file and the corresponding html-file in the `pages`-folder should be removed.
 4. Exit the container with `exit` command.
 5. Restart the container with `sudo docker-compose restart hggd` command.
+
+## Updating description files
+
+Description files can be updated by modifying them in the `data` folder. The UI will have to be ran to the changes to take effect:
+
+1. Run `sudo docker exec -it hggd bash` to access the docker container.
+2. Once you're in the container, run `python3 src/index.py`.
+3. After the UI has been executed exit the container with `exit` command.
+4. Restart the container with `sudo docker-compose restart hggd` command.
