@@ -338,5 +338,11 @@ class TestDataSetCreatorGivesFullGraphLists(unittest.TestCase):
         res = self.dataset.get_licence()
         self.assertEqual(len(res), 1)
 
+    def test_dataset_should_have_data_exists_if_folder_has_graphs(self):
+        self.create_creator()
+        res = self.dataset.get_data_exists()
+        self.assertEqual(res, True)
 
-    
+    def test_dataset_should_not_have_data_exists_if_folder_has_no_graphs(self):
+        self.dataset = DatasetCreator(["src/tests/testdata_with_no_data"], self.spdx_service).get_datasets()[0]
+        self.assertEqual(self.dataset.get_data_exists(), False)

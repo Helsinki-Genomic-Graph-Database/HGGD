@@ -293,7 +293,6 @@ have a short description.\033[0;37;40m")
         This method creates a log.txt file to save the date
         and time when the ui was last run and a zip-file for the
         dataset's graphs for the website.
-
         Args:
             dataset
         """
@@ -310,6 +309,7 @@ have a short description.\033[0;37;40m")
         zip_c = ZipCreator()
         zip_c.create_zip(name, path)
 
+    
     def create_dimacs(self, dataset):
         graph_list = dataset.get_list_of_graphs()
         dimacs_converter = GraphToDimacsConverter(dataset.get_path())
