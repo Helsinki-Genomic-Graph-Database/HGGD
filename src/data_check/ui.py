@@ -77,7 +77,7 @@ class UI:
 
         number_of_issues = len_issues + len(self.missing_licences) + len(self.missing_sources)
         if number_of_issues > 0:
-            self._io.write(f"\033[1;33;40m{number_of_issues} issue(s) found in  \
+            self._io.write(f"\033[1;33;40m{number_of_issues} issue(s) found in \
 datasets.\033[0;37;40m")
             self._io.write("\033[1;33;40mShow issues in detail? (y/n)\033[0;37;40m")
             command = self._io.read("")

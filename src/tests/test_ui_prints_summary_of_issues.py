@@ -10,7 +10,7 @@ class TestUiPrintsSummaryOfIssues(unittest.TestCase):
     def check_folder_done(self, outputs):
         # for o in outputs:
         #     print(o)
-        self.assertIn("\033[1;33;40m1 issue(s) found in datasets\033[0;37;40m", outputs)
+        self.assertIn("\033[1;33;40m1 issue(s) found in datasets.\033[0;37;40m", outputs)
 
     def setUp(self):
         self.spdx_service = SpdxService()
