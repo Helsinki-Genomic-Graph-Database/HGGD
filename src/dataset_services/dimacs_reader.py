@@ -1,5 +1,5 @@
 import os
-from src.file_ui.file_utils import remove_file_extension, read_graph_description, check_description_file_exists
+from src.file_ui.file_utils import remove_file_extension
 
 class DimacsReader:
     """This class reads graph files in DIMACS format."""

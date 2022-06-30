@@ -83,7 +83,7 @@ class GraphCreator:
             filename_without_extension = filename[:-extension_length]
 
             if check_description_file_exists(self.dir, filename_without_extension):
-                
+
                 name, licence, sources_desc, short_desc, user_defined_columns = read_graph_description(self.dir, filename_without_extension)
                 if len(sources_desc) > 0:
                     sources = sources_desc
