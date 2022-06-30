@@ -18,4 +18,3 @@ class DatasetCreator:
         for path in self.folder_paths:
             folder_reader = FolderReader(path, self.spdx_service)
             self.dataset_list.append(folder_reader.get_dataset())
-
