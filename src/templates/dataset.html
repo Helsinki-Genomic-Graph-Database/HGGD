@@ -4,7 +4,7 @@
     {% block title %} {{ dataset }} {% endblock %}
 
     {% block body %}
-    <hy-docs-container back>
+    <hy-docs-container>
         <hy-baseline>
             <hy-heading heading="h2"> {{ dataset_name }} </hy-heading>
         </hy-baseline>
@@ -39,27 +39,32 @@
         <br>
         <hy-table-container>
             <table class="statisticstable">
-                <caption class="indexcaption"><hy-heading heading="h5"> Statistics for {{ dataset_name }}</hy-heading></caption>
+                <caption class="indexcaption"><hy-heading heading="h5"> Information for {{ dataset_name }}</hy-heading></caption>
+                <thead>
+                    <tr>
+                        <th class="statisticsheader" colspan="2"><hy-paragraph-text>Statistics</hy-paragraph-text></th>>
+                    </tr>
+                </thead>
                 <tbody>
                     <tr> 
                         <td class="indextdtext"><hy-paragraph-text>Total number of graphs in dataset:</hy-paragraph-text> </td>
-                        <td class="indextdnumber"><hy-paragraph-text>{{ total_graphs | numberFormat }}</hy-paragraph-text> </td>
+                        <td class="statisticsnumber"><hy-paragraph-text>{{ total_graphs | numberFormat }}</hy-paragraph-text> </td>
                     </tr>
                     <tr>
                         <td class="indextdtext"> <hy-paragraph-text>Total nodes in dataset:</hy-paragraph-text>  </td>
-                        <td class="indextdnumber"> <hy-paragraph-text>{{ total_nodes | numberFormat }} </hy-paragraph-text></td>
+                        <td class="statisticsnumber"> <hy-paragraph-text>{{ total_nodes | numberFormat }} </hy-paragraph-text></td>
                     </tr>
                     <tr>        
                         <td class="indextdtext"> <hy-paragraph-text>Total edges in dataset:</hy-paragraph-text> </td>
-                        <td class="indextdnumber"> <hy-paragraph-text>{{ total_edges | numberFormat }} </hy-paragraph-text></td>
+                        <td class="statisticsnumber"> <hy-paragraph-text>{{ total_edges | numberFormat }} </hy-paragraph-text></td>
                     </tr>
                     <tr>            
                         <td class="indextdtext"> <hy-paragraph-text>Nodes per graph average: </hy-paragraph-text> </td>
-                        <td class="indextdnumber"> <hy-paragraph-text>{{ average_nodes | numberFormat }} </hy-paragraph-text> </td>
+                        <td class="statisticsnumber"> <hy-paragraph-text>{{ average_nodes | numberFormat }} </hy-paragraph-text> </td>
                     </tr>
                     <tr>    
                         <td class="indextdtext"> <hy-paragraph-text>Edges per graph average:</hy-paragraph-text>  </td>
-                        <td class="indextdnumber"> <hy-paragraph-text>{{ average_edges | numberFormat }} </hy-paragraph-text> </td>
+                        <td class="statisticsnumber"> <hy-paragraph-text>{{ average_edges | numberFormat }} </hy-paragraph-text> </td>
                     </tr>
                 </tbody>
             </table>
