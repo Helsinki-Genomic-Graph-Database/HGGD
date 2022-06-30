@@ -57,6 +57,7 @@ class UI:
             self.process_graph_description(dataset)
             self.process_graph_sources(dataset)
             self.process_graph_licences(dataset)
+            self.process_all_licence_for_spdx(dataset)
             self.process_issues(dataset)
             self.create_dimacs(dataset)
             self.folder_done(dataset)
@@ -139,12 +140,13 @@ class UI:
         if number_of_missing_licences > 0 and not self._validator.check_licence_exists(dataset):
             self.missing_licences.append((dataset.get_name(), dataset.get_folder_name(), \
                 number_of_missing_licences))
-        for graph in dataset.get_list_of_graphs():
-            graph_licence = graph.get_licence()
-            if not graph_licence is None:
-                spdx_format = self._validator.check_if_licence_in_spdx_format(graph_licence)
+
+    def process_all_licence_for_spdx(self, dataset):
+        for licence in dataset.get_licence():
+            if not licence is None:
+                spdx_format = self._validator.check_if_licence_in_spdx_format(licence)
                 if spdx_format is False:
-                    self.licences_not_SPDX.update(graph_licence)
+                    self.licences_not_SPDX.update(licence)
 
     def print_missing_licences(self):
         if len(self.missing_licences) > 0:
