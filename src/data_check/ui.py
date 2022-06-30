@@ -33,7 +33,6 @@ class UI:
             self._io.write("Folder:")
             self._io.write(dataset.get_folder_name())
             self._io.write("Dataset:")
-
             if dataset.get_name() is None:
                 self._io.write("(The dataset has no name)")
             else:
@@ -65,6 +64,9 @@ class UI:
 
     def print_number_of_issues(self):
         number_of_issues = len(self.issues) + len(self.missing_licences) + len(self.missing_sources)
+        print(self.issues)
+        print(self.missing_licences)
+        print(self.missing_sources)
         if number_of_issues > 0:
             self._io.write(f"\033[1;33;40m{number_of_issues} issue(s) found in datasets\033[0;37;40m")
             self._io.write("\033[1;33;40mShow issues in detail? (y/n)\033[0;37;40m")

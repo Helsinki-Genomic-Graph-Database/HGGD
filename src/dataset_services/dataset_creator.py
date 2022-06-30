@@ -14,8 +14,17 @@ class DatasetCreator:
         self.run()
         return sorted(self.dataset_list)
 
-    def run(self):
+    def get_datasets_to_show_on_website(self):
+        self.run(True)
+        return sorted(self.dataset_list)
+
+    def run(self, for_website = False):
         for path in self.folder_paths:
             folder_reader = FolderReader(path, self.spdx_service)
-            self.dataset_list.append(folder_reader.get_dataset())
+            if for_website:
+                dataset = folder_reader.get_dataset()
+                if dataset.get_show_on_website():
+                    self.dataset_list.append(dataset)
+            else:
+                self.dataset_list.append(folder_reader.get_dataset())
 

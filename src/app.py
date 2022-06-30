@@ -20,7 +20,7 @@ datasetreader_service = DatasetReader(data_directory)
 dir_paths = datasetreader_service.get_paths()
 spdx_service = SpdxService()
 datasetcreator_service = DatasetCreator(dir_paths, spdx_service)
-dataset_list = datasetcreator_service.get_datasets()
+dataset_list = datasetcreator_service.get_datasets_to_show_on_website()
 user_generated_pages = UserDefinedPageCreator(getenv("USER_DEFINED_TEMPLATE_FOLDER"))
 
 def get_app():
