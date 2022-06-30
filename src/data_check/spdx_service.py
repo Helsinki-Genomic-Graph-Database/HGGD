@@ -18,9 +18,9 @@ class SpdxService:
         return self.identifier_list
 
     def create_licence_link_tuples(self, licence):
-        format = self.check_if_licence_in_spdx_format(licence)
+        spdx_format = self.check_if_licence_in_spdx_format(licence)
         link_string = f"https://spdx.org/licenses/{licence}.html"
-        if format is False:
+        if spdx_format is False:
             link_string = None
         licence_tuple = (licence, link_string)
         return licence_tuple

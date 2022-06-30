@@ -116,24 +116,33 @@ class TestUiPrintsSummaryOfIssues(unittest.TestCase):
         final_string_should_be = "\033[1;33;40mDataset 'test_name' in folder 'testdata_with_only_three_graphs' has a licence that is not in SPDX format.\033[0;37;40m"
         self.assertEqual(io.outputs[25], final_string_should_be)
 
-    # def test_if_dataset_and_graphs_have_non_spdx_licences_lists_them_correctly(self):
-    #     with open(self.dir+"/description.json", "w") as desc:
-    #         desc.write('{"licence": "dataset non-spdx"}')
-    #     with open(self.dir+"/test_graph_description.json", "w") as desc:
-    #         desc.write('{"licence": "graph non-spdx"}')
-    #     with open(self.dir+"/test_gfa_description.json", "w") as desc:
-    #         desc.write('{"licence": "gfa non-spdx"}')
-    #     with open(self.dir+"/test_dimacs_description.json", "w") as desc:
-    #         desc.write('{"licence": "dimacs non-spdx"}')
-    #     self.create_creator()
-    #     inputs = ["test_name", "test_short", "long desc", "gfa_short", "graph_short", "dimacs_short", "y"] # name, short desc, long desc, licence, gfa desc, graph desc, dimacs desc, show details?
-    #     io = StubIO(inputs)
-    #     ui = UI(self.dataset, io, self.spdx_service)
-    #     ui.start()
-    #     for o in io.outputs:
-    #         print(o)
-    #     final_string_should_be = ""
-    #     self.assertEqual(io.outputs[-1], final_string_should_be)
+    def test_if_dataset_and_graphs_have_non_spdx_licences_lists_them_correctly(self):
+        with open(self.dir+"/description.json", "w") as desc:
+            desc.write('{"licence": "dataset non-spdx"}')
+        with open(self.dir+"/test_graph_description.json", "w") as desc:
+            desc.write('{"licence": "graph non-spdx"}')
+        with open(self.dir+"/test_gfa_description.json", "w") as desc:
+            desc.write('{"licence": "gfa non-spdx"}')
+        with open(self.dir+"/test_dimacs_description.json", "w") as desc:
+            desc.write('{"licence": "dimacs non-spdx"}')
+        self.create_creator()
+        inputs = ["test_name", "test_short", "long desc", "gfa_short", "graph_short", "dimacs_short", "y"] # name, short desc, long desc, licence, gfa desc, graph desc, dimacs desc, show details?
+        io = StubIO(inputs)
+        ui = UI(self.dataset, io, self.spdx_service)
+        ui.start()
+        output_set = set()
+        for output in io.outputs:
+            output_set.add(output)
+        licence_list = "These licences are not in SPDX format: "
+        licence_dimacs = "dimacs non-spdx"
+        licence_dataset = "dataset non-spdx"
+        licence_graph = "graph non-spdx"
+        licence_gfa = "gfa non-spdx"
+        self.assertEqual(licence_list, io.outputs[26])
+        self.assertIn(licence_dimacs, output_set)
+        self.assertIn(licence_dataset, output_set)
+        self.assertIn(licence_graph, output_set)
+        self.assertIn(licence_gfa, output_set)
 
     def test_if_graph_doesnt_have_source_shows_issue(self):
         pass

@@ -33,6 +33,7 @@ class UI:
             self._io.write("Folder:")
             self._io.write(dataset.get_folder_name())
             self._io.write("Dataset:")
+
             if dataset.get_name() is None:
                 self._io.write("(The dataset has no name)")
             else:
@@ -56,6 +57,7 @@ class UI:
             self.process_graph_description(dataset)
             self.process_graph_sources(dataset)
             self.process_graph_licences(dataset)
+            self.process_all_licence_for_spdx(dataset)
             self.process_issues(dataset)
             self.create_dimacs(dataset)
             self.folder_done(dataset)
@@ -64,9 +66,6 @@ class UI:
 
     def print_number_of_issues(self):
         number_of_issues = len(self.issues) + len(self.missing_licences) + len(self.missing_sources)
-        print(self.issues)
-        print(self.missing_licences)
-        print(self.missing_sources)
         if number_of_issues > 0:
             self._io.write(f"\033[1;33;40m{number_of_issues} issue(s) found in datasets\033[0;37;40m")
             self._io.write("\033[1;33;40mShow issues in detail? (y/n)\033[0;37;40m")
@@ -141,12 +140,13 @@ class UI:
         if number_of_missing_licences > 0 and not self._validator.check_licence_exists(dataset):
             self.missing_licences.append((dataset.get_name(), dataset.get_folder_name(), \
                 number_of_missing_licences))
-        for graph in dataset.get_list_of_graphs():
-            graph_licence = graph.get_licence()
-            if not graph_licence is None:
-                spdx_format = self._validator.check_if_licence_in_spdx_format(graph_licence)
+
+    def process_all_licence_for_spdx(self, dataset):
+        for licence in dataset.get_licence():
+            if not licence is None:
+                spdx_format = self._validator.check_if_licence_in_spdx_format(licence)
                 if spdx_format is False:
-                    self.licences_not_SPDX.update(graph_licence)
+                    self.licences_not_SPDX.update(licence)
 
     def print_missing_licences(self):
         if len(self.missing_licences) > 0:
@@ -293,7 +293,6 @@ have a short description.\033[0;37;40m")
         This method creates a log.txt file to save the date
         and time when the ui was last run and a zip-file for the
         dataset's graphs for the website.
-
         Args:
             dataset
         """
@@ -310,6 +309,7 @@ have a short description.\033[0;37;40m")
         zip_c = ZipCreator()
         zip_c.create_zip(name, path)
 
+    
     def create_dimacs(self, dataset):
         graph_list = dataset.get_list_of_graphs()
         dimacs_converter = GraphToDimacsConverter(dataset.get_path())

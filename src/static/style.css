@@ -1,3 +1,4 @@
+
 body {
   margin: 0 auto;
   max-width: 80em;
@@ -170,6 +171,8 @@ IMG.displayed {
   border-width: 2px;
   border-radius: 4px;
   padding: 10px;
+  min-height: 50vh;
+  overflow: auto;
 }
 
 .linktext {

@@ -11,7 +11,8 @@
     </hy-baseline>
     <hy-paragraph-text>{{ short_desc }}</hy-paragraph-text>
     {% if licence %}
-    <hy-paragraph-text><b>Licence:</b> 
+    <br>
+    <hy-paragraph-text><strong>Licence:</strong> 
         {% if licence[1] == None %}
             {{licence[0] }}
         {% else %}
@@ -125,7 +126,7 @@
         download
         > Download all source file links in a txt-file</a></div>
     {% else %}
-    <hy-paragraph-text><b>No source files provided for the graph</b></hy-paragraph-text>
+    <hy-paragraph-text><strong>No source files provided for the graph</strong></hy-paragraph-text>
     {% endif %}
     <br><br>
     <hy-link variant="within-paragraph" url="/hggd/datasets/{{ dataset }}" link-content="Back to dataset page"
