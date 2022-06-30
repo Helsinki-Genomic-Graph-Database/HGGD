@@ -1,4 +1,3 @@
-import re
 import os
 import gfapy
 from src.file_ui.file_utils import remove_file_extension
@@ -66,50 +65,56 @@ class GfaToDimacsConverter:
         Returns:
             int, list: number of edges, list of edge-strings in .dimacs form
         """
-        edge_line_list = []
         if gfa_object.version == 'gfa1':
-            gfa_nodes = set()
-            for line in gfa_object._gfa1_links:
-                line = str(line)
-                if line[0] == "L":
-                    node1a_str, node1b_str, node2a_str, node2b_str = self.process_edge_lines_gfa1(line)
-                    gfa_nodes.add(node1a_str)
-                    gfa_nodes.add(node1b_str)
-                    gfa_nodes.add(node2a_str)
-                    gfa_nodes.add(node2b_str)
-            node_dict = self.map_gfa_nodes_with_dimacs_nodes(gfa_nodes) # key: gfa node, value: dimacs node
-            for line in gfa_object._gfa1_links:
-                line = str(line)
-                if line[0] == "L":
-                    node1a_str, node1b_str, node2a_str, node2b_str = self.process_edge_lines_gfa1(line)
-                    string_line = "e "+node_dict[node1a_str]+" "+node_dict[node2a_str]+"\n" # original line
-                    if not string_line in edge_line_list:
-                        edge_line_list.append(string_line)
-                    string_line = "e "+node_dict[node2b_str]+" "+node_dict[node1b_str]+"\n" # opposite of the original line
-                    if not string_line in edge_line_list:
-                        edge_line_list.append(string_line)
+            nro_edges, edge_line_list = self.process_gfa1_edges(gfa_object)
         elif gfa_object.version == 'gfa2':
-            # THERE ARE NO TESTS FOR THIS BECAUSE WE DIDN'T FIND SUITABLE FILES
-            gfa_nodes = set()
-            for line in gfa_object._gfa2_edges:
-                line = str(line)
-                if line[0] == "E":
-                    node1a, node1b, node2a, node2b = self.process_edge_lines_gfa2(line)
-                    gfa_nodes.add(node1a)
-                    gfa_nodes.add(node1b)
-                    gfa_nodes.add(node2a)
-                    gfa_nodes.add(node2b)
-            node_dict = self.map_gfa_nodes_with_dimacs_nodes(gfa_nodes) # key: gfa node, value: dimacs node
-            for line in gfa_object._gfa2_edges:
-                line = str(line)
-                if line[0] == "E":
-                    node1a, node1b, node2a, node2b = self.process_edge_lines_gfa2(line)
-                    string_line = "e "+node_dict[node1a]+" "+node_dict[node2a]+"\n" # original line
-                    if not string_line in edge_line_list:
-                        edge_line_list.append(string_line)
-                    string_line = "e "+node_dict[node2b]+" "+node_dict[node1b]+"\n" # opposite of the original line
-                    if not string_line in edge_line_list:
-                        edge_line_list.append(string_line)
+            nro_edges, edge_line_list = self.process_gfa2_edges(gfa_object)
+        return nro_edges, edge_line_list
+
+    def process_gfa1_edges(self, gfa_object):
+        edge_line_list = []
+        gfa_nodes = set()
+        for line in gfa_object._gfa1_links:
+            line = str(line)
+            if line[0] == "L":
+                node1a_str, node1b_str, node2a_str, node2b_str = self.process_edge_lines_gfa1(line)
+                gfa_nodes.update([node1a_str, node1b_str, node2a_str, node2b_str])
+        node_dict = self.map_gfa_nodes_with_dimacs_nodes(gfa_nodes)
+        # node_dict: key: gfa node, value: dimacs node
+        for line in gfa_object._gfa1_links:
+            line = str(line)
+            if line[0] == "L":
+                node1a_str, node1b_str, node2a_str, node2b_str = self.process_edge_lines_gfa1(line)
+                original_line = "e "+node_dict[node1a_str]+" "+node_dict[node2a_str]+"\n"
+                if not original_line in edge_line_list:
+                    edge_line_list.append(original_line)
+                opposite_if_original_line = "e "+node_dict[node2b_str]+" "+node_dict[node1b_str]+"\n"
+                if not opposite_if_original_line in edge_line_list:
+                    edge_line_list.append(opposite_if_original_line)
+        nro_edges = len(edge_line_list)
+        return nro_edges, edge_line_list
+
+    def process_gfa2_edges(self, gfa_object):
+        edge_line_list = []
+        # THERE ARE NO TESTS FOR THIS BECAUSE WE DIDN'T FIND SUITABLE FILES
+        gfa_nodes = set()
+        for line in gfa_object._gfa2_edges:
+            line = str(line)
+            if line[0] == "E":
+                node1a, node1b, node2a, node2b = self.process_edge_lines_gfa2(line)
+                gfa_nodes.update([node1a, node1b, node2a, node2b])
+        # node_dict: key: gfa node, value: dimacs node
+        node_dict = self.map_gfa_nodes_with_dimacs_nodes(gfa_nodes)
+        for line in gfa_object._gfa2_edges:
+            line = str(line)
+            if line[0] == "E":
+                node1a, node1b, node2a, node2b = self.process_edge_lines_gfa2(line)
+                original_line = "e "+node_dict[node1a]+" "+node_dict[node2a]+"\n"
+                if not original_line in edge_line_list:
+                    edge_line_list.append(original_line)
+                opposite_if_original_line = "e "+node_dict[node2b]+" "+node_dict[node1b]+"\n"
+                if not opposite_if_original_line in edge_line_list:
+                    edge_line_list.append(opposite_if_original_line)
         nro_edges = len(edge_line_list)
         return nro_edges, edge_line_list
 
@@ -132,7 +137,7 @@ class GfaToDimacsConverter:
 
     def process_edge_lines_gfa1(self, line):
         new_line = line.lstrip("L")
-        new_line_parts = new_line.split() # should be 'node1' 'orientation1' 'node2' 'orientation2' ...
+        new_line_parts = new_line.split() # form: 'node1' 'orientation1' 'node2' 'orientation2'...
         node1a_str = str(new_line_parts[0])+str(new_line_parts[1])
         node1b_str = str(new_line_parts[0])+self.change_orientation(str(new_line_parts[1]))
         node2a_str = str(new_line_parts[2])+str(new_line_parts[3])
@@ -140,7 +145,8 @@ class GfaToDimacsConverter:
         return node1a_str, node1b_str, node2a_str, node2b_str
 
     def process_edge_lines_gfa2(self, line):
-        # Edge line format should be "E <eid:opt_id> <sid1:ref> <sid2:ref> <beg1:pos> <end1:pos> <beg2:pos> <end2:pos> <alignment> <tag>*
+        # Edge line format should be "E <eid:opt_id> <sid1:ref> <sid2:ref> ...
+        # <beg1:pos> <end1:pos> <beg2:pos> <end2:pos> <alignment> <tag>*
         # where the nodes are "<sid1:ref>" and "<sid2:ref>"
         # e.g. "E * s1+ s2- b1 e1 b2 e2" -> nodes are "s1+" and "s2-"
         new_line = line.lstrip("E")
