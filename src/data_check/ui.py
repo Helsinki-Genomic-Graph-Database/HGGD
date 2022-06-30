@@ -42,6 +42,7 @@ class UI:
                 self._io.write("Folder done.")
                 self.process_graph_sources(dataset)
                 self.process_graph_licences(dataset)
+                self.process_all_licence_for_spdx(dataset)
                 self.process_issues(dataset)
                 continue
             data_exists = self.process_data(dataset)
@@ -65,11 +66,15 @@ class UI:
         self.print_number_of_issues()
 
     def print_number_of_issues(self):
-        issues_length = 0
-        for issue in self.issues.keys():
-            issues_length += len(self.issues[issue])
-
-        number_of_issues = issues_length + len(self.missing_licences) + len(self.missing_sources)
+        len_issues = 0
+        for dataset in self.dataset_list:
+            if dataset.get_folder_name() in self.issues.keys():
+                len_issues += len(self.issues[dataset.get_folder_name()][1])
+        # self.issues is a dictionary, where the key is the dataset's folder name.
+        # The corresponding value is a list, where the first item is the name of
+        # the dataset and the second item is a list of issues. Hence, the number of
+        # issues is len(self.issues[dataset.get_folder_name()][1]).
+        number_of_issues = len_issues + len(self.missing_licences) + len(self.missing_sources)
         if number_of_issues > 0:
             self._io.write(f"\033[1;33;40m{number_of_issues} issue(s) found in datasets\033[0;37;40m")
             self._io.write("\033[1;33;40mShow issues in detail? (y/n)\033[0;37;40m")
