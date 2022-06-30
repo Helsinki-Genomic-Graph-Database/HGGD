@@ -1,7 +1,5 @@
 import json
 import os
-from types import new_class
-from xxlimited import new
 
 def check_file_extension(filename, extension):
     res = filename.strip().split(".")
@@ -51,7 +49,6 @@ def list_licence_files(path):
 
 def remove_file_extension(filename, extension):
     return filename[:-len(extension)]
-    
 
 def check_field(content, field):
     if field in content and len(content[field]) > 0:
@@ -141,8 +138,8 @@ def create_source_txt_file(directory, filename_without_extension, sourcelist, gr
         os.mkdir(target_directory)
     if graph:
         target_directory = f"{target_directory}/graphs"
-        if not os.path.exists(target_directory):    
-            os.mkdir(target_directory)        
+        if not os.path.exists(target_directory):
+            os.mkdir(target_directory)
     txt_filename = filename_without_extension+".txt"
     new_sourcelist = []
     for source in sourcelist:
