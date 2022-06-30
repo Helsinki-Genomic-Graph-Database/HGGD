@@ -1,1 +1,6 @@
-{"name": "GFA example", "descr_short": "gfa files", "descr_long": "long", "licence": "None"}
+{
+    "name": "GFA example",
+    "descr_short": "short",
+    "descr_long": "",
+    "licence": "None"
+}

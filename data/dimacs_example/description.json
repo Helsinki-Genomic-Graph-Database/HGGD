@@ -1,1 +1,6 @@
-{"name": "Dimacs example", "descr_short": "dimacs graph", "descr_long": "testing dimacs graph", "licence": "MIT"}
+{
+    "name": "test dimacs",
+    "descr_short": "no desc",
+    "descr_long": "no long",
+    "licence": "MIT"
+}

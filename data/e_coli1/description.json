@@ -1,8 +1,5 @@
 {
-    "name":"Testdata for e coli 1",
-    "descr_long":"This is a long description",
-    "descr_short":"this is a dataset",
-    "licence": "test licence",
-    "user_defined_columns": {"test column strings": ["test string 1", "test string 2"], "test column numbers": [1, 2], "test column strings and numbers": ["test string", 2]}
-
+    "name": "name",
+    "descr_short": "short",
+    "descr_long": ""
 }
