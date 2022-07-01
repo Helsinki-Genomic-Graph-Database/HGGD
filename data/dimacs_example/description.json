@@ -1,6 +1,6 @@
 {
-    "name": "test dimacs",
-    "descr_short": "no desc",
-    "descr_long": "no long",
+    "name": "dimacs name",
+    "descr_short": "dimacs short",
+    "descr_long": "",
     "licence": "MIT"
 }

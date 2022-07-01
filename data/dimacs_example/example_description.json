@@ -1,3 +1,18 @@
 {
-    "descr_short": "short"
+    "descr_short": "Short for example.dimacs",
+    "sources": [
+        "https://www2.helsinki.fi/en/researchgroups/algorithmic-bioinformatics/teams/graph-algorithms",
+        "https://www2.helsinki.fi/en/researchgroups/algorithmic-bioinformatics"
+    ],
+    "user_defined_columns": {
+        "Sonja testi 1": [
+            "test 1",
+            "test 2"
+        ],
+        "Sonja testi 2": [
+            1,
+            2,
+            3
+        ]
+    }
 }
