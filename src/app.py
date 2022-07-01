@@ -76,14 +76,21 @@ def render_dataset(dataset):
     sources = current_dataset.get_dataset_source()
     over_ten_sources = False
     nro_of_sources = len(sources)
+    graph_user_defined_columns = {}
     if nro_of_sources > 10:
         over_ten_sources = True
     for graph in graphs:
         is_dimacs = False
         if graph.get_file_format() == "dimacs":
             is_dimacs = True
+        graph_user_def_info = graph.get_user_defined_columns()
+        if graph_user_def_info is not None:
+            for item in graph_user_def_info:
+                if not item[0] in graph_user_defined_columns.keys():
+                    graph_user_defined_columns[item[0]] = {}
+                graph_user_defined_columns[item[0]][graph.get_names()] = item[1]
         graph_namelist.append((graph.get_names(), graph.get_file_format(), is_dimacs, graph.get_short_desc(), \
-            graph.get_licence(), graph.get_user_defined_columns()))
+            graph.get_licence()))
     return render_template("dataset.html", total_graphs=graphs_total, average_nodes=avg_nodes, \
         average_edges=avg_edges, total_edges=total_edges, total_nodes=total_nodes, \
         dataset_name = dataset_name, graph_namelist=graph_namelist, dataset= dataset, \
@@ -91,7 +98,7 @@ def render_dataset(dataset):
         source_tuples = sources, user_defined_columns = user_defined_columns, \
         over_ten_sources=over_ten_sources, nro_of_sources=nro_of_sources, \
         pages = user_generated_pages.get_page_names(), \
-        various_licences=various_licences)
+        various_licences=various_licences, graph_user_defined_columns=graph_user_defined_columns)
 
 @app.route("/hggd/datasets/<dataset>/<name>", methods=["GET"])
 def render_graph(dataset, name):
