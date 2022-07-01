@@ -1,6 +1,6 @@
 import os
 import gfapy
-from src.file_ui.file_utils import read_graph_description, check_description_file_exists, remove_file_extension
+from src.file_ui.file_utils import remove_file_extension
 
 class GfaReader:
     """ Reads information from .gfa-files
@@ -35,8 +35,4 @@ class GfaReader:
             edges = len(gfa_object._gfa1_links)
         elif gfa_object.version == 'gfa2':
             edges = len(gfa_object._gfa2_edges)
-        # if check_description_file_exists(self.dir, name):
-        #     name, licence, sources, short_desc = read_graph_description(self.dir, name)
-        # if name is None:
-        #     name = remove_file_extension(filename, ".gfa")
         return name, nodes, edges, sources, licence,None, None, short_desc

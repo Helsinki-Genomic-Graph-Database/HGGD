@@ -7,8 +7,8 @@ class TestJsonWriter(unittest.TestCase):
 
     def setUp(self):
         self.writer = JsonWriter()
-        self.dataset_one = Dataset(description_file_exists = True, data_exists = True, licence_file_exists = False, path = "src/tests/ui_test_empty_desc/testdata_with_empty_description", name = "", descr_short = "", descr_long = "", licence ="", show_on_website = False, folder_name = "", user_defined_columns = None)
-        self.dataset_two = Dataset(description_file_exists = True, data_exists = True, licence_file_exists = False, path = "src/tests/testdata_with_description_missing_name/", name = "", descr_short = "", descr_long = "", licence ="", show_on_website = False, folder_name = "", user_defined_columns = None)
+        self.dataset_one = Dataset(description_file_exists = True, data_exists = True, path = "src/tests/ui_test_empty_desc/testdata_with_empty_description", name = "", descr_short = "", descr_long = "", licence ="", show_on_website = False, folder_name = "", user_defined_columns = None)
+        self.dataset_two = Dataset(description_file_exists = True, data_exists = True, path = "src/tests/testdata_with_description_missing_name/", name = "", descr_short = "", descr_long = "", licence ="", show_on_website = False, folder_name = "", user_defined_columns = None)
 
     def test_create_json_file(self):
         self.writer.create_json_file(self.dataset_one, "test_name", "test_short_desc", "long_desc", "MIT")
