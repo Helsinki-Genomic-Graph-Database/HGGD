@@ -18,8 +18,6 @@ class TestGraphToDimacsConverter(unittest.TestCase):
         self.converter.convert_graph_to_dimacs(self.filename_graph)
         with open(os.path.join(f"{self.directory}/dimacs", self.filename_dimacs), "r") as file:
             information = file.read().split("\n")
-            for line in information:
-                print(line)
             self.assertEqual("c unique source is 0, unique sink is 1", str(information[0]))
             self.assertEqual("c genomes: GCA_000005845.2_ASM584v2.fna ", str(information[1]))
             self.assertEqual("c ground truth paths, in the format 'weight node1 node2 node3 ... '", str(information[2]))

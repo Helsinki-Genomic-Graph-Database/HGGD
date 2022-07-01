@@ -39,7 +39,6 @@ class TestDataSetCreatorGivesFullGraphLists(unittest.TestCase):
         self.create_creator()
         res = False
         for graph in self.dataset_graphs:
-            print(graph.get_names())
             if graph.get_names() == "test_gfa":
                 res = True
 

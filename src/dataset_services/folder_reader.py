@@ -136,6 +136,7 @@ class FolderReader:
                 graph.set_short_desc(short_desc)
                 graph.set_user_defined_columns(user_defined_columns)
                 graph.set_description_file_exists(True)
+            create_source_txt_file(self.path, graph.get_names(), graph.get_sources(), True)
             if licence is None:
                 licence = self.licence_in_descr
             if not licence is None:

@@ -1,7 +1,9 @@
 import unittest
 from src.file_ui.file_utils import read_graph_description
-from src.website_creator.graph_creator import GraphCreator
 from src.app import get_app
+from src.dataset_services.dataset_reader import DatasetReader
+from src.dataset_services.dataset_creator import DatasetCreator
+from src.tests.mock_spdx import SpdxService
 
 class TestGraphDescrpitionReadsUserDefinedColumns(unittest.TestCase):
 
@@ -42,26 +44,29 @@ class TestGraphDescrpitionReadsUserDefinedColumns(unittest.TestCase):
 class TestGraphCreatorAddsUserDefinedColumnsToGraphObject(unittest.TestCase):
 
     def setUp(self):
-        self.dir = "src/tests/testdata_with_example_of_all_graph_formats"
-        self.creator = GraphCreator(self.dir, ["MIT"])
-        
+        self.data_directory = "src/tests/testdata_with_example_of_all_graph_formats"
+        self.spdx_service = SpdxService()
+        self.reader = DatasetReader(self.data_directory)
+        self.dir_paths = self.reader.get_paths()
+        self.creator = DatasetCreator([self.data_directory], self.spdx_service)
+        self.dataset = self.creator.get_datasets()[0]
 
-        with open(self.dir+"/test_graph_description.json", "w") as desc:
+        with open(self.data_directory+"/test_graph_description.json", "w") as desc:
             desc.write('{"descr_short": "s"}')
             desc.close()
 
     def test_graph_should_have_user_defined_columns_as_none_if_not_defined_in_description(self):
-        self.creator.run()
-        res = self.creator.get_graph_list()[0]
+        res = self.dataset.get_list_of_graphs()[0]
         self.assertEqual(res.get_user_defined_columns(), None)
 
     def test_graph_should_have_user_defined_columns_if_given_in_description(self):
-        with open(self.dir+"/test_graph_description.json", "w") as desc:
+        with open(self.data_directory+"/test_graph_description.json", "w") as desc:
             desc.write('{"descr_short": "s", "user_defined_columns": {"test column strings": ["test string 1", "test string 2"], "test column numbers": [1, 2], "test column strings and numbers": ["test string", 2]}}')
             desc.close()
+        self.creator = DatasetCreator([self.data_directory], self.spdx_service)
+        self.dataset = self.creator.get_datasets()[0]
 
-        self.creator.run()
-        res = self.creator.get_graph_list()
+        res = self.dataset.get_list_of_graphs()
         for graph in res:
             if graph.get_names() == "test_graph":
                 self.assertEqual(len(graph.get_user_defined_columns()), 3)
