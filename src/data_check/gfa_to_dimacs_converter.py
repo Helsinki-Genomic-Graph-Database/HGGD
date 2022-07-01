@@ -3,7 +3,9 @@ import gfapy
 from src.file_ui.file_utils import remove_file_extension
 
 class GfaToDimacsConverter:
-    """ Converts .gfa format file to .dimacs
+    """ Converts .gfa format file to .dimacs format, which includes:
+    comment lines starting with 'c', problem lines 'p edge {nodes} {edges}',
+    and edge lines 'e {node1} {node2}'.
     """
     def __init__(self, directory):
         """ Sets the directory where the .gfa
@@ -56,8 +58,7 @@ class GfaToDimacsConverter:
         return nodes
 
     def process_edges(self, gfa_object):
-        """ Counts the edges of the gfa-object and makes
-        a string list of the edges in .dimacs format
+        """Calls for the edge processing functions based on gfa format.
 
         Args:
             gfa_object : the gfa-object in question
@@ -72,6 +73,15 @@ class GfaToDimacsConverter:
         return nro_edges, edge_line_list
 
     def process_gfa1_edges(self, gfa_object):
+        """Counts the edges of the gfa-object and makes
+        a string list of the edges in .dimacs format
+
+        Args:
+            gfa_object : the gfa-object in question in gfa 1 form
+
+        Returns:
+            int, list: number of edges, list of edge-strings in .dimacs form
+        """
         edge_line_list = []
         gfa_nodes = set()
         for line in gfa_object._gfa1_links:
@@ -95,6 +105,15 @@ class GfaToDimacsConverter:
         return nro_edges, edge_line_list
 
     def process_gfa2_edges(self, gfa_object):
+        """ Counts the edges of the gfa-object and makes
+        a string list of the edges in .dimacs format
+
+        Args:
+            gfa_object : the gfa-object in question in gfa 2 form
+
+        Returns:
+            int, list: number of edges, list of edge-strings in .dimacs form
+        """
         edge_line_list = []
         # THERE ARE NO TESTS FOR THIS BECAUSE WE DIDN'T FIND SUITABLE FILES
         gfa_nodes = set()
@@ -119,6 +138,14 @@ class GfaToDimacsConverter:
         return nro_edges, edge_line_list
 
     def map_gfa_nodes_with_dimacs_nodes(self, gfa_node_set):
+        """Gives nodes new names for the DIMACS files.
+
+        Args:
+            gfa_node_set (set): nodes
+
+        Returns:
+            dict: nodes
+        """
         gfa_node_list = sorted(gfa_node_set)
         new_node_name = 1
         node_dict = {}
@@ -129,6 +156,14 @@ class GfaToDimacsConverter:
         return node_dict
 
     def change_orientation(self, orientation):
+        """Changes the orientation of a node. Orientation can be '-' or '+'.
+
+        Args:
+            orientation (string): '-' or '+'.
+
+        Returns:
+            string: '-' or '+'.
+        """
         if orientation == "-":
             orientation = "+"
         elif orientation == "+":

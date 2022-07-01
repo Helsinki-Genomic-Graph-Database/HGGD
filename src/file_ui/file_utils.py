@@ -99,11 +99,8 @@ def read_graph_description(directory, name):
     """ Reads graph description files
 
     Args:
-        dir (str): directory of the file
+        directory (str): directory of the file
         name (str): filename without extension
-
-    Returns:
-        name, licence, sources: information of the graph
     """
     filename = name + "_description.json"
     filepath = directory +"/"+ filename
@@ -135,7 +132,7 @@ def check_description_file_exists(directory, filename):
     for the graph
 
     Args:
-        dir (str): directory of the file
+        directory (str): directory of the file
         name (str): filename without extension
 
     Returns:

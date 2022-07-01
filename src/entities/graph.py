@@ -10,8 +10,7 @@ class Graph:
             name (string): name of the graph
             nodes (integer): number of nodes
             edges (integer): number of edges
-            sources (list of tuples): list of links source files and source file names for the graph
-            licence (string): licence for the graph
+            ...
         """
         self.name = name
         self.nodes = nodes

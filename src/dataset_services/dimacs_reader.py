@@ -7,9 +7,9 @@ class DimacsReader:
         self.dir = directory
 
     def read_dimacs_graph(self, filename):
-        """This function returns all the information about
-        the dimacs graph, including the .dimacs-file as well
-        as the description.json
+        """This function returns all the information concerning
+        the dimacs graph, including information in the .dimacs-file
+        as well as the description.json
 
         Args:
             filename (_type_): name of the .dimacs file

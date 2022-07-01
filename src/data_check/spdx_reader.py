@@ -2,6 +2,10 @@ from bs4 import BeautifulSoup as bs
 import requests
 
 class SpdxReader:
+    """This class fetches the SPDX licence identifiers from website,
+    creates a list of them, and writes them into a text file. It
+    also read them from the file and makes a list.
+    """
     def __init__(self):
         self.url = "https://spdx.org/licenses/"
 

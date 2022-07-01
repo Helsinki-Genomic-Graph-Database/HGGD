@@ -178,9 +178,6 @@ class Dataset:
 
     def get_statistics(self):
         """ Returns all statistics at once
-
-        Returns:
-            _type_: _description_
         """
         return self.number_of_graphs, self.average_nodes, self.average_edges, \
             self.total_nodes, self.total_edges

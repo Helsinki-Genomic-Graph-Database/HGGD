@@ -2,8 +2,8 @@ import os
 from src.dataset_services.graph_reader import GraphReader
 
 class GraphToDimacsConverter:
-    """This class contains functions for converting a graph
-    into DIMACS format, which includes: comment lines starting
+    """This class contains functions for converting a .graph file
+    into .dimacs format, which includes: comment lines starting
     with 'c', problem lines 'p edge {nodes} {edges}', and edge lines
     'e {node1} {node2}'.
     """
@@ -90,7 +90,7 @@ class GraphToDimacsConverter:
         so that they can be inserted in the DIMACS file.
 
         Args:
-            edges (list?): edges of the graph
+            edges (list): edges of the graph
 
         Returns:
             tuple: list of edges without weights as sets of two nodes,
