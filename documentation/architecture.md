@@ -2,6 +2,8 @@ The program creates a static website based on files added to the docker volume (
 
 The architecture is divided into three parts: Data check, Website creator and Dataset services
 
+Data validation is started by running index.py, website creation by Gunicorn
+
 ![Architecture](./pictures/architecture.png)
 
 Dataset services reads the data folder and creates dataset objects based on it's contents.
