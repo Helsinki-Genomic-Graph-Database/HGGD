@@ -1,4 +1,5 @@
 import json
+from json.decoder import JSONDecodeError
 
 class JsonWriter:
     """This class includes methods for writing json-files."""
@@ -42,10 +43,14 @@ class JsonWriter:
         json_path = self.get_json_path(dataset)
         new_info = {key : value}
         with open(json_path, "r+", encoding='utf-8') as file:
-            data = json.load(file)
-            data.update(new_info)
-            file.seek(0)
-            json.dump(data, file, indent=4)
+            try:
+                data = json.load(file)
+                data.update(new_info)
+                file.seek(0)
+                json.dump(data, file, indent=4)
+            except JSONDecodeError as error:
+                print(f"There was an error in the file: {json_path}")
+                print("  ", error)
 
     def get_json_path(self, dataset):
         path = dataset.get_path()
@@ -68,7 +73,11 @@ class JsonWriter:
         json_path = self.get_graph_json_path(dataset, graph)
         new_info = {"descr_short" : short_desc}
         with open(json_path, "r+", encoding='utf-8') as file:
-            data = json.load(file)
-            data.update(new_info)
-            file.seek(0)
-            json.dump(data, file, indent=4)
+            try:
+                data = json.load(file)
+                data.update(new_info)
+                file.seek(0)
+                json.dump(data, file, indent=4)
+            except JSONDecodeError as error:
+                print(f"There was an error in the file: {json_path}")
+                print("  ", error)

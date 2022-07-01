@@ -1,5 +1,6 @@
 import json
 import os
+from json.decoder import JSONDecodeError
 
 def check_file_extension(filename, extension):
     res = filename.strip().split(".")
@@ -75,16 +76,20 @@ def read_description(path):
     sources = []
     if os.stat(filepath).st_size > 0:
         with open(filepath, encoding='utf-8') as file:
-            content = json.load(file)
-            name = check_field(content, "name")
-            descr_short = check_field(content, "descr_short")
-            descr_long = check_field(content, "descr_long")
-            licence = check_field(content, "licence")
-            user_defined_columns = check_field(content, "user_defined_columns")
-            source_list = check_field(content, "sources")
-            if source_list is not None:
-                for source in source_list:
-                    sources.append((source, source))
+            try:
+                content = json.load(file)
+                name = check_field(content, "name")
+                descr_short = check_field(content, "descr_short")
+                descr_long = check_field(content, "descr_long")
+                licence = check_field(content, "licence")
+                user_defined_columns = check_field(content, "user_defined_columns")
+                source_list = check_field(content, "sources")
+                if source_list is not None:
+                    for source in source_list:
+                        sources.append((source, source))
+            except JSONDecodeError as error:
+                print(f"There was an error in the file: {filepath}")
+                print("  ", error)
 
     return name, descr_short, descr_long, licence, user_defined_columns, sources
 
@@ -107,15 +112,19 @@ def read_graph_description(directory, name):
     user_defined_columns = None
     if os.stat(filepath).st_size > 0:
         with open(filepath, encoding='utf-8') as file:
-            content = json.loads(file.read())
-            name = check_field(content, "name")
-            licence = check_field(content, "licence")
-            source_list = check_field(content, "sources")
-            short_desc = check_field(content, "descr_short")
-            user_defined_columns = check_field(content, "user_defined_columns")
-            if source_list is not None:
-                for source in source_list:
-                    sources.append((source, source))
+            try:
+                content = json.loads(file.read())
+                name = check_field(content, "name")
+                licence = check_field(content, "licence")
+                source_list = check_field(content, "sources")
+                short_desc = check_field(content, "descr_short")
+                user_defined_columns = check_field(content, "user_defined_columns")
+                if source_list is not None:
+                    for source in source_list:
+                        sources.append((source, source))
+            except JSONDecodeError as error:
+                print(f"There was an error in the file: {filepath}")
+                print("  ", error)
     return name, licence, sources, short_desc, user_defined_columns
 
 def check_description_file_exists(directory, filename):
