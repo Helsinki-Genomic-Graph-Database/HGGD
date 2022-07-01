@@ -1,3 +1,4 @@
+import sys
 import json
 from json.decoder import JSONDecodeError
 
@@ -51,6 +52,7 @@ class JsonWriter:
             except JSONDecodeError as error:
                 print(f"There was an error in the file: {json_path}")
                 print("  ", error)
+                sys.exit("Please fix the description file and start the program again.")
 
     def get_json_path(self, dataset):
         path = dataset.get_path()
@@ -81,3 +83,4 @@ class JsonWriter:
             except JSONDecodeError as error:
                 print(f"There was an error in the file: {json_path}")
                 print("  ", error)
+                sys.exit("Please fix the description file and start the program again.")

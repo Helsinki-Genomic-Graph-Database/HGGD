@@ -1,3 +1,4 @@
+import sys
 import json
 import os
 from json.decoder import JSONDecodeError
@@ -90,6 +91,7 @@ def read_description(path):
             except JSONDecodeError as error:
                 print(f"There was an error in the file: {filepath}")
                 print("  ", error)
+                sys.exit("Please fix the description file and start the program again.")
 
     return name, descr_short, descr_long, licence, user_defined_columns, sources
 
@@ -125,6 +127,7 @@ def read_graph_description(directory, name):
             except JSONDecodeError as error:
                 print(f"There was an error in the file: {filepath}")
                 print("  ", error)
+                sys.exit("Please fix the description file and start the program again.")
     return name, licence, sources, short_desc, user_defined_columns
 
 def check_description_file_exists(directory, filename):
