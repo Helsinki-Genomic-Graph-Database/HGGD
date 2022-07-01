@@ -1,0 +1,1 @@
+![Architecture](./pictures/Architecture.png)
