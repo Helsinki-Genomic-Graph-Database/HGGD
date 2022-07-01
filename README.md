@@ -7,21 +7,23 @@ Helsinki Genomic Graph Database is a database for the University of Helsinki res
 
 ## Project progress
 
-Program is running on [production server](https://hggd.cs.helsinki.fi/hggd/index)
-
-Test environment is running on [staging server](https://ohtup-staging.cs.helsinki.fi/hggd/index)
+Program is running on [production server](https://hggd.cs.helsinki.fi/index)
 
 [Product Backlog](https://docs.google.com/spreadsheets/d/1jQ1yPn0-mzYhNJW9QTR2Ywo7aS68i67zV4ff8tXcJfQ/edit#gid=1289730588)
 
 [Sprint Backlog](https://docs.google.com/spreadsheets/d/1jQ1yPn0-mzYhNJW9QTR2Ywo7aS68i67zV4ff8tXcJfQ/edit#gid=0)
 
-[Presentation videos](https://www.youtube.com/watch?v=prDzgknSgZ0)
+[Presentation video](https://www.youtube.com/watch?v=prDzgknSgZ0) (no sound)
 
 ## Documentation
 
 [User manual](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/user_manual.md)
 
 [Accessing and setting up the production server](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/production_server.md)
+
+[Architecture document](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/architecture.md)
+
+[Development manual](https://github.com/Helsinki-Genomic-Graph-Database/HGGD/blob/main/documentation/development_manual.md)
 
 ## Definition of Done
 
