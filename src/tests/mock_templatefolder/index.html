@@ -16,7 +16,7 @@ Helsinki Genomic Graph Database
         <table class="indextable">
             <caption class="indexcaption">
                 <hy-heading heading="h4">
-                        <a href="/hggd/datasets/{{ dataset[2] }}">{{ dataset[0] }}</a>
+                        <a href="/datasets/{{ dataset[2] }}">{{ dataset[0] }}</a>
                 </hy-heading>
             </caption>
             <caption class="indexcaption"><hy-paragraph-text padding="3px">{{ dataset[1] }}</hy-paragraph-text></caption>
@@ -37,7 +37,7 @@ Helsinki Genomic Graph Database
                 {% for graph in dataset[5] %}
                     <tr>
                         <td class="indextdtext">                 
-                                <hy-link variant="within-paragraph" url="/hggd/datasets/{{ dataset[2] }}/{{ graph[0] }}" link-content= "{{ graph[0] }}"
+                                <hy-link variant="within-paragraph" url="/datasets/{{ dataset[2] }}/{{ graph[0] }}" link-content= "{{ graph[0] }}"
                                 aria-label= "{{ graph[0] }}" is-external="false">
                             </hy-link>
                         </td>

@@ -66,7 +66,7 @@
                         <td>
                             <hy-link
                                 variant="within-paragraph"
-                                url="/hggd/datasets/{{ dataset }}/{{ name[0] }}"
+                                url="/datasets/{{ dataset }}/{{ name[0] }}"
                                 link-content="{{ name[0] }} "
                                 aria-label="{{ name[0] }} "
                                 is-external="false"
@@ -75,7 +75,7 @@
                         </td>
                         <td> 
                             <hy-link 
-                                url="/hggd/data/{{ dataset }}/{{ name[0] }}"
+                                url="/data/{{ dataset }}/{{ name[0] }}"
                                 link-content="{{ name[1] }} file "
                                 aria-label="{{ name[1] }} file"
                                 is-external="false"
@@ -85,7 +85,7 @@
                         <td> 
                             {% if not name[2] %}
                             <hy-link 
-                                url="/hggd/data/{{ dataset }}/dimacs/{{ name[0] }}"
+                                url="/data/{{ dataset }}/dimacs/{{ name[0] }}"
                                 link-content="dimacs file "
                                 aria-label="dimacs file"
                                 is-external="false"
@@ -121,7 +121,7 @@
         {% endif %}
         <br>
             <hy-link 
-                url="/hggd/data/{{ dataset }}/zip/{{ zipfile }}"
+                url="/data/{{ dataset }}/zip/{{ zipfile }}"
                 link-content="Download all graph files in a zip-file"
                 aria-label="Download all graph files in a zip-file"
                 is-external="false"
@@ -131,7 +131,7 @@
             {% if over_ten_sources %}
                 <hy-heading heading="h5">Source files in the dataset</hy-heading>
                 <hy-link 
-                    url="/hggd/datasets/{{ dataset }}/sources"
+                    url="/datasets/{{ dataset }}/sources"
                     link-content="List of links to the {{ nro_of_sources }} source files"
                     aria-label="List of links to the {{ nro_of_sources }} source files"
                     is-external="false"
@@ -167,7 +167,7 @@
         <br>
         <hy-link 
             variant="within-paragraph"
-            url="/hggd/index"
+            url="/index"
             link-content="Back to main page"
             aria-label="Back to main page"
             is-external="false"

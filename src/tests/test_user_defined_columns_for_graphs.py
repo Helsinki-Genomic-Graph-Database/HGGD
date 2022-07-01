@@ -56,8 +56,12 @@ class TestGraphCreatorAddsUserDefinedColumnsToGraphObject(unittest.TestCase):
             desc.close()
 
     def test_graph_should_have_user_defined_columns_as_none_if_not_defined_in_description(self):
-        res = self.dataset.get_list_of_graphs()[0]
-        self.assertEqual(res.get_user_defined_columns(), None)
+        res = self.dataset.get_list_of_graphs()
+        for graph in res:
+            if graph.get_names() == "test_graph":
+                self.assertEqual(graph.get_user_defined_columns(), [("test column strings", ["test string 1", "test string 2"]), ("test column numbers", [1, 2]), ("test column strings and numbers", ["test string", 2])])
+            else:
+                self.assertEqual(graph.get_user_defined_columns(), None)
 
     def test_graph_should_have_user_defined_columns_if_given_in_description(self):
         with open(self.data_directory+"/test_graph_description.json", "w") as desc:
@@ -79,7 +83,7 @@ class TestGraphPageShowsUserDefinedColumns(unittest.TestCase):
 
     def test_works(self):
         app = get_app().test_client()
-        res = app.get("hggd/datasets/testdata_with_full_description/"+self.graph)
+        res = app.get("/datasets/testdata_with_full_description/"+self.graph)
         self.assertEqual(res.status_code, 200)
 
     def test_user_defined_columns_show_on_graph_page(self):
@@ -88,5 +92,5 @@ class TestGraphPageShowsUserDefinedColumns(unittest.TestCase):
             desc.close()
 
         app = get_app().test_client()
-        res = app.get("hggd/datasets/testdata_with_full_description/gt1.kmer15.(736000.738000).V22.E29.cyc128")
+        res = app.get("/datasets/testdata_with_full_description/gt1.kmer15.(736000.738000).V22.E29.cyc128")
         self.assertIn(b"test column strings", res.data)

@@ -33,26 +33,26 @@
     <br>
     {% if graph %}    
     <div class="linktext">
-        <a href="/hggd/data/{{ dataset }}/sourcetxt/graphs/{{ graph }}"
+        <a href="/data/{{ dataset }}/sourcetxt/graphs/{{ graph }}"
         target="_blank"
         download
         > Download all source file links in a txt-file</a></div>
     <br><br>
-    <hy-link variant="within-paragraph" url="/hggd/datasets/{{ dataset }}/{{ graph }}" link-content="Back to graph page"
+    <hy-link variant="within-paragraph" url="/datasets/{{ dataset }}/{{ graph }}" link-content="Back to graph page"
         aria-label="Back to dataset page" is-external="false">
     </hy-link>
     {% else %}
     <div class="linktext">
-        <a href="/hggd/data/{{ dataset }}/sourcetxt/{{ dataset }}"
+        <a href="/data/{{ dataset }}/sourcetxt/{{ dataset }}"
         target="_blank"
         download
         > Download all source file links in a txt-file</a></div>
         <br><br>
     {% endif %}
-    <hy-link variant="within-paragraph" url="/hggd/datasets/{{ dataset }}" link-content="Back to dataset page"
+    <hy-link variant="within-paragraph" url="/datasets/{{ dataset }}" link-content="Back to dataset page"
         aria-label="Back to dataset page" is-external="false">
     </hy-link>
-    <hy-link variant="within-paragraph" url="/hggd/index" link-content="Back to main page"
+    <hy-link variant="within-paragraph" url="/index" link-content="Back to main page"
         aria-label="Back to main page" is-external="false">
     </hy-link>
 </hy-docs-container>

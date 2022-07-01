@@ -61,14 +61,14 @@ class TestPageCreator(unittest.TestCase):
         app = get_app().test_client()
         self.write_about()
         pcreator = UserDefinedPageCreator(self.folder)
-        res = app.get("hggd/pages/about")
+        res = app.get("/pages/about")
         self.assertEqual(res.status_code, 200)
 
     def test_created_page_has_content_text(self):
         app = get_app().test_client()
         self.write_about()
         pcreator = UserDefinedPageCreator(self.folder)
-        res = app.get("hggd/pages/about").data
+        res = app.get("/pages/about").data
         self.assertIn(b"about tests", res)
 
 

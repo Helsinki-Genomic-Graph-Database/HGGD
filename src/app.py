@@ -28,12 +28,12 @@ def get_app():
     """
     return app
 
-@app.route("/hggd/pages/<page>")
+@app.route("/pages/<page>")
 def render_user_generated_page(page):
     return render_template(f"/user_templates/pages/{page}.html", \
         pages = user_generated_pages.get_page_names())
 
-@app.route("/hggd/index", methods=["GET"])
+@app.route("/index", methods=["GET"])
 def render_index():
     """ Renders the index page
     Returns:
@@ -52,7 +52,7 @@ def render_index():
     return render_template("index.html", dataset_info=dataset_info, \
         pages = user_generated_pages.get_page_names())
 
-@app.route("/hggd/datasets/<dataset>", methods=["GET"])
+@app.route("/datasets/<dataset>", methods=["GET"])
 def render_dataset(dataset):
     """ Render the pages for dataset
     Args:
@@ -100,7 +100,7 @@ def render_dataset(dataset):
         pages = user_generated_pages.get_page_names(), \
         various_licences=various_licences, graph_user_defined_columns=graph_user_defined_columns)
 
-@app.route("/hggd/datasets/<dataset>/<name>", methods=["GET"])
+@app.route("/datasets/<dataset>/<name>", methods=["GET"])
 def render_graph(dataset, name):
     """ Renders the pages for graphs
     Args:
@@ -132,7 +132,7 @@ def render_graph(dataset, name):
         nro_of_sources=nro_of_sources, fileformat=fileformat, is_dimacs=is_dimacs, \
         short_desc=short_desc, pages = user_generated_pages.get_page_names(), user_defined_columns = user_defined_columns)
 
-@app.route("/hggd/datasets/<dataset>/sources", methods=["GET"])
+@app.route("/datasets/<dataset>/sources", methods=["GET"])
 def render_dataset_sources(dataset):
     """ Renders the link page to source files for a dataset
 
@@ -150,7 +150,7 @@ def render_dataset_sources(dataset):
         dataset=dataset_folder, source_tuples=sources, \
         pages = user_generated_pages.get_page_names())
 
-@app.route("/hggd/datasets/<dataset>/<name>/sources", methods=["GET"])
+@app.route("/datasets/<dataset>/<name>/sources", methods=["GET"])
 def render_graph_sources(dataset, name):
     """ Renders the link page to source files for a graph
 
@@ -170,7 +170,7 @@ def render_graph_sources(dataset, name):
         dataset=dataset_folder, source_tuples=sources, graph=graph_name, \
         pages = user_generated_pages.get_page_names())
 
-@app.route('/hggd/data/<dataset>/zip/<path:filename>', methods=['GET'])
+@app.route('/data/<dataset>/zip/<path:filename>', methods=['GET'])
 def download_zip(dataset, filename):
     """ Downloads a zipfile of the dataset
 
@@ -184,7 +184,7 @@ def download_zip(dataset, filename):
     directory = path.join(get_datapath(dataset, app), 'zip')
     return send_from_directory(directory=directory, path='', filename=filename)
 
-@app.route('/hggd/data/<dataset>/<path:name>', methods=['GET'])
+@app.route('/data/<dataset>/<path:name>', methods=['GET'])
 def download_graph(dataset, name):
     """ Downloads a specific graph file
 
@@ -202,7 +202,7 @@ def download_graph(dataset, name):
     return send_from_directory(directory=directory, path='', filename=graph_filename)
 
 
-@app.route('/hggd/data/<dataset>/dimacs/<path:name>', methods=['GET'])
+@app.route('/data/<dataset>/dimacs/<path:name>', methods=['GET'])
 def download_dimacs(dataset, name):
     """ Downloads a DIMACS file of the dataset
 
@@ -220,13 +220,13 @@ def download_dimacs(dataset, name):
     directory = path.join(get_datapath(dataset, app), 'dimacs')
     return send_from_directory(directory=directory, path='', filename=dimacs_filename)
 
-@app.route('/hggd/data/<dataset>/sourcetxt/<path:name>', methods=['GET'])
+@app.route('/data/<dataset>/sourcetxt/<path:name>', methods=['GET'])
 def download_dataset_source_txt(dataset, name):
     directory = path.join(get_datapath(dataset, app), 'sourcetxt')
     filename = name+".txt"
     return send_from_directory(directory=directory, path='', filename=filename)
 
-@app.route('/hggd/data/<dataset>/sourcetxt/graphs/<path:name>', methods=['GET'])
+@app.route('/data/<dataset>/sourcetxt/graphs/<path:name>', methods=['GET'])
 def download_graph_source_txt(dataset, name):
     current_dataset = find_dataset_by_foldername(dataset, dataset_list)
     graph = current_dataset.find_graph(name)

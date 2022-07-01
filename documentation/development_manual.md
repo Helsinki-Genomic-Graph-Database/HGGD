@@ -37,3 +37,7 @@ coverage = "^6.3.3"
 pylint = "^2.13.9"
 pytest-dotenv = "^0.5.2"
 ```
+
+## Ohtuprojekti staging server
+
+If future developers use the [course staging server](https://github.com/UniversityOfHelsinkiCS/ohtup-staging), it only worked for us if all addresses had a `/hggd`-prefix added in front of them as the staging server needs the server to be run from a subfolder rather than just from the root address as in production server. In this case also the production server addresses are changed. At the moment the prefix is removed so the server address in nicer.
