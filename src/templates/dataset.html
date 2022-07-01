@@ -147,15 +147,14 @@
                         </td>
                         {% for key, value in graph_user_defined_columns.items() %}
                             <td class="indextdtext"> 
-                            {% for graph_name, content in value.items() %}
-                                {% if graph_name == name[0] %}
-                                    {% for item in content %} 
-                                    <hy-paragraph-text>{{item}}<br></hy-paragraph-text>
-                                    {% endfor %}
-                                {% endif %}
-                            
-                            {% endfor %}
-                        </td>
+                                {% for graph_name, content in value.items() %}
+                                    {% if graph_name == name[0] %}
+                                        {% for item in content %} 
+                                        <hy-paragraph-text>{{item}}<br></hy-paragraph-text>
+                                        {% endfor %}
+                                    {% endif %}                             
+                                {% endfor %}
+                            </td>
                         {% endfor %}
                     </tr>
                     {% endfor %}
