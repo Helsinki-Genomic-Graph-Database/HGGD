@@ -88,12 +88,8 @@
                         <th class="indexth"> <hy-paragraph-text>Description</hy-paragraph-text> </th>
                         <th class="indexthnumber"> <hy-paragraph-text>Licence</hy-paragraph-text> </th>
                         <th class="indexthnumber"> <hy-paragraph-text>Download links</hy-paragraph-text> </th>
-                        {% for graph in graph_namelist %} 
-                        {% if graph[5] %}
-                        {% for columnname, content in graph[5] %}
-                        <th class="indexth"> <hy-paragraph-text>{{ columnname }}</hy-paragraph-text> </th>
-                        {% endfor %}
-                        {% endif %}
+                        {% for key, value in graph_user_defined_columns.items() %} 
+                        <th class="indexth"> <hy-paragraph-text>{{ key }}</hy-paragraph-text> </th>
                         {% endfor %}
                     </tr>
                 </thead>
@@ -149,15 +145,18 @@
                             </hy-link>
                             {% endif %}
                         </td>
-                        {% if name[5] %}
-                            {% for column, content in name[5] %}
-                                <td class="indextdtext">  
-                                {% for item in content %} 
-                                <hy-paragraph-text>{{item}}<br></hy-paragraph-text>
-                                {% endfor %}
-                            </td>
+                        {% for key, value in graph_user_defined_columns.items() %}
+                            <td class="indextdtext"> 
+                            {% for graph_name, content in value.items() %}
+                                {% if graph_name == name[0] %}
+                                    {% for item in content %} 
+                                    <hy-paragraph-text>{{item}}<br></hy-paragraph-text>
+                                    {% endfor %}
+                                {% endif %}
+                            
                             {% endfor %}
-                        {% endif %}
+                        </td>
+                        {% endfor %}
                     </tr>
                     {% endfor %}
                 </tbody>
