@@ -8,9 +8,11 @@ Production server is running on [https://hggd.cs.helsinki.fi/](https://hggd.cs.h
 ssh -J melkinpaasi.cs.helsinki.fi hggd.cs.helsinki.fi
 ```
 
-Program is currently running in a docker container in `/home/HGGD/`. The correct place for dataset folders is `/home/HGGD/data`. There is a reverse proxy running with [Caddy](https://caddyserver.com/) in a docker container in `/home/caddy/`. To automate changes in images, [watchtower](https://containrrr.dev/watchtower/) checks for changes in dockerhub and updates the images. It is running in a docker container in `/home/watchtower`.
+Program is currently running in a docker container in `/home/HGGD/`. The correct place for dataset folders is `/home/HGGD/data` and `/home/HGGD/user_templates` for the user generated html-pages. There is a reverse proxy running with [Caddy](https://caddyserver.com/) in a docker container in `/home/caddy/`. To automate changes in images, [watchtower](https://containrrr.dev/watchtower/) checks for changes in dockerhub and updates the images. It is running in a docker container in `/home/watchtower`.
 
 ## Setting up the server
+
+This is how to set up the server again in case of moving it to another server or in case of the server breaking down completely. If the server is up and running there is no need to do this.
 
 1. Install Docker for the server ([tutorial for ubuntu](https://www.simplilearn.com/tutorials/docker-tutorial/how-to-install-docker-on-ubuntu)).
 2. Pull the program image from dockerhub with `sudo docker pull hggd/test`.
