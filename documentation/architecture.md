@@ -6,7 +6,7 @@ Data validation is started by running index.py, website creation by Gunicorn
 
 ![Architecture](./pictures/architecture.png)
 
-Dataset services reads the data folder and creates dataset objects based on it's contents.
+Dataset services reads the data folder and creates dataset objects based on its contents.
 
 Data check validates the data in the dataset objects and in the data folder by calling dataset services, asking for input for datasets which don't have full information present. It marks all validated datasets as dataset folders as ready to show on the website.
 
