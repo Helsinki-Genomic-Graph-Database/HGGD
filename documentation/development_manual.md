@@ -6,15 +6,15 @@ The project has poetry as dependency management. Most development can thus be do
 
 ## Website design
 
-The website is using some University of Helsinki html-templates and styling that are taken from the [university styling guide](https://static.helsinki.fi/ds/). The downloaded stylesheets in `layout.html` are from the guide. The styling guide was in alpha-stage at the moment of development so a lot of styling was done by hand some of the styling from the guide didn't work. It is possible that something will change in the guide in the future so it might break something on the website.
+The website is using some University of Helsinki html-templates and styling that are taken from the [university styling guide](https://static.helsinki.fi/ds/). The downloaded stylesheets in `layout.html` are from the guide. The styling guide was in alpha-stage at the moment of development so a lot of styling was done by hand as some of the styling from the guide didn't work. It is possible that something will change in the guide in the future so it might break something on the website.
 
 ## Local data-folders
 
-The local `data` and `user_templates` -folders contain data just for local testing and development. When using the Docker volumes on the server, the data inside these folders won't be visible as only data added to the server folders will be shown on the website.
+The local `data` and `user_templates` -folders contain data just for local testing and development. When using the Docker volumes on the server, the data inside these local folders won't be visible on the website, as only data added to the server folders will be shown there.
 
 ## Tests
 
-Executing `pytest src` runs the UI before the tests as defined in `conftest.py`. This is because the `test_routes.py` test whether the website works and the UI needs to be executed before that.
+Executing `pytest src` runs the UI before the tests as defined in `conftest.py`. This is because the `test_routes.py` tests whether the website works and the UI needs to be executed before that.
 
 ## Library versions
 
@@ -40,4 +40,4 @@ pytest-dotenv = "^0.5.2"
 
 ## Ohtuprojekti staging server
 
-If future developers use the [course staging server](https://github.com/UniversityOfHelsinkiCS/ohtup-staging), it only worked for us if all addresses had a `/hggd`-prefix added in front of them as the staging server needs the server to be run from a subfolder rather than just from the root address as in production server. In this case also the production server addresses are changed. At the moment the prefix is removed so the server address in nicer.
+If future developers use the [course staging server](https://github.com/UniversityOfHelsinkiCS/ohtup-staging), it only worked for us if all addresses had a `/hggd`-prefix added in front of them, as the staging server needs the server to be run from a subfolder rather than just from the root address as in production server. In this case, also the production server addresses change. At the moment the prefix is removed so the server address looks nocer.
