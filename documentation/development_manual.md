@@ -4,6 +4,10 @@
 
 The project has poetry as dependency management. Most development can thus be done using `poetry shell`-command locally. This can probably be done with just Docker too. Running the website locally work with `./gunicorn.sh`-command.
 
+## Production server
+
+We had some problems with [Ubuntu AppArmor](https://ubuntu.com/server/docs/security-apparmor) randomly blocking some `sudo docker-compose` -commands from executing. With no success trying to turn it off, AppArmor is now removed completely from the server by the IT-deparment.
+
 ## Website design
 
 The website is using some University of Helsinki html-templates and styling that are taken from the [university styling guide](https://static.helsinki.fi/ds/). The downloaded stylesheets in `layout.html` are from the guide. The styling guide was in alpha-stage at the moment of development so a lot of styling was done by hand as some of the styling from the guide didn't work. It is possible that something will change in the guide in the future so it might break something on the website.
@@ -40,4 +44,4 @@ pytest-dotenv = "^0.5.2"
 
 ## Ohtuprojekti staging server
 
-If future developers use the [course staging server](https://github.com/UniversityOfHelsinkiCS/ohtup-staging), it only worked for us if all addresses had a `/hggd`-prefix added in front of them, as the staging server needs the server to be run from a subfolder rather than just from the root address as in production server. In this case, also the production server addresses change. At the moment the prefix is removed so the server address looks nocer.
+If future developers use the [course staging server](https://github.com/UniversityOfHelsinkiCS/ohtup-staging), it only worked for us if all addresses had a `/hggd`-prefix added in front of them, as the staging server needs the server to be run from a subfolder rather than just from the root address as in production server. In this case, also the production server addresses change. At the moment the prefix is removed so the server address looks nicer.

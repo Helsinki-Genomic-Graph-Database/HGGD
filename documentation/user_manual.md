@@ -62,7 +62,7 @@ There will also be a `log.txt`-file in the dataset folder that will tell when th
 Removing data works from inside the docker container.
 
 1. Run `sudo docker exec -it hggd bash` to access the docker container.
-2. Navigate to the data-folder with `cd data` or to the template folder with `cd src/templates/user_templates`. You can remove single files with `rm filename` and folders with `rm -r foldername`.
+2. Navigate to the data-folder with `cd data` or to the template folder with `cd src/templates/user_templates`. You can remove single files with `rm filename` and folders with `rm -r foldername`. Removing description files without removing the corresponding dataset or graph should not be done.
 3. In the case of removing data, the UI should be run afterwards with `python3 src/index.py` in the main directory. If removing templates, both the .json-file and the corresponding html-file in the `pages`-subfolder should be removed.
 4. Exit the container with `exit` command.
 5. Restart the container with `sudo docker-compose restart hggd` command.

@@ -1,3 +1,5 @@
+# Architecture document
+
 The program creates a static website based on files added to the docker volume (see user manual for more instructions). Each time information is modified, the data has to be validated, and a new website generated.
 
 The architecture is divided into three parts: Data check, Website creator and Dataset services
